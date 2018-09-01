@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeonReader.Model
 {
     /// <summary>
     /// 文章类
     /// </summary>
+    [Table("Articles")]
     public class Article
     {
         #region 数据库字段
@@ -62,7 +64,7 @@ namespace LeonReader.Model
         /// 是否为新文章
         /// </summary>
         [Required]
-        [DisplayName("是否为新文章"), DataType(DataType.Custom)]
+        [DisplayName("是否为新文章")]
         public bool IsNew { get; set; }
 
         /// <summary>

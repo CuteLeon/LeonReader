@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,18 +23,17 @@ namespace LeonReader.Model
         //覆写此方法，用于初始化数据种子
         protected override void Seed(UnityDBContext context)
         {
-            context.Articles.Add(
-                new Article() {
-                    ArticleID = "10000",
-                    Title = "种子文章",
-                    Description = "种子文章",
-                    ImageFileName = "",
-                    ImageLink = "",
-                    PublishTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"),
-                    ArticleLink = "http://www.cuteleon.com",
-                    IsNew = true,
-                }
-            );
+            context.Articles.Add(new Article() {
+                ArticleID = "10000",
+                Title = "种子文章",
+                ArticleLink = "http://www.cuteleon.com",
+                Description = "种子文章",
+                ImageFileName = "*",
+                ImageLink = "*",
+                IsNew = true,
+                PublishTime = DateTime.Now.ToString()
+            });
+            
 
             context.SaveChanges();
             base.Seed(context);

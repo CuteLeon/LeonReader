@@ -14,7 +14,7 @@ namespace LeonReader.Client
 {
     public partial class MainForm : Form
     {
-        UnityDBContext DBContext = new UnityDBContext();
+        UnityDBContext DBContext;
 
         public MainForm()
         {
@@ -23,10 +23,8 @@ namespace LeonReader.Client
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            foreach (var art in DBContext.Articles)
-            {
-                Console.WriteLine($"{art.Title} {art.Description}");
-            }
+            DBContext = new UnityDBContext();
+            MessageBox.Show(string.Join("\n", DBContext.Articles.Select(a=>a.ArticleID)));
         }
     }
 }
