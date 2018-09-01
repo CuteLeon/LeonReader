@@ -43,5 +43,15 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">
+      <Project>{84b1272a-20d1-47d9-ac04-dca76b61a456}</Project>
+      <Name>LeonReader.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LeonReader.Model\LeonReader.Model.csproj">
+      <Project>{e011572b-10e0-4d9d-88dc-f2b5da057c76}</Project>
+      <Name>LeonReader.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
