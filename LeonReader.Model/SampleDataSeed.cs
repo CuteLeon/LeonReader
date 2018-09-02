@@ -31,9 +31,13 @@ namespace LeonReader.Model
                 ImageFileName = "*",
                 ImageLink = "*",
                 IsNew = true,
-                PublishTime = DateTime.Now.ToString()
+                PublishTime = DateTime.Now.ToString(),
+                Contents = new ContentItem[] {
+                    new ContentItem(){ ImageDescription = "种子文章" },
+                    new ContentItem(){ ImageDescription = "欢迎使用 Leon Reader."},
+                    new ContentItem(){ ImageDescription = "Best Wishes !"}
+                }.ToList(),
             });
-            
 
             context.SaveChanges();
             base.Seed(context);

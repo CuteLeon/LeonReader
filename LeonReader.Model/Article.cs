@@ -75,6 +75,13 @@ namespace LeonReader.Model
         public string ArticleLink { get; set; }
 
         #endregion
+        
+        /// <summary>
+        /// 文章内容集合
+        /// </summary>
+        [Required]
+        [DisplayName("文章内容集合")]
+        public virtual List<ContentItem> Contents { get; set; }
 
         /// <summary>
         /// 文章文件名称

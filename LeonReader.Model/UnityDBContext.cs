@@ -19,6 +19,11 @@ namespace LeonReader.Model
         public DbSet<Article> Articles { get; set; }
 
         /// <summary>
+        /// 内容表
+        /// </summary>
+        public DbSet<ContentItem> Contents { get; set; }
+
+        /// <summary>
         /// 构造全局数据库交互类
         /// </summary>
         public UnityDBContext() : base("LeonReaderDataBase") { }

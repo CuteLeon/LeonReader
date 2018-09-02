@@ -24,7 +24,15 @@ namespace LeonReader.Client
         private void MainForm_Load(object sender, EventArgs e)
         {
             DBContext = new UnityDBContext();
-            MessageBox.Show(string.Join("\n", DBContext.Articles.Select(a=>a.ArticleID)));
+            foreach (var art in DBContext.Articles)
+            {
+                Console.WriteLine("——————————————");
+                Console.WriteLine($"文章：{art.Title} ({art.ArticleID})");
+                foreach (var cnt in art.Contents)
+                {
+                    Console.WriteLine($"\t{cnt.ImageDescription}");
+                }
+            }
         }
     }
 }
