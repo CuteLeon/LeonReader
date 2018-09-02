@@ -11,7 +11,7 @@ namespace LeonReader.Model
     /// <summary>
     /// 数据种子
     /// </summary>
-    public class SampleDataSeed : SqliteDropCreateDatabaseAlways<UnityDBContext>
+    public class SampleDataSeed : SqliteDropCreateDatabaseWhenModelChanges<UnityDBContext>
     {
         /// <summary>
         /// 构造数据种子
@@ -24,12 +24,11 @@ namespace LeonReader.Model
         protected override void Seed(UnityDBContext context)
         {
             context.Articles.Add(
-                new Article(
-                    "10000",
-                    "种子文章",
-                    "http://www.cuteleon.com"
-                )
+                new Article()
                 {
+                    ArticleID = "10000",
+                    Title = "种子文章",
+                    ArticleLink = "http://www.cuteleon.com",
                     Description = "种子文章",
                     IsNew = true,
                     PublishTime = DateTime.Now.ToString(),

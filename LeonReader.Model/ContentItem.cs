@@ -11,7 +11,6 @@ using LeonReader.Common;
 
 namespace LeonReader.Model
 {
-    #region 数据库字段
 
     /// <summary>
     /// 文章内容类
@@ -19,6 +18,8 @@ namespace LeonReader.Model
     [Table("Contents")]
     public class ContentItem
     {
+        #region 数据库字段
+
         /// <summary>
         /// 文章内容ID
         /// </summary>
@@ -57,7 +58,7 @@ namespace LeonReader.Model
         public ContentItem(string description, string link) : this(description)
         {
             ImageLink = link;
-            ImageFileName = IOHelper.GetFileName(link);
+            //ImageFileName = IOHelper.GetFileName(link);
         }
 
         public ContentItem(string description, string link, string filename) : this(description)

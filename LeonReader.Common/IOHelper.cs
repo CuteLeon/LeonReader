@@ -42,6 +42,13 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static string GetFileName(string FilePath) => Path.GetFileName(FilePath);
 
+        /// <summary>
+        /// 返回指定路径字符串的文件名（不包括扩展名）
+        /// </summary>
+        /// <param name="FilePath">文件路径</param>
+        /// <returns></returns>
+        public static string GetFileNameWithoutExtension(string FilePath) => Path.GetFileNameWithoutExtension(FilePath);
+        
         //TODO: 无占用地读取图像文件 function
 
     }

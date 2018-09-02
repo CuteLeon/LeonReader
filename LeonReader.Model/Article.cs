@@ -24,14 +24,14 @@ namespace LeonReader.Model
         [Key]
         [Required]
         [DisplayName("文章ID"), DataType(DataType.Text)]
-        public string ArticleID { get; protected set; }
+        public string ArticleID { get; set; }
 
         /// <summary>
         /// 标题
         /// </summary>
         [Required]
         [DisplayName("标题"), DataType(DataType.Text)]
-        public string Title { get; protected set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// 描述
@@ -74,40 +74,22 @@ namespace LeonReader.Model
         /// <summary>
         /// 文章内容集合
         /// </summary>
-        [Required]
         [DisplayName("文章内容集合")]
         public virtual List<ContentItem> Contents { get; set; }
 
         /// <summary>
         /// 文章文件路径
         /// </summary>
-        public virtual string ArticleFilePath { get; protected set; }
+        [NotMapped]
+        public virtual string ArticleFilePath { get; set; }
 
         /// <summary>
         /// 下载目录
         /// </summary>
-        public virtual string DownloadDirectory { get; protected set; }
+        [NotMapped]
+        public virtual string DownloadDirectory { get; set; }
 
-        //不可为 private 否则 O/RM 无法调用
-        protected Article() { }
+        public Article() { }
 
-        private Article(string articleID) : this()
-        {
-            if (string.IsNullOrEmpty(articleID)) throw new Exception("构造文章时使用空的文章ID");
-            ArticleID = articleID;
-            DownloadDirectory = IOHelper.PathCombine(ConfigHelper.GetConfigHelper.DownloadDirectory, ArticleID);
-        }
-
-        public Article(string articleID, string title) : this(articleID)
-        {
-            if (string.IsNullOrEmpty(title)) throw new Exception("构造文章时使用空的文章标题");
-            Title = title;
-            ArticleFilePath= IOHelper.PathCombine(DownloadDirectory, Title);
-        }
-
-        public Article(string articleID, string title, string articleLink) : this(articleID, title)
-        {
-            ArticleLink = articleLink;
-        }
     }
 }

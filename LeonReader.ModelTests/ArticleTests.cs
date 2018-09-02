@@ -15,12 +15,11 @@ namespace LeonReader.Model.Tests
         public void ArticleTest()
         {
             Article article = 
-                new Article(
-                    "10000",
-                    "单元测试文章",
-                    "http://www.cuteleon.com"
-                )
+                new Article()
                 {
+                    ArticleID = "10000",
+                    Title = "单元测试文章",
+                    ArticleLink = "http://www.cuteleon.com",
                     Description = "单元测试文章",
                     IsNew = true,
                     PublishTime = DateTime.Now.ToString(),
@@ -30,10 +29,7 @@ namespace LeonReader.Model.Tests
                         new ContentItem(){ ImageDescription = "Best Wishes !"}
                     }.ToList(),
                 };
-
-            Assert.AreEqual(article.DownloadDirectory,$"{Environment.CurrentDirectory}\\10000");
             Assert.AreEqual(article.Contents.Count,3);
-            Assert.AreEqual(article.ArticleFilePath,  $"{Environment.CurrentDirectory}\\{10000}\\单元测试文章");
             Assert.AreEqual(article.Contents.FirstOrDefault().ImageDescription, "种子文章");
         }
     }

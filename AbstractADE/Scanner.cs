@@ -10,11 +10,11 @@ namespace AbstractADE
     public abstract class Scanner : Processer, IProcesser
     {
         public Scanner() : base() { }
-        
+
         /// <summary>
         /// 扫描文章
         /// </summary>
-        public virtual void Process() { Console.WriteLine("Scanner."); }
+        public abstract void Process();
 
     }
 }
