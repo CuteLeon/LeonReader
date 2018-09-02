@@ -86,10 +86,11 @@ namespace LeonReader.Model
         /// <summary>
         /// 文章文件名称
         /// </summary>
-        public string ArticleFileName
+        public virtual string ArticleFileName
         {
             get
             {
+                //TODO: 调用 Common 层配置组件获取下载目录，组装后返回文章文件绝对路径
                 if (string.IsNullOrEmpty(Title))
                     throw new Exception("空的文章ID，无法获得文章文件名称。");
                 return Title;
@@ -103,6 +104,7 @@ namespace LeonReader.Model
         {
             get
             {
+                //TODO: 调用 Common 层配置组件获取下载目录，组装后返回此文章下载目录绝对路径
                 if (string.IsNullOrEmpty(ArticleID))
                     throw new Exception("空的文章ID，无法获得文章下载目录名称");
                 return ArticleID;

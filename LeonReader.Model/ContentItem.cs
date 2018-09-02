@@ -10,6 +10,8 @@ using System.IO;
 
 namespace LeonReader.Model
 {
+    #region 数据库字段
+
     /// <summary>
     /// 文章内容类
     /// </summary>
@@ -41,6 +43,8 @@ namespace LeonReader.Model
         /// </summary>
         [DisplayName("图像文件名称"), DataType(DataType.Text)]
         public string ImageFileName { get; set; }
+
+        #endregion
 
         public ContentItem() { }
 
