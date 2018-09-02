@@ -7,8 +7,8 @@
     <ProjectGuid>{E2FC9862-6665-43ED-8BC2-BDF42D37B1EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GamerSkyADE</RootNamespace>
-    <AssemblyName>GamerSkyADE</AssemblyName>
+    <RootNamespace>GamerSkySADE</RootNamespace>
+    <AssemblyName>GamerSkySADE</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,12 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GamerSkyScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AbstractADE\AbstractADE.csproj">
+    <ProjectReference Include="..\AbstractADE\AbstractSADE.csproj">
       <Project>{3a1491d9-c938-4af3-bbc4-92bea2154db3}</Project>
-      <Name>AbstractADE</Name>
+      <Name>AbstractSADE</Name>
     </ProjectReference>
     <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">
       <Project>{84b1272a-20d1-47d9-ac04-dca76b61a456}</Project>
