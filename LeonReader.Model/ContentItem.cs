@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
+using LeonReader.Common;
 
 namespace LeonReader.Model
 {
@@ -56,8 +57,7 @@ namespace LeonReader.Model
         public ContentItem(string description, string link) : this(description)
         {
             ImageLink = link;
-            //TODO: 这里改由 Common 包提供的方法获取文件名
-            ImageFileName = Path.GetFileName(link);
+            ImageFileName = IOHelper.GetFileName(link);
         }
 
         public ContentItem(string description, string link, string filename) : this(description)
