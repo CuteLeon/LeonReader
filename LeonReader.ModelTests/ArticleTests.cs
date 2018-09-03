@@ -29,8 +29,9 @@ namespace LeonReader.Model.Tests
                         new ContentItem(){ ImageDescription = "Best Wishes !"}
                     }.ToList(),
                 };
-            Assert.AreEqual(article.Contents.Count,3);
-            Assert.AreEqual(article.Contents.FirstOrDefault().ImageDescription, "种子文章");
+
+            Assert.AreEqual(3, article.Contents.Count);
+            Assert.AreEqual("种子文章", article.Contents.FirstOrDefault().ImageDescription);
         }
     }
 }

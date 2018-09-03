@@ -73,7 +73,7 @@ namespace GamerSkyADE
                         string ImageFileName = IOHelper.GetFileName(CatalogMatch.Groups["ImageLink"].Value);
 
                         //预处理
-                        if (ArticleLink.StartsWith("/")) ArticleLink = IOHelper.LinkCombine(TargetURI.GetLeftPart(UriPartial.Authority), ArticleLink);
+                        if (ArticleLink.StartsWith("/")) ArticleLink = NetHelper.LinkCombine(TargetURI, ArticleLink);
                         Title = Title.Replace("'","");
                         Description = Description.Replace("'", "");
 

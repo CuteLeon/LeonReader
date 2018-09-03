@@ -12,20 +12,6 @@ namespace LeonReader.Common
     /// </summary>
     public static class IOHelper
     {
-        /// <summary>
-        /// 安全的合并链接
-        /// </summary>
-        /// <param name="WebSite"></param>
-        /// <param name="Router"></param>
-        /// <returns></returns>
-        public static string LinkCombine(string WebSite, string Router)
-        {
-            if (WebSite.EndsWith("/"))
-                return WebSite + (Router.StartsWith("/") ? Router.Substring(1) : Router);
-            else
-                return WebSite + (Router.StartsWith("/") ? "" : "/") + Router;
-        }
-
 
         /// <summary>
         /// 安全的合并路径

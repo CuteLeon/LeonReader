@@ -13,6 +13,37 @@ namespace LeonReader.Common
     public static class NetHelper
     {
         /// <summary>
+        /// 安全的合并链接
+        /// </summary>
+        /// <param name="WebSite"></param>
+        /// <param name="Router"></param>
+        /// <returns></returns>
+        public static string LinkCombine(string WebSite, string Router)
+        {
+            if (string.IsNullOrEmpty(WebSite)) throw new Exception("合并链接时遇到错误，网站地址为空字符串");
+            if (string.IsNullOrEmpty(Router)) return WebSite;
+
+            if (WebSite.EndsWith("/"))
+                return WebSite + (Router.StartsWith("/") ? Router.Substring(1) : Router);
+            else
+                return WebSite + (Router.StartsWith("/") ? "" : "/") + Router;
+        }
+
+        /// <summary>
+        /// 安全的合并链接
+        /// </summary>
+        /// <param name="WebSite"></param>
+        /// <param name="Router"></param>
+        /// <returns></returns>
+        public static string LinkCombine(Uri WebSite, string Router)
+        {
+            if (WebSite == null) throw new Exception("合并链接时遇到错误，网站地址为空对象");
+            if (!WebSite.IsAbsoluteUri) throw new Exception("合并链接时遇到错误，网站地址不是绝对地址");
+
+            return $"{WebSite.GetLeftPart(UriPartial.Authority)}{(Router.StartsWith("/") ? "" : "/")}{Router}";
+        }
+
+        /// <summary>
         /// 获取网页内容
         /// </summary>
         /// <param name="address">网页地址</param>

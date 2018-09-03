@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{C7
 		Document\项目说明.txt = Document\项目说明.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonReader.CommonTests", "LeonReader.CommonTests\LeonReader.CommonTests.csproj", "{CECD95EE-3705-4CEB-9639-2117E044D6AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{2D09D4D4-183D-44C9-99BB-55C5A634F5DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D09D4D4-183D-44C9-99BB-55C5A634F5DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D09D4D4-183D-44C9-99BB-55C5A634F5DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CECD95EE-3705-4CEB-9639-2117E044D6AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECD95EE-3705-4CEB-9639-2117E044D6AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECD95EE-3705-4CEB-9639-2117E044D6AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECD95EE-3705-4CEB-9639-2117E044D6AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
