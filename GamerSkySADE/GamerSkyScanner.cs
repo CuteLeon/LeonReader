@@ -14,9 +14,14 @@ namespace GamerSkySADE
     public class GamerSkyScanner : Scanner
     {
         /// <summary>
+        /// 文章处理源
+        /// </summary>
+        public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
+
+        /// <summary>
         /// 目标地址
         /// </summary>
-        public new Uri TargetURI = new Uri(@"https://www.gamersky.com/ent/qw/");
+        public new Uri TargetURI { get; protected set; } = new Uri(@"https://www.gamersky.com/ent/qw/");
 
         /// <summary>
         /// 扫描 GamerSky 文章
@@ -89,6 +94,7 @@ namespace GamerSkySADE
                             ImageFileName = ImageFileName,
                             ArticleID = ArticleID,
                             IsNew = true,
+                            ASDESource = ASDESource,
                         };
                         article.DownloadDirectory = IOHelper.PathCombine(ConfigHelper.GetConfigHelper.DownloadDirectory, ArticleID);
                         article.ArticleFilePath = IOHelper.PathCombine(article.DownloadDirectory, Title);

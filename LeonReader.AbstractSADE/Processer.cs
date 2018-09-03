@@ -14,9 +14,14 @@ namespace LeonReader.AbstractSADE
     public abstract class Processer : IDisposable
     {
         /// <summary>
+        /// 文章处理源
+        /// </summary>
+        public abstract string ASDESource { get; protected set; }
+
+        /// <summary>
         /// 目标地址
         /// </summary>
-        public virtual Uri TargetURI { get; set; }
+        public virtual Uri TargetURI { get; protected set; }
 
         /// <summary>
         /// 目标数据库交互对象

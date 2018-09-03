@@ -30,7 +30,7 @@ namespace LeonReader.Client
             
             //TODO: 反射创建 SADE 时对所有的 Type 使用 Lambda 筛选继承名称和基类：基类筛选ASDE类型、名称筛选一个dll内的多组ASDE；
             Scanner scanner = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkySADE.GamerSkyScanner").Unwrap() as Scanner;
-            //scanner.Process();
+            scanner.Process();
 
             Analyzer analyzer = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkySADE.GamerSkyAnalyzer").Unwrap() as Analyzer;
             analyzer.Process();

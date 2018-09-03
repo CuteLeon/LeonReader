@@ -32,6 +32,7 @@ namespace LeonReader.Model
                     Description = "种子文章",
                     IsNew = true,
                     PublishTime = DateTime.Now.ToString(),
+                    ASDESource = "DataSeed",
                     Contents = new ContentItem[] {
                         new ContentItem("种子文章"),
                         new ContentItem("欢迎使用 Leon Reader."),

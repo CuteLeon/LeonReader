@@ -70,6 +70,13 @@ namespace LeonReader.Model
         [DisplayName("文章链接"), DataType(DataType.Url)]
         public string ArticleLink { get; set; }
 
+        /// <summary>
+        /// 文章处理源
+        /// </summary>
+        [Required]
+        [DisplayName("文章处理源"), DataType(DataType.Text)]
+        public string ASDESource { get; set; }
+
         #endregion
         
         /// <summary>
