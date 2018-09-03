@@ -25,6 +25,9 @@ namespace GamerSkySADE
             foreach (var article in TargetDBContext.Articles.Where(art => art.ASDESource == ASDESource))
             {
                 Console.WriteLine($"文章链接：{article.ArticleLink}");
+
+                article.AnalyzeTime = DateTime.Now;
+                TargetDBContext.SaveChanges();
             }
         }
     }

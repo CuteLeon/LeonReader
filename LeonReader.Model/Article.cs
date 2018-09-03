@@ -22,10 +22,18 @@ namespace LeonReader.Model
         /// <summary>
         /// 文章ID
         /// </summary>
-        [Key]
+        [Key, Column(Order = 1)]
         [Required]
         [DisplayName("文章ID"), DataType(DataType.Text)]
         public string ArticleID { get; set; }
+
+        /// <summary>
+        /// 文章处理源
+        /// </summary>
+        [Key, Column(Order = 2)]
+        [Required]
+        [DisplayName("文章处理源"), DataType(DataType.Text)]
+        public string ASDESource { get; set; }
 
         /// <summary>
         /// 标题
@@ -71,11 +79,28 @@ namespace LeonReader.Model
         public string ArticleLink { get; set; }
 
         /// <summary>
-        /// 文章处理源
+        /// 扫描时间
         /// </summary>
-        [Required]
-        [DisplayName("文章处理源"), DataType(DataType.Text)]
-        public string ASDESource { get; set; }
+        [DisplayName("扫描时间"), DataType(DataType.DateTime)]
+        public DateTime? ScanTime { get; set; }
+
+        /// <summary>
+        /// 分析时间
+        /// </summary>
+        [DisplayName("分析时间"), DataType(DataType.DateTime)]
+        public DateTime? AnalyzeTime { get; set; }
+
+        /// <summary>
+        /// 下载时间
+        /// </summary>
+        [DisplayName("下载时间"), DataType(DataType.DateTime)]
+        public DateTime? DownloadTime { get; set; }
+
+        /// <summary>
+        /// 导出时间
+        /// </summary>
+        [DisplayName("导出时间"), DataType(DataType.DateTime)]
+        public DateTime? ExportTime { get; set; }
 
         #endregion
         

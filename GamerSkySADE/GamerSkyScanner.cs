@@ -63,7 +63,7 @@ namespace GamerSkySADE
                 if (CatalogMatch.Success)
                 {
                     string ArticleID = IOHelper.GetFileNameWithoutExtension(CatalogMatch.Groups["ImageLink"].Value);
-                    Article article = TargetDBContext.Articles.FirstOrDefault(art => art.ArticleID==ArticleID);
+                    Article article = TargetDBContext.Articles.FirstOrDefault(art => art.ArticleID==ArticleID && art.ASDESource == ASDESource);
                     if (article != null)
                     {
                         Console.WriteLine($"已经存在的文章：{ArticleID}");
@@ -93,8 +93,9 @@ namespace GamerSkySADE
                             PublishTime = PublishTime,
                             ImageFileName = ImageFileName,
                             ArticleID = ArticleID,
-                            IsNew = true,
                             ASDESource = ASDESource,
+                            ScanTime = DateTime.Now,
+                            IsNew = true,
                         };
                         article.DownloadDirectory = IOHelper.PathCombine(ConfigHelper.GetConfigHelper.DownloadDirectory, ArticleID);
                         article.ArticleFilePath = IOHelper.PathCombine(article.DownloadDirectory, Title);
