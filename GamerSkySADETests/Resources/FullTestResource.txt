@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>搞笑趣闻 _ 游民星空 Gamersky.com</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content=""/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <script src="//j.gamersky.com/g/jquery-1.8.3.js"></script>
+  <script src="//j.gamersky.com/web2015/www/ent/js/ent2.js"></script>
+  <script src="//j.gamersky.com/web2015/js/paging.js"></script>
+  <link type="text/css" rel="stylesheet" href="//j.gamersky.com/web2015/www/ent/css/style_ent2.css" />
+  <link type="text/css" rel="stylesheet" href="//j.gamersky.com/web2015/www/ent/css/style_ent2_list.css" />
+  <link type="text/css" rel="stylesheet" href="//j.gamersky.com/web2015/css/QZnav.css" />
+</head>
+<body>
+<script src="https://www.gamersky.com/autoinc/allsite/allsite_nav_js.htm"></script>
+
+<div class="Top">
+  <div class="top1">
+    <div class="logo"><a href="http://www.gamersky.com/"></a></div>
+    <div class="advert"></div>
+  </div>
+  <div class="top2">
+    <div class="top2nav">
+      <a href="http://www.gamersky.com/ent/"><div class="tem m1"></div><div class="txt">首页</div></a>
+      <a href="http://www.gamersky.com/ent/qw/"><div class="tem m2"></div><div class="txt">趣囧时间</div></a>
+      <a href="http://www.gamersky.com/wenku/movie/"><div class="tem m3"></div><div class="txt">游民影院</div></a>
+      <a href="http://www.gamersky.com/ent/discovery/"><div class="tem m4"></div><div class="txt">游观天下</div></a>
+      <a href="http://www.gamersky.com/ent/wp/"><div class="tem m5"></div><div class="txt">壁纸图库</div></a>
+      <a href="http://www.gamersky.com/wenku/"><div class="tem m6"></div><div class="txt">游民盘点</div></a>
+      <a href="http://www.gamersky.com/ent/xz/"><div class="tem m7"></div><div class="txt">游民福利</div></a>
+    </div>
+    <div class="top2soso">
+      <div class="Search" id="search-form">
+        <div class="radio">
+          <div class="txt">搜百度</div>
+          <div class="con">
+            <a href="javascript:;">搜百度</a>
+            <a href="javascript:;">搜本站</a>
+          </div>
+        </div>
+        <div class="form block" data-action="http://soso.gamersky.com/cse/search?s=3068275339727451251">
+          <input class="Sinput" type="text" name="q" value="" autocomplete="off" />
+          <input class="Sbutton" type="submit" value="搜百度"/>
+        </div>
+        <div class="form none" data-action="http://so.gamersky.com/">
+          <input class="Sinput" type="text" name="s" value="" autocomplete="off" />
+          <input class="Sbutton" type="submit" value="搜本站"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bgAdWrap"></div>
+<!--Top end-->
+
+<div class="Mid">
+  
+  <div class="Mid2">
+    <div class="Mid2_L">
+      <div class="Mid2Ltit"><div class="tit">搞笑趣闻</div><div class="more"></div></div>
+      <div class="loadpic none"><span class="img"></span><span class="txt">正在加载...</span></div>
+      <ul class="pictxt contentpaging" data-nodeid="20113" data-isnodeid="true">
+      
+            
+          
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1094495.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201809011826498967.jpg" alt="当代两性社交礼仪 令人流口水的囧图"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1094495.shtml" target="_blank" title="当代两性社交礼仪 令人流口水的囧图">当代两性社交礼仪 令人流口水的囧图</a></div>
+            <div class="txt">　　以前是看微博觉得日子快过不下去了，放下手机去趟菜市场觉着其实还行。现在不行了。
+
+难怪那么多外星人都来抢地球
+
+
+  是陷阱！
+
+
+竟然还是星空炫彩的
+
+当代</div>
+            <div class="tme2"><div class="time">2018-09-01 35:10</div><div class="pls cy_comment" data-sid="1094495"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1091667.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808241729597378.jpg" alt="好莱坞男星P成女星后：钢铁侠骚气、雷神妩媚"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1091667.shtml" target="_blank" title="好莱坞男星P成女星后：钢铁侠骚气、雷神妩媚">好莱坞男星P成女星后：钢铁侠骚气、雷神妩媚</a></div>
+            <div class="txt">在好莱坞，演技是要排在颜值之上。但一副好颜?狄彩橇⒆愕母尽？扇绻颜庑└哐罩的行荘成女性形象的话，可真是千姿百态了。要瞎眼也不能只让小编一个人瞎，一起来看吧！</div>
+            <div class="tme2"><div class="time">2018-09-01 42:34</div><div class="pls cy_comment" data-sid="1091667"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201809/1094618.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201809011226035262.jpg" alt="第一次见女友父母 惊喜措手不及的动态图"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201809/1094618.shtml" target="_blank" title="第一次?迅改?惊喜措手不及的动态图">第一次见女友父母 惊喜措手不及的动态图</a></div>
+            <div class="txt">　　“刚才我想干嘛来着？”随着年龄的增长这句话出现的频率越来越高。
+
+就是喜欢健身的女孩
+
+元芳你是不是跳过脱衣舞
+
+哥们，咱俩是不是拿错剧本了？
+
+
+这?璩?/div>
+            <div class="tme2"><div class="time">2018-09-01 38:27</div><div class="pls cy_comment" data-sid="1094618"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1094068.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808311831538725.jpg" alt="这果体围裙毒性太大 略为刺激的晚间囧图"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1094068.shtml" target="_blank" title="这女友围裙毒性太大 略为刺激的晚间囧图">这果体围裙毒性太大 略为刺激的晚间囧图</a></div>
+            <div class="txt">?　∪俗畈荒茉碌哪诒黄却诱娉系娜惹橹行盐颍靼坠茨歉鲈钏羌耐辛巳肯Ｍ娜苏撬鞘娜恕！沟俜摇ご耐瘛度死嗟娜盒巧烈薄?
+美人只配强者拥</div>
+            <div class="tme2"><div class="time">2018-08-31 33:55</div><div class="pls cy_comment" data-sid="1094068"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1094227.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808311156196650.jpg" alt="法国小哥廉价COS新作：画面辣眼 知名女歌手躺枪"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1094227.shtml" target="_blank" title="法国小哥廉价COS新作：画面辣眼 知名女歌手躺枪">法国小哥廉价COS新作：画面辣眼 知名女歌手躺枪</a></div>
+            <div class="txt">法国小哥廉价COS新作，这次蕾哈娜、夏奇拉、凯蒂·佩里三位知名女歌手的MV被低成本还原，?嬉谰衫毖邸?/div>
+            <div class="tme2"><div class="time">2018-08-31 48:45</div><div class="pls cy_comment" data-sid="1094227"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1093828.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808301513421728.jpg" alt="日本达人制作1：1蚊子纸模：以假乱真 拍死还有血"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1093828.shtml" target="_blank" title="日本达人制作1：1蚊子纸模：以假乱真 拍死还有血">日本达人制作1：1蚊子纸模：以假乱真 拍死还有血</a></div>
+            <div class="txt">今天就给大家介绍一位来自日本的纸雕大人しざーはんず（@salvare035）的作品。</div>
+            <div class="tme2"><div class="time">2018-08-31 46:59</div><div class="pls cy_comment" data-sid="1093828"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1094220.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808311230365567.jpg" alt="一字马后腿变短？擦擦眼睛认真看的动态图"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1094220.shtml" target="_blank" title="一字马后腿变短？擦擦眼睛认真看的动态图">一字马后腿变短？擦擦眼睛认真看的动态图</a></div>
+            <div class="txt">　　 一阳指打狗棒降龙十八掌都不如凌波微步，所以我劝各位投入我大理段氏，老婆漂亮的优先
+
+
+
+妹子的一字马厉害了，就是上面腿怎么变短了？
+
+转过头来发现你是个肥</div>
+            <div class="tme2"><div class="time">2018-08-31 32:44</div><div class="pls cy_comment" data-sid="1094220"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="/ent/201808/1093553.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808301831457837.jpg" alt="为什么男性希望生女儿？让老妈崩溃的囧图"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="/ent/201808/1093553.shtml" target="_blank" title="为什么男性希望生女儿？让老妈崩溃的囧图">为什么男性希望生女儿？让老妈崩溃的囧图</a></div>
+            <div class="txt">　　岛国专家精密计算：作为一名普通人，你与知名爱豆交?母怕饰?.0247%，即4049分之一…怎么感觉还挺有希望的！
+
+好看不，你妈会崩溃
+
+
+我在选比基尼 但这条裤子
+</div>
+            <div class="tme2"><div class="time">2018-08-30 32:19</div><div class="pls cy_comment" data-sid="1093553"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1093729.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808301234011079.jpg" alt="如何优雅的教训出轨前男友?扛＠Р患胺赖亩?  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1093729.shtml" target="_blank" title="如何优雅的教?党龉烨澳杏眩库Р患胺赖亩?>如何优雅的教训出轨前男友？福利猝不及防的动态图</a></div>
+            <div class="txt">　　以前还在上学的时候，每当看到“莫欺少年穷”这句话时总是深有同感，觉得很有道理，到现在工作了两年才悟出一个道理，贫穷和你努不努力、年不年轻没有太大的关联性。
+</div>
+            <div class="tme2"><div class="time">2018-08-30 35:30</div><div class="pls cy_comment" data-sid="1093729"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1093512.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808291752453308.jpg" alt="亚洲最大漫威主题乐园 黑寡妇似大妈美队像表情包"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1093512.shtml" target="_blank" title="亚洲最大漫威主题乐园 黑寡妇似大妈美队像表情包">亚洲最大漫威主题乐园 黑寡妇似大妈美队像表情包</a></div>
+            <div class="txt">　　前些日子上映的《复仇者联盟3》相信你们也都看过了，史无前例的英雄集结，前所未有的战斗规模和特效呈现，
+目前号称为“亚洲最大漫威主题乐园”也在曼谷开业了。
+
+</div>
+            <div class="tme2"><div class="time">2018-08-30 24:21</div><div class="pls cy_comment" data-sid="1093512"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1093363.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808291608043876.jpg" alt="万物皆可刀！纯原始技术打造 只要功夫深石头磨成刀"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1093363.shtml" target="_blank" title="万物皆可刀！纯原始技术打造 只要功夫深石头磨成刀">万物皆可刀！纯原始技术打造 只要功夫深石头磨成刀</a></div>
+            <div class="txt">日本小哥kiwami japan刀具新作，这次小?缬檬反蚰チ艘话选安说丁保讨腥渴褂煤颖吣芗竦降墓ぞ撸执纳爸降却蚰ビ镁咄耆皇褂谩?/div>
+            <div class="tme2"><div class="time">2018-08-29 05:19</div><div class="pls cy_comment" data-sid="1093363"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="https://www.gamersky.com/ent/201808/1093460.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808291729378330.jpg" alt="轻松一刻：二次元美少女沉迷JOJO立为?陌悖?  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="https://www.gamersky.com/ent/201808/1093460.shtml" target="_blank" title="轻松一刻：二次元美少女沉迷JOJO立为哪般？">轻松一刻：二次元美少女沉迷JOJO立为哪般？</a></div>
+            <div class="txt">大家下午好啊，我是你们说咕就咕毫不留情的量贩。今天的编辑部也依旧风平浪静呢~
+</div>
+            <div class="tme2"><div class="time">2018-08-29 11:58</div><div class="pls cy_comment" data-sid="1093460"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="/ent/201808/1093008.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808291827409022.jpg" alt="线上游戏的女生不可能是老婆 深藏不露的晚间囧图"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="/ent/201808/1093008.shtml" target="_blank" title="线上游戏的女生不可能是老婆 深藏不露的晚间囧图">线上游戏的女生不可能是老婆 深藏不露的晚间囧图</a></div>
+            <div class="txt">
+　　以前我总想，我一定是杨过，盖世英雄。后来我认为我有可能只是尹志平，不久以后又不得不承认我只是个被梅超风一掌打死?男”祝桓鑫廾氖蟊病Ｖ钡轿铱吹降缡由现?/div>
+            <div class="tme2"><div class="time">2018-08-29 30:50</div><div class="pls cy_comment" data-sid="1093008"></div></div>
+          </div>
+        </li>
+      
+        <li>
+          <div class="img"><a href="/ent/201808/1093228.shtml" target="_blank">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808291233376268.jpg" alt="今天你能嫁出去算我输！这风略妖的动态图"  width="200" height="110" class="pe_u_thumb" border="0">
+          </a></div>
+          <div class="con">
+            <div class="tit"><a href="/ent/201808/1093228.shtml" target="_blank" title="今天你能嫁出去算我输！这风略妖的动态图">今天你能嫁出去算我输！这风略妖的动态图</a></div>
+            <div class="txt">　　很多人表面笑笑的，其实能活全靠纸片人或追星。
+
+准备好开始了么
+
+最近都说周迅被医美坑惨了。。。。。
+
+前三稳了
+
+闺蜜：今天你能嫁出去算我输！
+
+
+外国计</div>
+            <div class="tme2"><div class="time">2018-08-29 33:05</div><div class="pls cy_comment" data-sid="1093228"></div></div>
+          </div>
+        </li>
+        
+      </ul>
+      <!--分页开始-->
+      <div class="Page contentpage">
+        <!--{pe.begin.pagination}--><span id="pe100_page_allnews" class="pagecss"><a href="javascript:void(0)"class="p1 previous" data-count="6680" data-pagesize="14">上一页</a><a href="javascript:void(0)" class="p1 nexe">下一页</a></span><!--{pe.end.pagination}-->
+      </div>
+      <!--分页结束-->
+    </div><!--Mid2_L end-->
+  
+    <div class="Mid2_R">
+      <div class="ad_r"><iframe id="gsincome_www_a300_1" width="300" height="250" src="//ja1.gamersky.com/www/a300_1.htm" frameborder="0" scrolling="no"></iframe></div>
+      <div class="Mid2Rtit"><div class="tit">一周浏览排行榜</div><div class="more"></div></div>
+      <ul class="Mid2Rtxt">
+        
+            
+          
+        
+        <li><div class="num n1">1</div><div class="txt"><a href="/ent/201808/1092438.shtml" target="_blank">贫乳才算好身材？看啥都是马赛克的搞笑囧图</a></div></li>
+        
+        <li><div class="num n2">2</div><div class="txt"><a href="/ent/201808/1092089.shtml" target="_blank">醒醒，你哪来的女朋友？补充营养的搞笑囧图</a></div></li>
+        
+        <li><div class="num n3">3</div><div class="txt"><a href="/ent/201808/1091904.shtml" target="_blank">这肚子鼓的比胸都高 玉体横陈的囧图</a></div></li>
+        
+        <li><div class="num n4">4</div><div class="txt"><a href="/ent/201808/1093553.shtml" target="_blank">为什么男性希望生女儿？让老妈崩溃的囧图</a></div></li>
+        
+        <li><div class="num n5">5</div><div class="txt"><a href="/ent/201808/1091650.shtml" target="_blank">屁股不是这么用的！眼神突然下流的囧图</a></div></li>
+        
+        <li><div class="num n6">6</div><div class="txt"><a href="/ent/201808/1093008.shtml" target="_blank">线上游戏的女生不可能是老婆 深藏不露的晚间囧图</a></div></li>
+        
+        <li><div class="num n7">7</div><div class="txt"><a href="https://www.gamersky.com/ent/201808/1094068.shtml" target="_blank">这果体围裙毒性太大 略为刺激?耐砑鋰逋?/a></div></li>
+        
+        <li><div class="num n8">8</div><div class="txt"><a href="/ent/201808/1092006.shtml" target="_blank">偷瞄了一下路边的女孩 都是女装大佬的午间动态图</a></div></li>
+        
+        <li><div class="num n9">9</div><div class="txt"><a href="/ent/201808/1091408.shtml" target="_blank">你告我这裙子能遮住啥？开始躁动的动态图</a></div></li>
+        
+        <li><div class="num n10">10</div><div class="txt"><a href="/ent/201808/1092243.shtml" target="_blank">健硕的胸肌总?崛萌讼胪?男女那点化学反应的动态图</a></div></li>
+        
+        <li><div class="num n11">11</div><div class="txt"><a href="/ent/201808/1092634.shtml" target="_blank">刺激的我都想掏钱了 勾天雷动地火的动态图</a></div></li>
+        
+        <li><div class="num n12">12</div><div class="txt"><a href="/ent/201808/1093228.shtml" target="_blank">今天你能嫁出去算我输！这风略妖的动态图</a></div></li>
+        
+        <li><div class="num n13">13</div><div class="txt"><a href="https://www.gamersky.com/ent/201808/1093729.shtml" target="_blank">如何优雅的教训出轨前男友？福利猝不及防的动态图</a></div></li>
+        
+        <li><div class="num n14">14</div><div class="txt"><a href="https://www.gamersky.com/ent/201808/1094220.shtml" target="_blank">一字马后腿变短?坎敛裂劬θ险婵吹亩?/a></div></li>
+        
+        <li><div class="num n15">15</div><div class="txt"><a href="https://www.gamersky.com/ent/201808/1092071.shtml" target="_blank">轻松一刻：有了RTX2080 让您乳此与众不同</a></div></li>
+          
+      </ul>
+      
+      <div class="Mid2Rtit"><div class="tit">热点图文</div><div class="more"></div></div>
+      <ul class="Mid2Rimg">
+        
+                
+              
+        
+        <li><a href="https://www.gamersky.com/ent/201808/1094495.shtml" target="_blank" title="当代两性社交礼仪 令人流口水的囧图">
+            <img src="https://imgs.gamersky.com/upimg/2018/201809011826498967.jpg" alt="当代两性社交礼仪 令人流口水的囧图"  width="160" height="89" class="pe_u_thumb" border="0">
+          <br/>当代两性社交礼仪 令人流口水的囧图</a></li>
+        
+        <li><a href="https://www.gamersky.com/ent/201808/1094068.shtml" target="_blank" title="这女友围裙毒性太大 略为刺激的晚间囧图">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808311831538725.jpg" alt="这果体围裙毒性太大 略为刺激的晚间囧图"  width="160" height="89" class="pe_u_thumb" border="0">
+          <br/>这果体围裙毒性太大 略为刺激的晚间囧图</a></li>
+        
+        <li><a href="/ent/201808/1093553.shtml" target="_blank" title="为什么男性希望生女儿？让老妈崩溃的囧图">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808301831457837.jpg" alt="为什么男性希望生女儿？让老妈崩溃的囧图"  width="160" height="89" class="pe_u_thumb" border="0">
+          <br/>为什么男?韵Ｍ咳美下璞览５膰逋?/a></li>
+        
+        <li><a href="https://www.gamersky.com/ent/201808/1092845.shtml" target="_blank" title="这位印度小姐 用性感征服了整个好莱坞 ">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808281648065477.jpg" alt="这位印度小姐 用性感征服了整个好莱坞 "  width="160" height="89" class="pe_u_thumb" border="0">
+          <br/>这位印度小姐 用性感征服了整个好莱坞 </a></li>
+        
+        <li><a href="https://www.gamersky.com/wenku/201808/1092779.shtml" target="_blank" title="灭霸打响指前蚁人在救岳母 《蚁人2：黄蜂女现身》彩蛋终极指南">
+            <img src="https://imgs.gamersky.com/pic/2018/20180828_zy_164_99.jpg" alt="灭霸打响指前蚁人在救岳母 《蚁人2》彩蛋终极指南"  width="160" height="89" class="pe_u_thumb" border="0">
+          <br/>灭霸打响指前蚁人在救岳母 《蚁人2》彩蛋终极指南</a></li>
+        
+        <li><a href="https://www.gamersky.com/ent/201808/1092414.shtml" target="_blank" title="轻松一刻：二次元三次元的大白腿我全都要">
+            <img src="https://imgs.gamersky.com/upimg/2018/201808271739165682.jpg" alt="轻松一刻：二次元三次元的大白腿我全都要"  width="160" height="89" class="pe_u_thumb" border="0">
+          <br/>轻松一刻：二次元三次元的大白腿我全都要</a></li>
+        
+      </ul>
+      
+    </div><!--Mid2_R end-->
+  
+  </div><!--Mid2 end-->
+  
+</div><!--Mid end-->
+
+<div class="Bot">
+  <div class="Hot">
+    <div class="Hots">
+      <ul class="foot">
+    <li>
+        <div class="tit"><a href="http://www.gamersky.com/pcgame/" target="_blank">单机游戏</a></div>
+        <div class="like">
+            <div>
+                <a target="_blank" href="http://www.gamersky.com/news/pc/zx/">游戏资讯</a>
+                <a target="_blank" href="http://www.gamersky.com/review/pc/">游戏?啦?/a>
+                <a target="_blank" href="http://down.gamersky.com/pc/">游戏下载</a>
+                <a target="_blank" href="http://www.gamersky.com/top/">单机排行榜</a>
+            </div>
+            <div>
+                <a target="_blank" href="http://www.gamersky.com/z/">游戏专区</a>
+                <a target="_blank" href="http://www.gamersky.com/handbook/">游戏攻略</a>
+                <a target="_blank" href="http://ku.gamersky.com/release/">发售表</a>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="tit"><a href="http://tv.gamersky.com/" target="_blank">电视游戏</a></div>
+        <div class="like">
+            <div>
+                <a target="_blank" href="http://tv.gamersky.com/xbox/">XboxOne</a>
+                <a target="_blank" href="http://www.gamersky.com/review/tv/">游戏评测</a>
+                <a target="_blank" href="http://www.gamersky.com/news/tv/hd/">主机硬件</a>
+            </div>
+            <div>
+                <a target="_blank" href="http://tv.gamersky.com/ps/">PS4</a>
+                <a target="_blank" href="http://www.gamersky.com/news/tv/zx/">电玩资讯</a>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="tit"><a href="http://ol.gamersky.com/" target="_blank">网络游戏</a></div>
+        <div class="like">
+            <div>
+                <a target="_blank" href="http://ol.gamersky.com/news/game/">新闻资讯</a>
+                <a target="_blank" href="http://ol.gamersky.com/news/inds/">产业观察</a>
+
+            </div>
+            <div>
+                <a target="_blank" href="http://www.gamersky.com/review/ol/">试玩评测</a>
+                <a target="_blank" href="http://ol.gamersky.com/news/features/">精彩栏目</a>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="tit"><a href="http://shouyou.gamersky.com/" target="_blank">手机游戏</a></div>
+        <div class="like">
+            <div>
+                <a target="_blank" href="http://shouyou.gamersky.com/">手游频道</a>
+                <a target="_blank" href="http://shouyou.gamersky.com/ios/">苹果频道</a>
+                <a target="_blank" href="http://shouyou.gamersky.com/gl/">手游攻略</a>
+                <a target="_blank" href="http://shouyou.gamersky.com/zx/news/">新游频道</a>
+            </div>
+            <div>
+                <a target="_blank" href="http://shouyou.gamersky.com/android/">安卓频道</a>
+                <a target="_blank" href="http://shouyou.gamersky.com/review/">手游评测</a>
+                <a target="_blank" href="http://shouyou.gamersky.com/ku/">手游下载</a>
+                <a target="_blank" href="http://shouyou.gamersky.com/zx/chanye/">手游产业</a>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="tit"><a href="http://acg.gamersky.com/" target="_blank">动漫星空</a></div>
+        <div class="like">
+            <div>
+                <a target="_blank" href="http://donghua.gamersky.com/">在线动画</a>
+                <a target="_blank" href="http://acg.gamersky.com/otaku/zt/">精彩杂谈</a>
+                <a target="_blank" href="http://acg.gamersky.com/pic/">动漫图库</a>
+                <a target="_blank" href="http://acg.gamersky.com/zt/donghua201807/">18年7月番</a>
+            </div>
+            <div>
+                <a target="_blank" href="http://acg.gamersky.com/news/">动漫资讯</a>
+                <a target="_blank" href="http://acg.gamersky.com/otaku/zb/">动漫周边</a>
+                <a target="_blank" href="http://acg.gamersky.com/music/">动漫音乐</a>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="tit">其他综合</div>
+        <div class="like">
+            <div>
+                <a target="_blank" href="http://www.gamersky.com/wenku/">杂谈文库</a>
+                <a target="_blank" href="http://www.gamersky.com/hardware/">游戏硬件</a>
+                <a target="_blank" href="http://www.gamersky.com/zl/academy/">讲武堂</a>
+
+            </div>
+            <div>
+                <a target="_blank" href="http://www.gamersky.com/ent/">休闲娱乐</a>
+                <a target="_blank" href="http://www.gamersky.com/tech/">趣味科技</a>
+                <a target="_blank" href="http://i.gamersky.com/club/">游民圈子</a>
+
+            </div>
+        </div>
+    </li>
+</ul>
+    </div>
+  </div>
+  <script src="https://www.gamersky.com/autoinc/allsite/allsite_copyright_1_js.htm"></script>
+</div>
+<script src="//j.gamersky.com/g/jquery.gamersky.v4.min.js"></script>
+<script src="//j.gamersky.com/web2015/js/Search.js"></script>
+<!-- 20180516 update -->
+<script src="//ja2.gamersky.com/gs.tg.all.js"></script>
+<script src="//j.gamersky.com/common/tg/fxtg.js?20180703"></script>
+<script src="//j.gamersky.com/common/tg/allsite.tg.monitor.js"></script>
+<!--[if lt IE 8]>
+<script>
+(function(b){b("img").each(function(){var c=b(this),a=c.attr("src");0<=a.indexOf("https://")&&(a=a.replace("https://","http://"),c.attr("src",a))})})(jQuery);
+</script>
+<![endif]-->
+<div style="display:none">
+<script>
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcb5060fba0123ff56d253331f28db6a' %3E%3C/script%3E"));
+</script>
+<!--临时清掉i站登录cookie-->
+<script src="//i.gamersky.com/js/removeCookie.js"></script>
+<!--临时清掉i站登录cookie-->
+</div>
+</body>
+</html><!-- ParserInfo: Processed in 2.1619647 second(s) Ticks:4011452 -->

@@ -78,6 +78,11 @@
   <ItemGroup>
     <Compile Include="GamerSkyScannerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTestResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UnitTestResource.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -92,6 +97,29 @@
       <Project>{7FC2F8A9-D953-4211-B910-BAD9B580BF5F}</Project>
       <Name>LeonReader.AbstractSADE</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">
+      <Project>{84B1272A-20D1-47D9-AC04-DCA76B61A456}</Project>
+      <Name>LeonReader.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LeonReader.Model\LeonReader.Model.csproj">
+      <Project>{E011572B-10E0-4D9D-88DC-F2B5DA057C76}</Project>
+      <Name>LeonReader.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UnitTestResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UnitTestResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ConvertToArticleTestResource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GetCatalogListTestResource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FullTestResource.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

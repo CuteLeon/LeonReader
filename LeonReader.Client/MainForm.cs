@@ -32,8 +32,8 @@ namespace LeonReader.Client
             Scanner scanner = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkySADE.GamerSkyScanner").Unwrap() as Scanner;
             scanner.Process();
 
-            Analyzer analyzer = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkySADE.GamerSkyAnalyzer").Unwrap() as Analyzer;
-            analyzer.Process();
+            //Analyzer analyzer = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkySADE.GamerSkyAnalyzer").Unwrap() as Analyzer;
+            //analyzer.Process();
         }
 
     }
