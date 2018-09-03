@@ -43,9 +43,10 @@ namespace GamerSkySADE
 
             if (string.IsNullOrEmpty(CatalogContent))
             {
-                throw new Exception("获取目录地址内容为空");
+                throw new Exception("获取目录内容为空");
             }
 
+            //TODO: 这里封装为方法，并写单元测试
             //开始分析目录内容
             string CatalogPattern = "<([a-z]+)(?:(?!class)[^<>])*class=([\"']?){0}\\2[^>]*>(?>(?<o><\\1[^>]*>)|(?<-o></\\1>)|(?:(?!</?\\1).))*(?(o)(?!))</\\1>";
             CatalogPattern = string.Format(CatalogPattern, Regex.Escape("pictxt contentpaging"));
@@ -55,6 +56,7 @@ namespace GamerSkySADE
             string[] CatalogList = Regex.Split(CatalogContent, "</li>");
             if (CatalogList.Length == 0) throw new Exception("获取目录数据失败！");
 
+            //这里封装为方法，并写单元测试
             CatalogPattern = "<a href.*?=.*?\"(?<ArticleLink>.+?)\".*?target=.*?\"_blank\">.*?<img src.*?=.*?\"(?<ImageLink>.+?)\" alt.*?title=\"(?<Title>.+?)\".*?>.*?<div Class.*?=.*?\"txt\".*?>(?<Description>.+?)</div>.*?<div Class.*?=.*?\"time\".*?>(?<PublishTime>.+?)</div>.*?<div.*?>";
             Regex CatalogRegex = new Regex(CatalogPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             foreach (string CatalogItem in CatalogList)
@@ -62,6 +64,7 @@ namespace GamerSkySADE
                 Match CatalogMatch = CatalogRegex.Match(CatalogItem);
                 if (CatalogMatch.Success)
                 {
+                    //TODO: 这里封装为方法，并写单元测试
                     string ArticleID = IOHelper.GetFileNameWithoutExtension(CatalogMatch.Groups["ImageLink"].Value);
                     Article article = TargetDBContext.Articles.FirstOrDefault(art => art.ArticleID==ArticleID && art.ASDESource == ASDESource);
                     if (article != null)

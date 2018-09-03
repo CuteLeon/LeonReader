@@ -15,5 +15,6 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public abstract void Process();
 
+        //TODO: 事件：发现新页或新页面内容
     }
 }

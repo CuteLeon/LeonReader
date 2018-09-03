@@ -14,6 +14,6 @@ namespace LeonReader.AbstractSADE
         /// 扫描文章
         /// </summary>
         public abstract void Process();
-
+        
     }
 }
