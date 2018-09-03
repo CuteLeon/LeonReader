@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbstractADE
+namespace LeonReader.AbstractSADE
 {
     public interface IProcesser
     {

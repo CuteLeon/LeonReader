@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AbstractADE;
-using LeonReader.Model;
-using LeonReader.Common;
 using System.Text.RegularExpressions;
 
-namespace GamerSkyADE
+using LeonReader.AbstractSADE;
+using LeonReader.Model;
+using LeonReader.Common;
+
+namespace GamerSkySADE
 {
     public class GamerSkyScanner : Scanner
     {

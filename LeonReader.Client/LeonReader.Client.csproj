@@ -99,9 +99,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AbstractADE\AbstractSADE.csproj">
-      <Project>{3a1491d9-c938-4af3-bbc4-92bea2154db3}</Project>
-      <Name>AbstractSADE</Name>
+    <ProjectReference Include="..\LeonReader.AbstractSADE\LeonReader.AbstractSADE.csproj">
+      <Project>{7fc2f8a9-d953-4211-b910-bad9b580bf5f}</Project>
+      <Name>LeonReader.AbstractSADE</Name>
     </ProjectReference>
     <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">
       <Project>{84b1272a-20d1-47d9-ac04-dca76b61a456}</Project>

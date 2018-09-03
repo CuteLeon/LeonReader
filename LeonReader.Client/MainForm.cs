@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LeonReader.Common;
-using AbstractADE;
 using System.Reflection;
+
+using LeonReader.Common;
+using LeonReader.AbstractSADE;
 
 namespace LeonReader.Client
 {
@@ -27,7 +28,7 @@ namespace LeonReader.Client
             Console.WriteLine($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type=>type.FullName))}");
             Console.WriteLine($"全局配置-下载目录：{ConfigHelper.GetConfigHelper.DownloadDirectory}");
             
-            Scanner scanner = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkyADE.GamerSkyScanner").Unwrap() as Scanner;
+            Scanner scanner = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkySADE.GamerSkyScanner").Unwrap() as Scanner;
             scanner.Process();
         }
 

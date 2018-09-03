@@ -1,11 +1,10 @@
-﻿using LeonReader.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbstractADE
+namespace LeonReader.AbstractSADE
 {
     public abstract class Scanner : Processer, IProcesser
     {

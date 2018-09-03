@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using LeonReader.Model;
 
-namespace AbstractADE
+namespace LeonReader.AbstractSADE
 {
     /// <summary>
     /// 抽象处理类
