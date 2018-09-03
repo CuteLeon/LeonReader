@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace LeonReader.AbstractSADE
 {
-    public abstract class Scanner : Processer, IProcesser
+    /* TODO: 实现事件
+    public class ScannerEventArgs : EventArgs
+    {
+    }
+     */
+
+    public abstract class Scanner : Processer,IProcesser //TODO: 实现事件 IProcesser<ScannerEventArgs>
     {
         public Scanner() : base() { }
 
