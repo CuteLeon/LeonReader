@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonReader.AbstractSADE", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamerSkySADE", "GamerSkySADE\GamerSkySADE.csproj", "{69A8C259-DDBE-472C-822E-A3E3FC3E353C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamerSkySADETests", "GamerSkySADETests\GamerSkySADETests.csproj", "{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{69A8C259-DDBE-472C-822E-A3E3FC3E353C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69A8C259-DDBE-472C-822E-A3E3FC3E353C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69A8C259-DDBE-472C-822E-A3E3FC3E353C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
