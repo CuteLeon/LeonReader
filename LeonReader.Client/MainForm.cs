@@ -31,7 +31,7 @@ namespace LeonReader.Client
             Assembly GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
             if (GS_ASDE == null)
             {
-                Console.WriteLine("创建陈晓估计反射失败，终止");
+                Console.WriteLine("创建程序集反射失败，终止");
                 return;
             }
 

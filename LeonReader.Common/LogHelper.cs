@@ -164,7 +164,8 @@ namespace LeonReader.Common
         /// </summary>
         public static void CloseLogListener()
         {
-            Info("关闭日志记录器 ...");
+            Fatal("关闭日志记录器 ...");
+
             LogListener?.Flush();
             LogListener?.Close();
             LogListener?.Dispose();
