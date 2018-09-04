@@ -8,6 +8,9 @@ using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
+    //TODO: 每个网站板块对应一个扫描器，每个扫描器类有唯一单实例对象；
+    //TODO: 每篇文章对应一个分析器和下载器和导出器；
+
     /// <summary>
     /// 抽象处理类
     /// </summary>

@@ -87,6 +87,7 @@ namespace GamerSkySADE
             }
         }
 
+        //TODO: 提取至基类并允许覆写 virtual
         /// <summary>
         /// 检查文章是否已经存在
         /// </summary>
