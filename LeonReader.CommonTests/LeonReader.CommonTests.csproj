@@ -56,6 +56,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AssemblyHelperTests.cs" />
     <Compile Include="ConfigHelperTests.cs" />
     <Compile Include="IOHelperTests.cs" />
     <Compile Include="NetHelperTests.cs" />
@@ -65,6 +66,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GamerSkySADE\GamerSkySADE.csproj">
+      <Project>{69a8c259-ddbe-472c-822e-a3e3fc3e353c}</Project>
+      <Name>GamerSkySADE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LeonReader.AbstractSADE\LeonReader.AbstractSADE.csproj">
+      <Project>{7fc2f8a9-d953-4211-b910-bad9b580bf5f}</Project>
+      <Name>LeonReader.AbstractSADE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">
       <Project>{84B1272A-20D1-47D9-AC04-DCA76B61A456}</Project>
       <Name>LeonReader.Common</Name>

@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace LeonReader.Common
 {
-    //TODO: 为此助手编写单元测试
-
+    
     /// <summary>
     /// 程序集反射助手
     /// </summary>
@@ -68,8 +67,8 @@ namespace LeonReader.Common
             if (assembly == null) return new Type[] { } ;
 
             return assembly.GetTypes().Where(
-                            PluginType =>
-                            PluginType.IsSubclassOf(baseType)
+                            type =>
+                            type.IsSubclassOf(baseType)
                         ).ToArray();
         }
 
