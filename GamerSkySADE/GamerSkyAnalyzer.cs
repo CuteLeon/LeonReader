@@ -55,7 +55,8 @@ namespace GamerSkySADE
             //初始化
             PageCount = 0;
             ContentCount = 0;
-            article.Contents.Clear();
+            LogHelper.Debug($"清空文章原有内容记录：{article.Title} ({article.ArticleID})");
+            TargetDBContext.Contents.RemoveRange(article.Contents);
             article.AnalyzeTime = DateTime.Now;
             TargetDBContext.SaveChanges();
 
