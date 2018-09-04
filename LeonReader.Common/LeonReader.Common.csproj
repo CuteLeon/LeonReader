@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +45,7 @@
     <Compile Include="AssemblyHelper.cs" />
     <Compile Include="ConfigHelper.cs" />
     <Compile Include="IOHelper.cs" />
+    <Compile Include="LogHelper.cs" />
     <Compile Include="NetHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

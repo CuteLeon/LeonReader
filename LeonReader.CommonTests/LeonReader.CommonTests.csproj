@@ -59,6 +59,7 @@
     <Compile Include="AssemblyHelperTests.cs" />
     <Compile Include="ConfigHelperTests.cs" />
     <Compile Include="IOHelperTests.cs" />
+    <Compile Include="LogHelperTests.cs" />
     <Compile Include="NetHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

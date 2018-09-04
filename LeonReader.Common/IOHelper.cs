@@ -34,7 +34,21 @@ namespace LeonReader.Common
         /// <param name="FilePath">文件路径</param>
         /// <returns></returns>
         public static string GetFileNameWithoutExtension(string FilePath) => Path.GetFileNameWithoutExtension(FilePath);
+
+        /// <summary>
+        /// 检查文件是否存在
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool FileExists(string path) => File.Exists(path);
         
+        /// <summary>
+        /// 检查目录是否存在
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool DirectoryExists(string path) => Directory.Exists(path);
+
         //TODO: 无占用地读取图像文件 function
 
     }

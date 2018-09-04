@@ -34,5 +34,19 @@ namespace LeonReader.Common.Tests
         {
             Assert.AreEqual(@"file", IOHelper.GetFileNameWithoutExtension(@"D:\dir\file.ext"));
         }
+
+        [TestMethod()]
+        public void FileExistsTest()
+        {
+            Assert.IsTrue(IOHelper.FileExists(@"C:\Windows\explorer.exe"));
+            Assert.IsFalse(IOHelper.FileExists(@"C:\Windows\:::explorer.exe"));
+        }
+
+        [TestMethod()]
+        public void DirectoryExistsTest()
+        {
+            Assert.IsTrue(IOHelper.DirectoryExists(@"C:\Windows\"));
+            Assert.IsFalse(IOHelper.DirectoryExists(@"C:\Windows\explorer.exe"));
+        }
     }
 }
