@@ -67,92 +67,99 @@ namespace GamerSkySADE
             Console.WriteLine($"分析文章页面：{PageAddress}");
             if (string.IsNullOrEmpty(PageAddress)) throw new Exception("分析文章遇到错误，页面地址为空");
 
-            //页面内容，页数导航内容
-            string ArticleContent = string.Empty, PaginationString = string.Empty;
-            try
-            {
-                ArticleContent = NetHelper.GetWebPage(PageAddress);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //页面链接队列（由递归改为循环）
+            Queue<string> PageLinkQueue = new Queue<string>();
+            PageLinkQueue.Enqueue(PageAddress);
 
-            if (string.IsNullOrEmpty(ArticleContent))
+            while(PageLinkQueue.Count>0)
             {
-                throw new Exception("获取页面内容为空");
-            }
-            
-            //页面计数自加
-            PageCount++;
+                string PageLink = PageLinkQueue.Dequeue();
 
-            //获取文章主体内容
-            ArticleContent = GetArticleContent(ArticleContent);
-            if (ArticleContent == string.Empty)
-            {
-                Console.WriteLine($"页面主体部分匹配失败（已分析 {PageCount} 页）：{PageAddress}");
-                yield break;
-                //throw new Exception("文章页面匹配失败");
-            }
-
-            try
-            {
-                Tuple<string,string> tuple = SplitContentAndPagination(ArticleContent);
-                ArticleContent = tuple.Item1;
-                PaginationString = tuple.Item2;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"分割内容和分页失败（已分析 {PageCount} 页）：{PageAddress}，异常：{ex.Message}");
-            }
-            
-            //分析页面内容
-            if (ArticleContent == string.Empty)
-            {
-                Console.WriteLine($"文章内容区域匹配为空（已分析 {PageCount} 页）：{PageAddress}");
-            }
-            else
-            {
-                //分割文章内容
-                string[] ContentItems = GetContentList(ArticleContent);
-                foreach (var content in ContentItems)
+                //页面内容，页数导航内容
+                string ArticleContent = string.Empty, PaginationString = string.Empty;
+                try
                 {
-                    //从内容项转换为内容实体
-                    ContentItem contentItem = ConvertToContentItem(content);
-                    if (contentItem == null)
-                    {
-                        //Console.WriteLine($"转换为内容实体失败（已分析 {PageCount} 页）：{PageAddress}，内容：{content}");
-                    }
-                    else
-                    {
-                        ContentCount++;
-                        yield return contentItem;
-                        //TODO: 触发事件更新已分析的页面数和图像数 ContentCount & PageCount
-                    }
+                    ArticleContent = NetHelper.GetWebPage(PageLink);
                 }
-            }
-
-            //分析分页内容
-            if (PaginationString == string.Empty)
-            {
-                Console.WriteLine($"文章分页区域匹配为空，无法继续。（已分析 {PageCount} 页）：{PageAddress}");
-                yield break;
-            }
-            else
-            {
-                //分析下一页链接
-                string NextLink = GetNextLink(PaginationString);
-                if (string.IsNullOrEmpty(NextLink))
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"文章下一页链接为空，分析结束。（已分析 {PageCount} 页）：{PageAddress}");
+                    throw ex;
+                }
+
+                if (string.IsNullOrEmpty(ArticleContent))
+                {
+                    throw new Exception("获取页面内容为空");
+                }
+            
+                //页面计数自加
+                PageCount++;
+
+                //获取文章主体内容
+                ArticleContent = GetArticleContent(ArticleContent);
+                if (ArticleContent == string.Empty)
+                {
+                    Console.WriteLine($"页面主体部分匹配失败（已分析 {PageCount} 页）：{PageLink}");
+                    yield break;
+                    //throw new Exception("文章页面匹配失败");
+                }
+
+                try
+                {
+                    Tuple<string,string> tuple = SplitContentAndPagination(ArticleContent);
+                    ArticleContent = tuple.Item1;
+                    PaginationString = tuple.Item2;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"分割内容和分页失败（已分析 {PageCount} 页）：{PageLink}，异常：{ex.Message}");
+                }
+            
+                //分析页面内容
+                if (ArticleContent == string.Empty)
+                {
+                    Console.WriteLine($"文章内容区域匹配为空（已分析 {PageCount} 页）：{PageLink}");
                 }
                 else
                 {
-                    Console.WriteLine($"发现下一页链接：{NextLink}");
-                    //TODO: 这里由递归改成循环，在方法顶部维护一个队列，方法遍历队列内链接并移除，发现新链接时入队；
-                    //分析下一页，返回递归调用的结果
-                    foreach (var content in AnalyseArticle(NextLink))
-                        yield return content;
+                    //分割文章内容
+                    string[] ContentItems = GetContentList(ArticleContent);
+                    foreach (var content in ContentItems)
+                    {
+                        //从内容项转换为内容实体
+                        ContentItem contentItem = ConvertToContentItem(content);
+                        if (contentItem == null)
+                        {
+                            //Console.WriteLine($"转换为内容实体失败（已分析 {PageCount} 页）：{PageAddress}，内容：{content}");
+                        }
+                        else
+                        {
+                            ContentCount++;
+                            yield return contentItem;
+                            //TODO: 触发事件更新已分析的页面数和图像数 ContentCount & PageCount
+                        }
+                    }
+                }
+
+                //分析分页内容
+                if (PaginationString == string.Empty)
+                {
+                    Console.WriteLine($"文章分页区域匹配为空，无法继续。（已分析 {PageCount} 页）：{PageLink}");
+                    yield break;
+                }
+                else
+                {
+                    //分析下一页链接
+                    string NextLink = GetNextLink(PaginationString);
+                    if (string.IsNullOrEmpty(NextLink))
+                    {
+                        Console.WriteLine($"文章下一页链接为空，分析结束。（已分析 {PageCount} 页）：{PageLink}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"发现下一页链接：{NextLink}");
+                        //发现新页，将新页链接入队
+                        PageLinkQueue.Enqueue(NextLink);
+                    }
                 }
             }
         }
