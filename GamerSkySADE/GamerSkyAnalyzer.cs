@@ -28,35 +28,38 @@ namespace GamerSkySADE
         /// 文章处理源
         /// </summary>
         public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
-
-        /// <summary>
-        /// 目标地址
-        /// </summary>
-        public new Uri TargetURI { get; protected set; } = new Uri(@"https://www.gamersky.com/ent/qw/");
-
+        
         public override void Process()
         {
-            //TODO: 每个 Analyzer 每次只分析一篇文章，这个循环放至外层
-            Console.WriteLine("开始分析文章...");
+            if (TargetURI == null) throw new Exception($"空的 TargetURI ，请先注入目标文章链接。");
+            Console.WriteLine($"开始分析文章链接：{TargetURI?.AbsoluteUri}");
 
-            foreach (var article in TargetDBContext.Articles.Where(art => art.ASDESource == this.ASDESource))
+            //获取链接关联的文章对象
+            Article article = TargetDBContext.Articles
+                .FirstOrDefault(
+                    art => 
+                    art.ArticleLink == TargetURI.AbsoluteUri && 
+                    art.ASDESource == this.ASDESource
+                );
+            if (article == null)
+                throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri} (源：{this.ASDESource})");
+
+            //初始化
+            PageCount = 0;
+            ContentCount = 0;
+            article.Contents.Clear();
+            article.AnalyzeTime = DateTime.Now;
+            TargetDBContext.SaveChanges();
+
+            //开始任务
+            foreach (var content in AnalyseArticle(article.ArticleLink))
             {
-                Console.WriteLine($"文章链接：{article.ArticleLink}");
-                article.Contents.Clear();
-                article.AnalyzeTime = DateTime.Now;
-                TargetDBContext.SaveChanges();
-
-                PageCount = 0;
-                ContentCount = 0;
-                foreach (var content in AnalyseArticle(article.ArticleLink))
-                {
-                    Console.WriteLine($"接收到文章内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
-                    article.Contents.Add(content);
-                }
-
-                //保存页面内容数据
-                TargetDBContext.SaveChanges();
+                Console.WriteLine($"接收到文章内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
+                article.Contents.Add(content);
             }
+
+            //全部分析后保存文章内容数据
+            TargetDBContext.SaveChanges();
         }
 
         /// <summary>

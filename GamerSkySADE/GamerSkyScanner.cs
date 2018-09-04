@@ -150,7 +150,7 @@ namespace GamerSkySADE
             }
             else
             {
-                Console.WriteLine($"从目录字符串转换为文章实体失败：{catalogItem}");
+                //Console.WriteLine($"从目录字符串转换为文章实体失败：{catalogItem}");
             }
             return article;
         }

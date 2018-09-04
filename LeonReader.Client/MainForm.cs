@@ -33,6 +33,7 @@ namespace LeonReader.Client
             scanner.Process();
 
             Analyzer analyzer = Activator.CreateInstanceFrom("GamerSkySADE.dll", "GamerSkySADE.GamerSkyAnalyzer").Unwrap() as Analyzer;
+            analyzer.SetTargetURI(@"https://www.gamersky.com/ent/201808/1094495.shtml");
             analyzer.Process();
         }
 
