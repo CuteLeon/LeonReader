@@ -25,20 +25,20 @@ namespace LeonReader.Client
         private void MainForm_Load(object sender, EventArgs e)
         {
             //输出程序集内定义的类型全名称
-            Console.WriteLine($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type=>type.FullName))}");
-            Console.WriteLine($"全局配置-下载目录：{ConfigHelper.GetConfigHelper.DownloadDirectory}");
+            LogHelper.Debug($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type=>type.FullName))}");
+            LogHelper.Info($"全局配置-下载目录：{ConfigHelper.GetConfigHelper.DownloadDirectory}");
 
             Assembly GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
             if (GS_ASDE == null)
             {
-                Console.WriteLine("创建程序集反射失败，终止");
+                LogHelper.Fatal("创建程序集反射失败，终止");
                 return;
             }
 
             Type ScannerType = GS_ASDE.GetSubTypes(typeof(Scanner)).FirstOrDefault();
             if (ScannerType == null)
             {
-                Console.WriteLine("未发现程序集内存在扫描器类型，终止");
+                LogHelper.Fatal("未发现程序集内存在扫描器类型，终止");
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace LeonReader.Client
             Type AnalyzerType = GS_ASDE.GetSubTypes(typeof(Analyzer)).FirstOrDefault();
             if (ScannerType == null)
             {
-                Console.WriteLine("未发现程序集内存在分析器类型，终止");
+                LogHelper.Fatal("未发现程序集内存在分析器类型，终止");
                 return;
             }
 

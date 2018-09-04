@@ -22,7 +22,7 @@ namespace LeonReader.Common
         /// <returns>程序集</returns>
         public static Assembly CreateAssembly(string AssemblyPath, bool DynamicLoad = true)
         {
-            Console.WriteLine("开始{0}加载程序集路径：{1} ...", (DynamicLoad ? "动态" : string.Empty), AssemblyPath);
+            LogHelper.Debug("开始{0}加载程序集路径：{1} ...", (DynamicLoad ? "动态" : string.Empty), AssemblyPath);
 
             Assembly PluginAssembly = null;
             try
@@ -49,7 +49,7 @@ namespace LeonReader.Common
             }
             catch (Exception ex)
             {
-                Console.WriteLine("创建程序集遇到异常：{0}", ex.Message);
+                LogHelper.Error("创建程序集遇到异常：{0}", ex.Message);
                 return null;
             }
 
@@ -64,8 +64,13 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static Type[] GetSubTypes(this Assembly assembly, Type baseType)
         {
-            if (assembly == null) return new Type[] { } ;
+            if (assembly == null)
+            {
+                LogHelper.Warn($"获取 {baseType.FullName} 的子类型时遇到错误：空的程序集。");
+                return new Type[] { };
+            }
 
+            LogHelper.Debug($"在程序集 {assembly.FullName} 中获取 {baseType.Name} 的子类型...");
             return assembly.GetTypes().Where(
                             type =>
                             type.IsSubclassOf(baseType)
@@ -80,13 +85,14 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static object CreateInstance(this Assembly assembly, Type type)
         {
+            LogHelper.Debug($"在程序集 {assembly.FullName} 中创建 {type.Name} 的实例...");
             try
             {
                 return assembly.CreateInstance(type.FullName);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("创建 {0} 类型实例遇到异常 : {1}", type.FullName, ex.Message);
+                LogHelper.Error($"在程序集 {assembly.FullName} 中创建 {type.Name} 的实例遇到异常：{ex.Message}");
                 return null;
             }
         }

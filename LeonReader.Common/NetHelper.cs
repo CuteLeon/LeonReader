@@ -67,6 +67,7 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static string GetWebPage(string address)
         {
+            LogHelper.Debug($"获取网页内容：{address}");
             using (WebClient client = new WebClient()
             {
                 BaseAddress = address,
@@ -82,6 +83,7 @@ namespace LeonReader.Common
                 }
                 catch (Exception ex)
                 {
+                    LogHelper.Error($"获取网页内容遇到异常：{address}，{ex.Message}");
                     throw ex;
                 }
             }
