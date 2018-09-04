@@ -28,9 +28,13 @@ namespace GamerSkySADE
         /// </summary>
         public override void Process()
         {
-            if (String.IsNullOrEmpty(TargetURI?.AbsoluteUri)) throw new Exception("目标地址为空");
+            if (TargetURI == null)
+            {
+                LogHelper.Error($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
+                throw new Exception($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
+            }
 
-            Console.WriteLine($"开始扫描目录：{TargetURI.ToString()}");
+            LogHelper.Info($"开始扫描文章目录：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             string CatalogContent = string.Empty;
             try
             {
@@ -38,24 +42,27 @@ namespace GamerSkySADE
             }
             catch (Exception ex)
             {
+                LogHelper.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，{ex.Message}，From：{this.ASDESource}");
                 throw ex;
             }
 
             if (string.IsNullOrEmpty(CatalogContent))
             {
-                throw new Exception("获取目录内容为空");
+                LogHelper.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                throw new Exception($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
             }
 
+            LogHelper.Info($"开始分析目录... ，From：{this.ASDESource}");
             //扫描目录
             foreach (var article in ScanArticles(CatalogContent))
             {
                 if (CheckArticleExist(article))
                 {
-                    Console.WriteLine($"已经存在文章：{article.ArticleID}");
+                    LogHelper.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
                 }
                 else
                 {
-                    Console.WriteLine($"发现新文章：{article.ArticleID}");
+                    LogHelper.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
                     TargetDBContext.Articles.Add(article);
                     TargetDBContext.SaveChanges();
                 }
@@ -71,17 +78,26 @@ namespace GamerSkySADE
         {
             //获取目录主体内容
             string CatalogContentCore = GetCatalogContent(catalogContent);
-            if (CatalogContentCore == string.Empty) throw new Exception("目录匹配为空！");
+            if (CatalogContentCore == string.Empty)
+            {
+                LogHelper.Error($"目录主体内容匹配为空，From：{this.ASDESource}");
+                throw new Exception($"目录主体内容匹配为空，From：{this.ASDESource}");
+            }
 
             //分割目录
             string[] CatalogList = GetCatalogList(CatalogContentCore);
-            if (CatalogList.Length == 0) throw new Exception("获取目录数据失败！");
+            if (CatalogList.Length == 0)
+            {
+                LogHelper.Error($"分割目录项目失败，From：{this.ASDESource}");
+                throw new Exception($"分割目录项目失败，From：{this.ASDESource}");
+            }
 
             //遍历目录项
+            LogHelper.Debug($"开始遍历目录项");
             foreach (string CatalogItem in CatalogList)
             {
                 Article article = ConvertToArticle(CatalogItem);
-                if (article == null) continue;
+                if (article == null){continue;}
 
                 yield return article;
             }
@@ -150,7 +166,7 @@ namespace GamerSkySADE
             }
             else
             {
-                //Console.WriteLine($"从目录字符串转换为文章实体失败：{catalogItem}");
+                LogHelper.Warn($"转换为文章实体失败，From：{this.ASDESource}，内容：\n< ——————————\n{catalogItem}\n—————————— >");
             }
             return article;
         }
