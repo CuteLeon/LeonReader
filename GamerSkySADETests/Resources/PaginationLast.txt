@@ -1,0 +1,10 @@
+<!--{pe.begin.pagination}--><span id="pe100_page_contentpage" class="pagecss"><div class="page_css"><a href="https://www.gamersky.com/ent/201808/1094495_40.shtml">上一页</a>
+ <b><a href="https://www.gamersky.com/ent/201808/1094495_41.shtml">41</a></b> 
+ 
+ 
+<div class="sub sud" style="text-align:center;">友情提示：支持键盘左右键“← →”翻页</div>
+</div></span><!--{pe.end.pagination}-->
+                    <!--文章内容导航 开始-->
+                    
+                    <!--文章内容导航 结束-->
+                </div>

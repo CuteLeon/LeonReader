@@ -76,6 +76,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="GamerSkyAnalyzerTests.cs" />
     <Compile Include="GamerSkyScannerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestResource.Designer.cs">
@@ -120,6 +121,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FullTestResource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PaginationCommon.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PaginationLast.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FullPageContent.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PageSplitResource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Content_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Content_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MainContent.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

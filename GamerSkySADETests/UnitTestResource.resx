@@ -118,13 +118,34 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Content_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Content_1.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="Content_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Content_2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
   <data name="ConvertToArticleTestResource" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\ConvertToArticleTestResource.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="FullPageContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FullPageContent.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
   <data name="FullTestResource" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\FullTestResource.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
   <data name="GetCatalogListTestResource" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\GetCatalogListTestResource.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="MainContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MainContent.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="PageSplitResource" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PageSplitResource.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="PaginationCommon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PaginationCommon.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="PaginationLast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PaginationLast.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
 </root>

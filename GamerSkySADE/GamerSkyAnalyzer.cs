@@ -39,12 +39,7 @@ namespace GamerSkySADE
 
             LogHelper.Info($"开始分析文章链接：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             //获取链接关联的文章对象
-            Article article = TargetDBContext.Articles
-                .FirstOrDefault(
-                    art => 
-                    art.ArticleLink == TargetURI.AbsoluteUri && 
-                    art.ASDESource == this.ASDESource
-                );
+            Article article = GetArticle(TargetURI.AbsoluteUri, this.ASDESource);
             if (article == null)
             {
                 LogHelper.Error($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
@@ -55,8 +50,9 @@ namespace GamerSkySADE
             //初始化
             PageCount = 0;
             ContentCount = 0;
-            LogHelper.Debug($"清空文章原有内容记录：{article.Title} ({article.ArticleID})");
-            TargetDBContext.Contents.RemoveRange(article.Contents);
+            LogHelper.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
+            if(article.Contents!=null && article.Contents.Count>0)
+                TargetDBContext.Contents.RemoveRange(article.Contents);
             article.AnalyzeTime = DateTime.Now;
             TargetDBContext.SaveChanges();
 
@@ -70,6 +66,26 @@ namespace GamerSkySADE
             //全部分析后保存文章内容数据
             TargetDBContext.SaveChanges();
             LogHelper.Info($"文章分析完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+        }
+
+        /// <summary>
+        /// 获取关联的文章实体
+        /// </summary>
+        /// <param name="link"></param>
+        /// <param name="asdeSource"></param>
+        /// <returns></returns>
+        private Article GetArticle(string link, string asdeSource)
+        {
+            LogHelper.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
+            if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
+
+            Article article = TargetDBContext.Articles
+                .FirstOrDefault(
+                    art =>
+                    art.ArticleLink == link &&
+                    art.ASDESource == asdeSource
+                );
+            return article;
         }
 
         /// <summary>

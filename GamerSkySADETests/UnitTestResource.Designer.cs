@@ -61,6 +61,24 @@ namespace GamerSkySADETests {
         }
         
         /// <summary>
+        ///   查找类似 &lt;p style=&quot;TEXT-ALIGN: center&quot;&gt;&lt;a target=&quot;_blank&quot; _cke_saved_href=&quot;http://www.gamersky.com/showimage/id_gamersky.shtml?http://img1.gamersky.com/image2018/09/20180901_ls_141_3/gamersky_074origin_147_2018911751622.jpg&quot; href=&quot;http://www.gamersky.com/showimage/id_gamersky.shtml?http://img1.gamersky.com/image2018/09/20180901_ls_141_3/gamersky_074origin_147_2018911751622.jpg&quot;&gt;&lt;img class=&quot;picact&quot; border=&quot;0&quot; alt=&quot;游民星空&quot; src=&quot;http://img1.gamersky.com/image2018/09/20180901_ls_141_3/gamersky_074small_148_2018911751966.j [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string Content_1 {
+            get {
+                return ResourceManager.GetString("Content_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;p align=&quot;center&quot;&gt;&lt;img style=&quot;MAX-WIDTH: 100%; MAX-HEIGHT: 450px&quot; src=&quot;http://ws3.sinaimg.cn/mw600/ec0dd146ly1fut792erfuj20hm0c80u1.jpg&quot; _cke_saved_src=&quot;http://ws3.sinaimg.cn/mw600/ec0dd146ly1fut792erfuj20hm0c80u1.jpg&quot;&gt; 的本地化字符串。
+        /// </summary>
+        internal static string Content_2 {
+            get {
+                return ResourceManager.GetString("Content_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似         &lt;li&gt;
         ///          &lt;div class=&quot;img&quot;&gt;&lt;a href=&quot;文章链接&quot; target=&quot;_blank&quot;&gt;
         ///            &lt;img src=&quot;图像链接&quot; alt=&quot;文章标题&quot;  width=&quot;200&quot; height=&quot;110&quot; class=&quot;pe_u_thumb&quot; border=&quot;0&quot;&gt;
@@ -74,6 +92,22 @@ namespace GamerSkySADETests {
         internal static string ConvertToArticleTestResource {
             get {
                 return ResourceManager.GetString("ConvertToArticleTestResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///    &lt;title&gt;当代两性社交礼仪 令人流口水的囧图 _ 游民星空 GamerSky.com&lt;/title&gt;
+        ///    &lt;meta name=&quot;keywords&quot; content=&quot;囧图&quot; /&gt;
+        ///    &lt;meta name=&quot;description&quot; content=&quot;以前是看微博觉得日子快过不下去了，放下手机去趟菜市场觉着其实还行。现在不行了。难怪那么多外星人都来抢地球  是陷阱！竟然还是星空炫彩的当代社交女票穿上了可爱的动物睡衣特别&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Comp [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string FullPageContent {
+            get {
+                return ResourceManager.GetString("FullPageContent", resourceCulture);
             }
         }
         
@@ -111,6 +145,62 @@ namespace GamerSkySADETests {
         internal static string GetCatalogListTestResource {
             get {
                 return ResourceManager.GetString("GetCatalogListTestResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;div class=&quot;Mid2L_con&quot;&gt;
+        ///                    &lt;!--					&lt;div style=&quot;padding-top:10px;text-align:center;&quot;&gt;&lt;iframe name=&quot;adc1&quot; marginwidth=&quot;1&quot; marginheight=&quot;1&quot; height=&quot;62&quot; width=&quot;602&quot; scrolling=&quot;no&quot; border=&quot;0&quot; frameborder=&quot;0&quot; src=&quot;http://www.gamersky.com/img/baidu_300news.htm&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;
+        ///--&gt;
+        ///                    
+        ///            &lt;/p&gt;
+        ///&lt;p align=&quot;center&quot;&gt;&lt;a target=&quot;_blank&quot; _cke_saved_href=&quot;http://www.gamersky.com/showimage/id_gamersky.shtml?http://img1.gamersky.com/image2018/09/20180901_ls_141_3/gamersky_003or [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string MainContent {
+            get {
+                return ResourceManager.GetString("MainContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;div class=&quot;Mid2L_con&quot;&gt;
+        ///                    &lt;!--					&lt;div style=&quot;padding-top:10px;text-align:center;&quot;&gt;&lt;iframe name=&quot;adc1&quot; marginwidth=&quot;1&quot; marginheight=&quot;1&quot; height=&quot;62&quot; width=&quot;602&quot; scrolling=&quot;no&quot; border=&quot;0&quot; frameborder=&quot;0&quot; src=&quot;http://www.gamersky.com/img/baidu_300news.htm&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;
+        ///--&gt;
+        ///                    
+        ///            &lt;/p&gt;
+        ///&lt;p style=&quot;TEXT-ALIGN: center&quot;&gt;&lt;a target=&quot;_blank&quot; _cke_saved_href=&quot;http://www.gamersky.com/showimage/id_gamersky.shtml?http://img1.gamersky.com/image2018/09/20180901_ls_141_3/ga [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string PageSplitResource {
+            get {
+                return ResourceManager.GetString("PageSplitResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;!--{pe.begin.pagination}--&gt;&lt;span id=&quot;pe100_page_contentpage&quot; class=&quot;pagecss&quot;&gt;&lt;div class=&quot;page_css&quot;&gt;&lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_37.shtml&quot;&gt;上一页&lt;/a&gt;
+        /// &lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_31.shtml&quot;&gt;31&lt;/a&gt; &lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_32.shtml&quot;&gt;32&lt;/a&gt; &lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_33.shtml&quot;&gt;33&lt;/a&gt; &lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_34.shtml&quot;&gt;34&lt;/a&gt; &lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_35.sht [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string PaginationCommon {
+            get {
+                return ResourceManager.GetString("PaginationCommon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &lt;!--{pe.begin.pagination}--&gt;&lt;span id=&quot;pe100_page_contentpage&quot; class=&quot;pagecss&quot;&gt;&lt;div class=&quot;page_css&quot;&gt;&lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_40.shtml&quot;&gt;上一页&lt;/a&gt;
+        /// &lt;b&gt;&lt;a href=&quot;https://www.gamersky.com/ent/201808/1094495_41.shtml&quot;&gt;41&lt;/a&gt;&lt;/b&gt; 
+        /// 
+        /// 
+        ///&lt;div class=&quot;sub sud&quot; style=&quot;text-align:center;&quot;&gt;友情提示：支持键盘左右键“← →”翻页&lt;/div&gt;
+        ///&lt;/div&gt;&lt;/span&gt;&lt;!--{pe.end.pagination}--&gt;
+        ///                    &lt;!--文章内容导航 开始--&gt;
+        ///                    
+        ///                    &lt;!--文章内容导航 结束--&gt;
+        ///                &lt;/div&gt; 的本地化字符串。
+        /// </summary>
+        internal static string PaginationLast {
+            get {
+                return ResourceManager.GetString("PaginationLast", resourceCulture);
             }
         }
     }
