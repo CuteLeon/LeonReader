@@ -15,4 +15,8 @@
 			错误信息，遇到严重问题，必须由开发人员排查并修复；
         FATAL = 4
 			致命问题，银河系和仙女座星系碰撞并形成新星系；
-	
+7. Processer 里使用 BackgroundWorker 实现异步执行；
+	对外公开 ProcessStarted、ProcessCompleted 事件，用于广播 [处理开始] 和 [处理完成] 事件；
+	外部通过 Process()、Cancle() 开始或取消处理；
+	需要覆写的业务逻辑方法 OnProcessStarted()、OnProcessCompleted() 已经包含部分逻辑，子类不需要重复实现的话可以直接在覆写时方法顶部加上 base.OnProcessStarted(sender, e); 或 base.OnProcessCompleted(sender, e);；
+	子类需要在覆写的 OnProcessStarted() 方法里适当的地方增加 if (ProcessWorker.CancellationPending) break; 以允许用户取消处理；

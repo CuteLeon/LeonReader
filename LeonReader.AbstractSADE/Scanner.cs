@@ -7,21 +7,14 @@ using System.Threading.Tasks;
 
 namespace LeonReader.AbstractSADE
 {
-    /* TODO: 实现事件
-    public class ScannerEventArgs : EventArgs
-    {
-    }
-     */
 
-    public abstract class Scanner : Processer,IProcesser //TODO: 实现事件 IProcesser<ScannerEventArgs>
+    /// <summary>
+    /// 文章目录扫描器
+    /// </summary>
+    public abstract class Scanner : Processer
     {
         public Scanner() : base() { }
-
-        /// <summary>
-        /// 扫描文章
-        /// </summary>
-        public abstract void Process();
-
+        
         /// <summary>
         /// 检查文章是否已经存在
         /// </summary>

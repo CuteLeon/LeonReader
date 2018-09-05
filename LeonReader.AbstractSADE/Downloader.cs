@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace LeonReader.AbstractSADE
 {
     /// <summary>
-    /// 文章内容分析器
+    /// 文章内容下载器
     /// </summary>
-    public abstract class Analyzer : Processer
+    public abstract class Downloader : Processer
     {
-        public Analyzer() : base() { }
-
+        //TODO: 快特么来实现我啊！！！
+        public Downloader() : base() { }
     }
 }

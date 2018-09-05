@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
+    <Compile Include="Downloader.cs" />
     <Compile Include="IProcesser.cs" />
     <Compile Include="Processer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

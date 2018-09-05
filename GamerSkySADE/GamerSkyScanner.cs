@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using LeonReader.AbstractSADE;
 using LeonReader.Model;
 using LeonReader.Common;
+using System.ComponentModel;
 
 namespace GamerSkySADE
 {
@@ -26,8 +27,10 @@ namespace GamerSkySADE
         /// <summary>
         /// 扫描 GamerSky 文章
         /// </summary>
-        public override void Process()
+        protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
+            base.OnProcessStarted(sender, e);
+
             if (TargetURI == null)
             {
                 LogHelper.Error($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
@@ -66,6 +69,10 @@ namespace GamerSkySADE
                     TargetDBContext.Articles.Add(article);
                     TargetDBContext.SaveChanges();
                 }
+                //TODO: 触发事件更新已发现的文章数
+
+                //允许用户取消处理
+                if (ProcessWorker.CancellationPending) break;
             }
         }
 

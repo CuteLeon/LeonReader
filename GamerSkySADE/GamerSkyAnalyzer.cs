@@ -3,6 +3,7 @@ using LeonReader.Common;
 using LeonReader.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,7 +13,6 @@ namespace GamerSkySADE
 {
     public class GamerSkyAnalyzer : Analyzer
     {
-        //TODO: 使用反射完成GamerSky分析器私有方法的单元测试
 
         /// <summary>
         /// 页面计数
@@ -28,9 +28,11 @@ namespace GamerSkySADE
         /// 文章处理源
         /// </summary>
         public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
-        
-        public override void Process()
+
+        protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
+            base.OnProcessStarted(sender, e);
+
             if (TargetURI == null)
             {
                 LogHelper.Error($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
@@ -61,6 +63,10 @@ namespace GamerSkySADE
             {
                 LogHelper.Info($"接收到文章 ({article.ArticleID}) 内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
                 article.Contents.Add(content);
+                //TODO: 触发事件更新已分析的页面数和图像数 ContentCount & PageCount
+
+                //允许用户取消处理
+                if (ProcessWorker.CancellationPending) break;
             }
 
             //全部分析后保存文章内容数据
@@ -170,7 +176,6 @@ namespace GamerSkySADE
                         {
                             ContentCount++;
                             yield return contentItem;
-                            //TODO: 触发事件更新已分析的页面数和图像数 ContentCount & PageCount
                         }
                     }
                 }

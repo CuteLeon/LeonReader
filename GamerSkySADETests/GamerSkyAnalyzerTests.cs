@@ -19,13 +19,9 @@ namespace GamerSkySADE.Tests
         {
             string link = @"https://www.gamersky.com/ent/201808/1094495.shtml";
             Analyzer analyzer = new GamerSkyAnalyzer();
-            analyzer.TargetDBContext.Articles.RemoveRange(analyzer.TargetDBContext.Articles.ToArray());
-            analyzer.TargetDBContext.SaveChanges();
-            Assert.ThrowsException<Exception>(() => { analyzer.Process(); });
-
             analyzer.SetTargetURI(@link);
-            Assert.ThrowsException<Exception>(() => { analyzer.Process(); });
 
+            analyzer.TargetDBContext.Articles.RemoveRange(analyzer.TargetDBContext.Articles.ToArray());
             analyzer.TargetDBContext.Articles.Add(
                 new Article()
                 {

@@ -1,21 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using LeonReader.Common;
 using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
-    //TODO: 每个网站板块对应一个扫描器，每个扫描器类有唯一单实例对象；
-    //TODO: 每篇文章对应一个分析器和下载器和导出器；
-
     /// <summary>
     /// 抽象处理类
     /// </summary>
-    public abstract class Processer : IDisposable
+    public abstract class Processer : IProcesser, IDisposable
     {
+        //TODO: 需要测试异步取消任务功能；
+        //TODO: 需要测试触发事件功能；
+
+        #region BackgroundWorker
+
+        /// <summary>
+        /// 任务执行线程
+        /// </summary>
+        protected BackgroundWorker ProcessWorker = new BackgroundWorker()
+        {
+            WorkerReportsProgress = true,
+            WorkerSupportsCancellation = true
+        };
+
+        /// <summary>
+        /// 处理开始事件
+        /// </summary>
+        public event DoWorkEventHandler ProcessStarted;
+
+        /// <summary>
+        /// 处理完成事件
+        /// </summary>
+        public event RunWorkerCompletedEventHandler ProcessCompleted;
+
+        #endregion
+
         /// <summary>
         /// 文章处理源
         /// </summary>
@@ -33,6 +57,9 @@ namespace LeonReader.AbstractSADE
 
         public Processer()
         {
+            ProcessWorker.DoWork += OnProcessStarted;
+            ProcessWorker.RunWorkerCompleted += OnProcessCompleted;
+
             TargetDBContext = new UnityDBContext();
         }
 
@@ -51,6 +78,56 @@ namespace LeonReader.AbstractSADE
         public void Dispose()
         {
             TargetDBContext.Dispose();
+            Cancle();
+            ProcessWorker.Dispose();
+        }
+
+        /// <summary>
+        /// 开始处理
+        /// </summary>
+        public void Process()
+        {
+            if (ProcessWorker.IsBusy) return;
+            ProcessWorker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// 取消处理
+        /// </summary>
+        public void Cancle()
+        {
+            if (!ProcessWorker.IsBusy) return;
+            ProcessWorker.CancelAsync();
+        }
+
+        /// <summary>
+        /// 处理开始
+        /// </summary>
+        protected virtual void OnProcessStarted(object sender, DoWorkEventArgs e)
+        {
+            LogHelper.Info($"处理开始：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            ProcessStarted?.Invoke(this, e);
+            
+            // 核心业务逻辑 ...
+        }
+
+        /// <summary>
+        /// 处理完成
+        /// </summary>
+        protected virtual void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            LogHelper.Info($"处理完成：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            if (e.Cancelled)
+            {
+                LogHelper.Error($"由用户手动取消处理：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            }
+            if (e.Error != null)
+            {
+                LogHelper.Error($"处理时遇到异常：{e.Error.Message}，{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            }
+            ProcessCompleted?.Invoke(this, e);
+
+            // 业务逻辑 ...
         }
 
     }

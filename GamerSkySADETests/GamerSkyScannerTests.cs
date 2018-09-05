@@ -75,6 +75,13 @@ namespace GamerSkySADE.Tests
             }
 
             Article article = new Article() { ArticleID = "10000", Title = "种子文章", ASDESource = "DataSeed" };
+
+            scanner.TargetDBContext.Articles.RemoveRange(scanner.TargetDBContext.Articles.ToArray());
+            scanner.TargetDBContext.SaveChanges();
+            Assert.IsFalse((bool)methodInfo.Invoke(scanner, new object[] { article }));
+
+            scanner.TargetDBContext.Articles.Add(article);
+            scanner.TargetDBContext.SaveChanges();
             Assert.IsTrue((bool)methodInfo.Invoke(scanner, new object[] { article }));
         }
 

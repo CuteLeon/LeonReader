@@ -1,16 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LeonReader.AbstractSADE
 {
-    public interface IProcesser //TODO: 实现事件<T>
+    /// <summary>
+    /// 处理接口
+    /// </summary>
+    public interface IProcesser
     {
-        /* TODO: 实现三个事件：开始、更新进度、完成（可以泛型传入自定义的事件参数类型，或者直接使用 BackGroundWorker 的...）
-        event EventHandler<T> Finish;
-         */
+        /// <summary>
+        /// 处理开始事件
+        /// </summary>
+        event DoWorkEventHandler ProcessStarted;// { add { } remove { } }
+
+        /// <summary>
+        /// 处理完成事件
+        /// </summary>
+        event RunWorkerCompletedEventHandler ProcessCompleted;// { add { } remove { } }
+
+        /// <summary>
+        /// 开始处理
+        /// </summary>
         void Process();
+
+        /// <summary>
+        /// 取消处理
+        /// </summary>
+        void Cancle();
     }
 }
