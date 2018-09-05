@@ -103,23 +103,6 @@ namespace GamerSkySADE
             }
         }
 
-        //TODO: 提取至基类并允许覆写 virtual
-        /// <summary>
-        /// 检查文章是否已经存在
-        /// </summary>
-        /// <param name="article">文章实体</param>
-        /// <returns></returns>
-        private bool CheckArticleExist(Article article)
-        {
-            Article tempArticle = TargetDBContext.Articles
-                .FirstOrDefault(
-                    art =>
-                    art.ArticleID == article.ArticleID && 
-                    art.ASDESource == article.ASDESource
-                );
-            return (tempArticle != null);
-        }
-
         /// <summary>
         /// 从目录项转换成文章实体
         /// </summary>
