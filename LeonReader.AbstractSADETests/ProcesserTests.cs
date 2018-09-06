@@ -26,11 +26,12 @@ namespace LeonReader.AbstractSADE.Tests
             LogHelper.Debug($"内循环开始，Index = {Index}");
             while (Index++ < 10)
             {
-                Console.WriteLine(Index);
                 LogHelper.Debug($"内循环：Index = {Index}");
+                OnProcessReport(Index, null);
                 Thread.Sleep(500);
                 if (ProcessWorker.CancellationPending)
                 {
+                    e.Cancel = true;
                     LogHelper.Debug("内循环：用户取消了处理");
                     break;
                 }
@@ -51,6 +52,7 @@ namespace LeonReader.AbstractSADE.Tests
             TestProcesser processer = new TestProcesser();
 
             processer.ProcessStarted += ProcesseStarted;
+            processer.ProcessReport += ProcessReport;
             processer.ProcessCompleted += ProcesseCompleted;
             processer.Process();
             Thread.Sleep(6000);
@@ -63,6 +65,7 @@ namespace LeonReader.AbstractSADE.Tests
             TestProcesser processer = new TestProcesser();
 
             processer.ProcessStarted += ProcesseStartedButCancelImmediately;
+            processer.ProcessReport += ProcessReport;
             processer.ProcessCompleted += ProcesseCompleted;
             processer.Process();
         }
@@ -70,16 +73,14 @@ namespace LeonReader.AbstractSADE.Tests
         [TestMethod]
         public void ProcesserCancel()
         {
-            LogHelper.Debug("<———— 开始 Process 单元测试（延时取消） ————>");
+            LogHelper.Debug("<———— 开始 Process 单元测试（自动取消） ————>");
             TestProcesser processer = new TestProcesser();
 
             processer.ProcessStarted += ProcesseStarted;
+            processer.ProcessReport += ProcessReportAndCancel;
             processer.ProcessCompleted += ProcesseCompleted;
             processer.Process();
-
-            //等待一段时间后取消任务
             Thread.Sleep(3000);
-            processer.Cancle();
         }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcesseStarted(object sender, DoWorkEventArgs e)
         {
-            LogHelper.Debug("我天，processer 告诉我她要开始处理了。");
+            LogHelper.Info("我天，processer 告诉我她要开始处理了。");
         }
 
         /// <summary>
@@ -95,8 +96,29 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcesseStartedButCancelImmediately(object sender, DoWorkEventArgs e)
         {
-            LogHelper.Debug("我天，processer 告诉我她要开始处理了，但我反手就取消了她的处理。");
+            LogHelper.Info("我天，processer 告诉我她要开始处理了，但我反手就取消了她的处理。");
             e.Cancel = true;
+        }
+
+        /// <summary>
+        /// 报告处理进度
+        /// </summary>
+        private void ProcessReport(object sender, ProgressChangedEventArgs e)
+        {
+            LogHelper.Info($"我天，processer 说她处理进度为：Index = {e.ProgressPercentage}");
+        }
+
+        /// <summary>
+        /// 报告处理进度并在特定值取消任务
+        /// </summary>
+        private void ProcessReportAndCancel(object sender, ProgressChangedEventArgs e)
+        {
+            LogHelper.Info($"我天，processer 说她处理进度为：Index = {e.ProgressPercentage}");
+            if (e.ProgressPercentage == 5)
+            {
+                LogHelper.Info("但是我反手就取消了她");
+                (sender as Processer).Cancle();
+            }
         }
 
         /// <summary>
@@ -104,8 +126,8 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcesseCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LogHelper.Debug("我天，processer 告诉我她处理完成了。");
-            LogHelper.Debug("<———— Process 单元测试完成 ————>");
+            LogHelper.Info("我天，processer 告诉我她处理完成了。");
+            LogHelper.Info("<———— Process 单元测试完成 ————>");
         }
 
     }

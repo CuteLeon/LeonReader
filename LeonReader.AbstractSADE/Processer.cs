@@ -14,18 +14,16 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class Processer : IProcesser, IDisposable
     {
-
         #region BackgroundWorker
 
-        private BackgroundWorker processWorker = new BackgroundWorker()
+        /// <summary>
+        /// 任务执行线程
+        /// </summary>
+        protected BackgroundWorker ProcessWorker { get; private set; } = new BackgroundWorker()
         {
             WorkerReportsProgress = true,
             WorkerSupportsCancellation = true
         };
-        /// <summary>
-        /// 任务执行线程
-        /// </summary>
-        protected BackgroundWorker ProcessWorker { get => processWorker; private set => processWorker = value; }
 
         /// <summary>
         /// 处理开始事件
@@ -36,6 +34,17 @@ namespace LeonReader.AbstractSADE
         /// 处理完成事件
         /// </summary>
         public event RunWorkerCompletedEventHandler ProcessCompleted;
+
+        /// <summary>
+        /// 处理进度报告
+        /// </summary>
+        public event ProgressChangedEventHandler ProcessReport;
+        /* 不要这样，否则事件的触发者是 Worker 而不是 Processer
+        {
+            add { ProcessWorker.ProgressChanged += value; }
+            remove { ProcessWorker.ProgressChanged -= value; }
+        }
+         */
 
         #endregion
 
@@ -57,6 +66,7 @@ namespace LeonReader.AbstractSADE
         public Processer()
         {
             ProcessWorker.DoWork += PreProcessStarted;
+            ProcessWorker.ProgressChanged += PreProcessReport;
             ProcessWorker.RunWorkerCompleted += PreProcessCompleted;
 
             TargetDBContext = new UnityDBContext();
@@ -67,13 +77,13 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         /// <param name="uri">文章地址</param>
         public void SetTargetURI(Uri uri) => TargetURI = uri;
-        
+
         /// <summary>
         /// 注入文章地址
         /// </summary>
         /// <param name="uri">文章地址</param>
         public void SetTargetURI(string uri) => TargetURI = new Uri(uri);
-        
+
         public void Dispose()
         {
             TargetDBContext.Dispose();
@@ -120,6 +130,24 @@ namespace LeonReader.AbstractSADE
         protected abstract void OnProcessStarted(object sender, DoWorkEventArgs e);
 
         /// <summary>
+        /// 报告进度预处理
+        /// </summary>
+        private void PreProcessReport(object sender, ProgressChangedEventArgs e)
+        {
+            ProcessReport?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// 报告进度
+        /// </summary>
+        /// <param name="progress">进度值</param>
+        /// <param name="userState">其他对象</param>
+        protected void OnProcessReport(int progress, object userState)
+        {
+            ProcessWorker.ReportProgress(progress, userState);
+        }
+
+        /// <summary>
         /// 处理完成预处理
         /// </summary>
         private void PreProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -133,20 +161,19 @@ namespace LeonReader.AbstractSADE
             {
                 LogHelper.Error($"处理时遇到异常：{e.Error.Message}，{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             }
-            ProcessCompleted?.Invoke(this, e);
 
             //调用子类ASDE类的方法
             LogHelper.Debug($"开始处理子ASDE类的 [处理完成] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             OnProcessCompleted(ProcessWorker, e);
+
+            //优先内部处理完完成事件再通知外部
+            ProcessCompleted?.Invoke(this, e);
         }
 
         /// <summary>
         /// 处理完成
         /// </summary>
-        protected virtual void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-
-        }
+        protected virtual void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e) { }
 
     }
 }

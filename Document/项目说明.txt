@@ -16,10 +16,17 @@
         FATAL = 4
 			致命问题，银河系和仙女座星系碰撞并形成新星系；
 7. Processer 里使用 BackgroundWorker 实现异步执行；
-	对外公开 ProcessStarted、ProcessCompleted 事件，用于广播 [处理开始] 和 [处理完成] 事件；
-	外部通过 Process()、Cancle() 开始或取消处理；
-	处理开始或完成时会先调用 PreProcessStarted()、PreProcessCompleted() 方法以先向外部触发事件，之后再调用子ASDE类实现的方法；
-	用户可以在接收处理开始事件内通过 Processer.Cancel() 或 e.Cancel = true; 在子类实现的逻辑执行之前即取消处理；
-	子类需要在覆写的 OnProcessStarted() 方法里适当的地方增加 if (ProcessWorker.CancellationPending) break; 以允许用户取消处理；
-	注意：OnProcessStarted() 为抽象方法(abstract)，子类必须实现以设计核心的业务逻辑；
-			  OnProcessCompleted() 为虚方法(virtual)，子类不需要时可以不覆写，但Processer抽象类也不实现业务代码；
+	1. 对外公开 ProcessStarted、ProcessReport、ProcessCompleted 事件，用于广播 [处理开始]、[处理进度] 和 [处理完成] 事件；
+	2. 外部通过 Process()、Cancle() 开始或取消处理；
+	3. 处理开始时：先通知用户再运行子类实现的业务逻辑（允许用户此时立即取消处理）；
+	    处理完成时：先运行子类覆写的业务逻辑再通知用户；
+	4. 用户可以在接收处理开始事件内通过 Processer.Cancel() 或 e.Cancel = true; 在子类实现的逻辑执行之前即取消处理；
+	5. 子类需要在覆写的 OnProcessStarted() 方法里适当的地方增加：
+			if (ProcessWorker.CancellationPending) 
+			{
+				e.Cancel = true;
+				break; 
+			}
+		以允许用户取消处理；其中需要手动 e.Cancel = true; 否则完成事件无法得知是不是用户手动取消了处理，也可以悄悄用这个来推锅啦；
+	6. OnProcessStarted() 为抽象方法(abstract)，子类必须实现以设计核心的业务逻辑；
+		OnProcessCompleted() 为虚方法(virtual)，子类不需要时可以不覆写，但Processer抽象类也不实现业务代码；
