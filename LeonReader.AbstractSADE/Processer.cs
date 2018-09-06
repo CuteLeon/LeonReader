@@ -14,19 +14,18 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class Processer : IProcesser, IDisposable
     {
-        //TODO: 需要测试异步取消任务功能；
-        //TODO: 需要测试触发事件功能；
 
         #region BackgroundWorker
 
-        /// <summary>
-        /// 任务执行线程
-        /// </summary>
-        protected BackgroundWorker ProcessWorker = new BackgroundWorker()
+        private BackgroundWorker processWorker = new BackgroundWorker()
         {
             WorkerReportsProgress = true,
             WorkerSupportsCancellation = true
         };
+        /// <summary>
+        /// 任务执行线程
+        /// </summary>
+        protected BackgroundWorker ProcessWorker { get => processWorker; private set => processWorker = value; }
 
         /// <summary>
         /// 处理开始事件
@@ -57,8 +56,8 @@ namespace LeonReader.AbstractSADE
 
         public Processer()
         {
-            ProcessWorker.DoWork += OnProcessStarted;
-            ProcessWorker.RunWorkerCompleted += OnProcessCompleted;
+            ProcessWorker.DoWork += PreProcessStarted;
+            ProcessWorker.RunWorkerCompleted += PreProcessCompleted;
 
             TargetDBContext = new UnityDBContext();
         }
@@ -101,20 +100,29 @@ namespace LeonReader.AbstractSADE
         }
 
         /// <summary>
-        /// 处理开始
+        /// 处理开始预处理
         /// </summary>
-        protected virtual void OnProcessStarted(object sender, DoWorkEventArgs e)
+        private void PreProcessStarted(object sender, DoWorkEventArgs e)
         {
             LogHelper.Info($"处理开始：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             ProcessStarted?.Invoke(this, e);
-            
-            // 核心业务逻辑 ...
+            //允许用户在接收处理开始事件时即取消处理
+            if (e.Cancel) return;
+            if (ProcessWorker.CancellationPending) return;
+            //调用子类ASDE类的方法
+            LogHelper.Debug($"开始处理子ASDE类的 [处理开始] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            OnProcessStarted(ProcessWorker, e);
         }
 
         /// <summary>
-        /// 处理完成
+        /// 处理开始
         /// </summary>
-        protected virtual void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        protected abstract void OnProcessStarted(object sender, DoWorkEventArgs e);
+
+        /// <summary>
+        /// 处理完成预处理
+        /// </summary>
+        private void PreProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             LogHelper.Info($"处理完成：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             if (e.Cancelled)
@@ -127,7 +135,17 @@ namespace LeonReader.AbstractSADE
             }
             ProcessCompleted?.Invoke(this, e);
 
-            // 业务逻辑 ...
+            //调用子类ASDE类的方法
+            LogHelper.Debug($"开始处理子ASDE类的 [处理完成] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            OnProcessCompleted(ProcessWorker, e);
+        }
+
+        /// <summary>
+        /// 处理完成
+        /// </summary>
+        protected virtual void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
         }
 
     }

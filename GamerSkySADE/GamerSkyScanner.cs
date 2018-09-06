@@ -29,8 +29,6 @@ namespace GamerSkySADE
         /// </summary>
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            base.OnProcessStarted(sender, e);
-
             if (TargetURI == null)
             {
                 LogHelper.Error($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");

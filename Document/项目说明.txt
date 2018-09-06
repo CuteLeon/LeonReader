@@ -18,5 +18,8 @@
 7. Processer 里使用 BackgroundWorker 实现异步执行；
 	对外公开 ProcessStarted、ProcessCompleted 事件，用于广播 [处理开始] 和 [处理完成] 事件；
 	外部通过 Process()、Cancle() 开始或取消处理；
-	需要覆写的业务逻辑方法 OnProcessStarted()、OnProcessCompleted() 已经包含部分逻辑，子类不需要重复实现的话可以直接在覆写时方法顶部加上 base.OnProcessStarted(sender, e); 或 base.OnProcessCompleted(sender, e);；
+	处理开始或完成时会先调用 PreProcessStarted()、PreProcessCompleted() 方法以先向外部触发事件，之后再调用子ASDE类实现的方法；
+	用户可以在接收处理开始事件内通过 Processer.Cancel() 或 e.Cancel = true; 在子类实现的逻辑执行之前即取消处理；
 	子类需要在覆写的 OnProcessStarted() 方法里适当的地方增加 if (ProcessWorker.CancellationPending) break; 以允许用户取消处理；
+	注意：OnProcessStarted() 为抽象方法(abstract)，子类必须实现以设计核心的业务逻辑；
+			  OnProcessCompleted() 为虚方法(virtual)，子类不需要时可以不覆写，但Processer抽象类也不实现业务代码；

@@ -24,8 +24,12 @@ namespace LeonReader.Client
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             //输出程序集内定义的类型全名称
-            LogHelper.Debug($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type=>type.FullName))}");
+            LogHelper.Debug($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type => type.FullName))}");
             LogHelper.Info($"全局配置-下载目录：{ConfigHelper.GetConfigHelper.DownloadDirectory}");
 
             Assembly GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
@@ -56,6 +60,6 @@ namespace LeonReader.Client
             analyzer.SetTargetURI(@"https://www.gamersky.com/ent/201808/1094495.shtml");
             analyzer.Process();
         }
-
+        
     }
 }

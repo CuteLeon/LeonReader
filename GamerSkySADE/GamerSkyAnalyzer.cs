@@ -31,8 +31,6 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            base.OnProcessStarted(sender, e);
-
             if (TargetURI == null)
             {
                 LogHelper.Error($"分析器使用了空的 TargetURI，From：{this.ASDESource}");

@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamerSkySADETests", "GamerS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{BA3A35F1-630E-4C90-A7E1-77B75344DC3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonReader.AbstractSADETests", "LeonReader.AbstractSADETests\LeonReader.AbstractSADETests.csproj", "{00793812-77E7-43AA-9B7D-A7340ED466E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00793812-77E7-43AA-9B7D-A7340ED466E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00793812-77E7-43AA-9B7D-A7340ED466E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00793812-77E7-43AA-9B7D-A7340ED466E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00793812-77E7-43AA-9B7D-A7340ED466E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{7FC2F8A9-D953-4211-B910-BAD9B580BF5F} = {72C27E62-F1B9-47D5-9417-CCF745819768}
 		{69A8C259-DDBE-472C-822E-A3E3FC3E353C} = {72C27E62-F1B9-47D5-9417-CCF745819768}
 		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A} = {BA3A35F1-630E-4C90-A7E1-77B75344DC3B}
+		{00793812-77E7-43AA-9B7D-A7340ED466E0} = {BA3A35F1-630E-4C90-A7E1-77B75344DC3B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC6CA0F0-5967-4DF8-A0F8-4F78298B962F}
