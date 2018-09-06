@@ -39,11 +39,10 @@ namespace LeonReader.Common
             FATAL = 4
         }
 
-        private static LogTypes logLevel = LogTypes.DEBUG;
         /// <summary>
         /// 日志监听级别（仅输出级别大于或等于当前级别的日志）
         /// </summary>
-        public static LogTypes LogLevel { get => logLevel; set => logLevel = value; }
+        public static LogTypes LogLevel { get; set; } = LogTypes.DEBUG;
 
         /// <summary>
         /// 获取日志文件路径
@@ -94,8 +93,8 @@ namespace LeonReader.Common
                 LogType.ToString().PadRight(5),
                 LogMessage
                 );
-            LogListener?.WriteLine(Message);
 
+            LogListener?.WriteLine(Message);
             Console.WriteLine(Message);
         }
 

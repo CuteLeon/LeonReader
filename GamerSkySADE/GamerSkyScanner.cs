@@ -54,9 +54,11 @@ namespace GamerSkySADE
             }
 
             LogHelper.Info($"开始分析目录... ，From：{this.ASDESource}");
+            int ArticleCount = 0;
             //扫描目录
             foreach (var article in ScanArticles(CatalogContent))
             {
+                ArticleCount++;
                 if (CheckArticleExist(article))
                 {
                     LogHelper.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
@@ -67,7 +69,9 @@ namespace GamerSkySADE
                     TargetDBContext.Articles.Add(article);
                     TargetDBContext.SaveChanges();
                 }
-                //TODO: 触发事件更新已发现的文章数
+
+                //更新已发现的文章数
+                OnProcessReport(ArticleCount, null);
 
                 //允许用户取消处理
                 if (ProcessWorker.CancellationPending) break;

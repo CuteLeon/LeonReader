@@ -38,5 +38,18 @@ namespace LeonReader.Common.Tests
             }
             LogHelper.CloseLogListener();
         }
+
+        [TestMethod]
+        public void ParallelTest()
+        {
+            LogHelper.Debug("串行：");
+            for (int i = 0; i < 1000; i++)
+                LogHelper.Debug(i.ToString());
+
+            LogHelper.Error("并行：");
+            Parallel.For(0, 1000, new Action<int>(x => {
+                LogHelper.Fatal(x.ToString());
+            }));
+        }
     }
 }

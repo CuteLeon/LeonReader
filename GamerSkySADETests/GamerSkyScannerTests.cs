@@ -10,6 +10,7 @@ using LeonReader.AbstractSADE;
 using LeonReader.Common;
 using System.Reflection;
 using LeonReader.Model;
+using System.Threading;
 
 namespace GamerSkySADE.Tests
 {
@@ -20,7 +21,15 @@ namespace GamerSkySADE.Tests
         public void ProcessTest()
         {
             Scanner scanner = new GamerSkyScanner();
+
+            //用于仅测试进度报告功能
+            LogHelper.LogLevel = LogHelper.LogTypes.FATAL;
+            scanner.ProcessReport += (s, e) => { LogHelper.Fatal($"扫描进度：{e.ProgressPercentage} 篇文章"); };
+
             scanner.Process();
+
+            //睡眠一段时间，否则调试线程不会等待异步任务线程而立即结束
+            Thread.Sleep(5000);
         }
 
         [TestMethod()]

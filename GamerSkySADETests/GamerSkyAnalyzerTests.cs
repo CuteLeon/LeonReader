@@ -9,6 +9,7 @@ using LeonReader.AbstractSADE;
 using LeonReader.Model;
 using System.Reflection;
 using LeonReader.Common;
+using System.Threading;
 
 namespace GamerSkySADE.Tests
 {
@@ -21,8 +22,10 @@ namespace GamerSkySADE.Tests
             string link = @"https://www.gamersky.com/ent/201808/1094495.shtml";
             Analyzer analyzer = new GamerSkyAnalyzer();
             analyzer.SetTargetURI(@link);
-            //TODO: 这里测试
-            analyzer.ProcessReport += (s, e) => { LogHelper.Debug($"分析进度：{e.ProgressPercentage} 页，{(int)e.UserState}图"); };
+            
+            //用于仅测试进度报告功能
+            LogHelper.LogLevel = LogHelper.LogTypes.FATAL;
+            analyzer.ProcessReport += (s, e) => { LogHelper.Fatal($"分析进度：{e.ProgressPercentage} 页，{(int)e.UserState}图"); };
 
             analyzer.TargetDBContext.Articles.RemoveRange(analyzer.TargetDBContext.Articles.ToArray());
             analyzer.TargetDBContext.Articles.Add(
@@ -46,6 +49,9 @@ namespace GamerSkySADE.Tests
             analyzer.TargetDBContext.SaveChanges();
 
             analyzer.Process();
+            
+            //睡眠一段时间，否则调试线程不会等待异步任务线程而立即结束
+            Thread.Sleep(10000);
         }
 
         [TestMethod()]

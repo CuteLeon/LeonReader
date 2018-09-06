@@ -47,6 +47,8 @@ namespace LeonReader.Client
             }
 
             Scanner scanner = GS_ASDE.CreateInstance(ScannerType) as Scanner;
+            scanner.ProcessReport += (s, v) => { this.Text = $"已扫描：{v.ProgressPercentage} 篇文章"; };
+            scanner.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [扫描完成]"; };
             scanner.Process();
 
             Type AnalyzerType = GS_ASDE.GetSubTypes(typeof(Analyzer)).FirstOrDefault();
@@ -57,6 +59,8 @@ namespace LeonReader.Client
             }
 
             Analyzer analyzer = GS_ASDE.CreateInstance(AnalyzerType) as Analyzer;
+            analyzer.ProcessReport += (s, v) => { this.Text = $"已分析：{v.ProgressPercentage} 页，{(int)v.UserState} 图"; };
+            analyzer.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [分析完成]"; };
             analyzer.SetTargetURI(@"https://www.gamersky.com/ent/201808/1094495.shtml");
             analyzer.Process();
         }
