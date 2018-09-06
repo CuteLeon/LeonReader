@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using LeonReader.AbstractSADE;
 using LeonReader.Model;
 using System.Reflection;
+using LeonReader.Common;
 
 namespace GamerSkySADE.Tests
 {
@@ -20,6 +21,8 @@ namespace GamerSkySADE.Tests
             string link = @"https://www.gamersky.com/ent/201808/1094495.shtml";
             Analyzer analyzer = new GamerSkyAnalyzer();
             analyzer.SetTargetURI(@link);
+            //TODO: 这里测试
+            analyzer.ProcessReport += (s, e) => { LogHelper.Debug($"分析进度：{e.ProgressPercentage} 页，{(int)e.UserState}图"); };
 
             analyzer.TargetDBContext.Articles.RemoveRange(analyzer.TargetDBContext.Articles.ToArray());
             analyzer.TargetDBContext.Articles.Add(

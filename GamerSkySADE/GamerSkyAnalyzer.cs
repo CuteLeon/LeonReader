@@ -13,7 +13,6 @@ namespace GamerSkySADE
 {
     public class GamerSkyAnalyzer : Analyzer
     {
-
         /// <summary>
         /// 页面计数
         /// </summary>
@@ -61,7 +60,9 @@ namespace GamerSkySADE
             {
                 LogHelper.Info($"接收到文章 ({article.ArticleID}) 内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
                 article.Contents.Add(content);
-                //TODO: 触发事件更新已分析的页面数和图像数 ContentCount & PageCount
+                
+                //触发事件更新已分析的页面数和图像数 
+                OnProcessReport(PageCount, ContentCount);
 
                 //允许用户取消处理
                 if (ProcessWorker.CancellationPending) break;

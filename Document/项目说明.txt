@@ -30,3 +30,7 @@
 		以允许用户取消处理；其中需要手动 e.Cancel = true; 否则完成事件无法得知是不是用户手动取消了处理，也可以悄悄用这个来推锅啦；
 	6. OnProcessStarted() 为抽象方法(abstract)，子类必须实现以设计核心的业务逻辑；
 		OnProcessCompleted() 为虚方法(virtual)，子类不需要时可以不覆写，但Processer抽象类也不实现业务代码；
+	7. ASDE可以通过：
+			OnProcessReport(value, object);
+			ProcessWorker.ReportProgress(value, object);
+		两种方式向外部报告参数；
