@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace LeonReader.Common
 {
@@ -49,7 +50,28 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static bool DirectoryExists(string path) => Directory.Exists(path);
 
-        //TODO: 无占用地读取图像文件 function
+        /// <summary>
+        /// 通过流读取图像文件（避免文件占用）
+        /// </summary>
+        /// <param name="imagePath">图像路径</param>
+        /// <returns></returns>
+        public static Image ReadeImageByStream(string imagePath)
+        {
+            if (string.IsNullOrEmpty(imagePath)) throw new Exception("无法通过空路径流读取图像文件的流。");
+
+            try
+            {
+                using (FileStream ImageStream = new FileStream(imagePath, FileMode.Open))
+                {
+                    return Image.FromStream(ImageStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error($"通过流读取图像文件失败：{imagePath}，{ex.Message}");
+                return null;
+            }
+        }
 
     }
 }

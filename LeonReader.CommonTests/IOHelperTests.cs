@@ -48,5 +48,12 @@ namespace LeonReader.Common.Tests
             Assert.IsTrue(IOHelper.DirectoryExists(@"C:\Windows\"));
             Assert.IsFalse(IOHelper.DirectoryExists(@"C:\Windows\explorer.exe"));
         }
+
+        [TestMethod()]
+        public void ReadeImageByStreamTest()
+        {
+            Assert.IsNotNull(IOHelper.ReadeImageByStream("Leon_Mathilda.jpg"));
+            Assert.IsNull(IOHelper.ReadeImageByStream("FileNotExists.jpg"));
+        }
     }
 }
