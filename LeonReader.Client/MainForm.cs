@@ -16,6 +16,13 @@ namespace LeonReader.Client
 {
     public partial class MainForm : Form
     {
+        Assembly GS_ASDE;
+        Type ScannerType;
+        Scanner scanner;
+        Type AnalyzerType;
+        Analyzer analyzer;
+        Type DownloaderType;
+        Downloader downloader;
 
         public MainForm()
         {
@@ -24,46 +31,72 @@ namespace LeonReader.Client
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
+            if (GS_ASDE == null)
+            {
+                LogHelper.Fatal("创建程序集反射失败，终止");
+                MessageBox.Show("创建程序集反射失败，终止");
+                Application.Exit();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             //输出程序集内定义的类型全名称
-            LogHelper.Debug($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type => type.FullName))}");
-            LogHelper.Info($"全局配置-下载目录：{ConfigHelper.GetConfigHelper.DownloadDirectory}");
+            //LogHelper.Debug($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type => type.FullName))}");
+            //LogHelper.Info($"全局配置-下载目录：{ConfigHelper.GetConfigHelper.DownloadDirectory}");
 
-            Assembly GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
-            if (GS_ASDE == null)
-            {
-                LogHelper.Fatal("创建程序集反射失败，终止");
-                return;
-            }
-
-            Type ScannerType = GS_ASDE.GetSubTypes(typeof(Scanner)).FirstOrDefault();
+            ScannerType = GS_ASDE.GetSubTypes(typeof(Scanner)).FirstOrDefault();
             if (ScannerType == null)
             {
                 LogHelper.Fatal("未发现程序集内存在扫描器类型，终止");
                 return;
             }
 
-            Scanner scanner = GS_ASDE.CreateInstance(ScannerType) as Scanner;
+            scanner = GS_ASDE.CreateInstance(ScannerType) as Scanner;
+            scanner.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button1.Enabled = false; button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
             scanner.ProcessReport += (s, v) => { this.Text = $"已扫描：{v.ProgressPercentage} 篇文章"; };
-            scanner.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [扫描完成]"; };
+            scanner.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [扫描完成]"; button1.Enabled = true; button2.Enabled = true; };
             scanner.Process();
+        }
 
-            Type AnalyzerType = GS_ASDE.GetSubTypes(typeof(Analyzer)).FirstOrDefault();
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AnalyzerType = GS_ASDE.GetSubTypes(typeof(Analyzer)).FirstOrDefault();
             if (ScannerType == null)
             {
                 LogHelper.Fatal("未发现程序集内存在分析器类型，终止");
                 return;
             }
 
-            Analyzer analyzer = GS_ASDE.CreateInstance(AnalyzerType) as Analyzer;
+            analyzer = GS_ASDE.CreateInstance(AnalyzerType) as Analyzer;
+            analyzer.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
             analyzer.ProcessReport += (s, v) => { this.Text = $"已分析：{v.ProgressPercentage} 页，{(int)v.UserState} 图"; };
-            analyzer.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [分析完成]"; };
-            analyzer.SetTargetURI(@"https://www.gamersky.com/ent/201808/1094495.shtml");
+            analyzer.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [分析完成]"; button2.Enabled = true; button3.Enabled = true; };
+            analyzer.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
             analyzer.Process();
         }
-        
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DownloaderType = GS_ASDE.GetSubTypes(typeof(Downloader)).FirstOrDefault();
+            if (DownloaderType == null)
+            {
+                LogHelper.Fatal("未发现程序集内存在下载器类型，终止");
+                return;
+            }
+
+            downloader = GS_ASDE.CreateInstance(DownloaderType) as Downloader;
+            downloader.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
+            downloader.ProcessReport += (s, v) => { this.Text = $"已下载：{v.ProgressPercentage} 张图片"; };
+            downloader.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [下载完成]"; button2.Enabled = true;button3.Enabled = true; button4.Enabled = true; };
+            downloader.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
+            downloader.Process();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

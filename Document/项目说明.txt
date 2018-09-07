@@ -34,3 +34,6 @@
 			OnProcessReport(value, object);
 			ProcessWorker.ReportProgress(value, object);
 		两种方式向外部报告参数；
+	8. [报告进度] 和 [处理完成] 事件是在主线程执行的，[处理开始] 事件为了操作 DoWorkEventArgs 是在异步线程执行的：
+		如果需要操作控件，需要回到控件所在的线程：
+			button1.Invoke(new Action(()=> { button1.Text = "任务开始咯"; }));

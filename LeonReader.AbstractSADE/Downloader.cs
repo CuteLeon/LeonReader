@@ -11,7 +11,6 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class Downloader : Processer
     {
-        //TODO: 快特么来实现我啊！！！
         public Downloader() : base() { }
     }
 }
