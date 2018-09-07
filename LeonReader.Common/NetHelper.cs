@@ -88,5 +88,45 @@ namespace LeonReader.Common
                 }
             }
         }
+
+        /// <summary>
+        /// 下载网络文件
+        /// </summary>
+        /// <param name="address">网络地址</param>
+        /// <param name="filePath">文件路径</param>
+        public static void DownloadWebFile(Uri uri, string filePath)
+        {
+            DownloadWebFile(uri.AbsoluteUri, filePath);
+        }
+
+        /// <summary>
+        /// 下载网络文件
+        /// </summary>
+        /// <param name="address">网络地址</param>
+        /// <param name="filePath">文件路径</param>
+        public static void DownloadWebFile(string address,string filePath)
+        {
+            LogHelper.Debug($"下载网络文件：{address} => {filePath}");
+            using (WebClient client = new WebClient()
+            {
+                BaseAddress = address,
+                Encoding = Encoding.UTF8
+            })
+            {
+                client.Headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+
+                try
+                {
+                    client.DownloadFile(address, filePath);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error($"下载网络文件遇到异常：{address}，{ex.Message}");
+                    throw ex;
+                }
+            }
+        }
+
     }
 }

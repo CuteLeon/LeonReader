@@ -46,11 +46,16 @@ namespace LeonReader.AbstractSADE
         }
          */
 
+        /// <summary>
+        /// 是否在进行异步操作
+        /// </summary>
+        public bool IsBusy { get => ProcessWorker.IsBusy; }
+
         #endregion
 
-        /// <summary>
-        /// 文章处理源
-        /// </summary>
+            /// <summary>
+            /// 文章处理源
+            /// </summary>
         public abstract string ASDESource { get; protected set; }
 
         /// <summary>

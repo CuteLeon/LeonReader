@@ -30,6 +30,22 @@ namespace LeonReader.Common
         public static string GetFileName(string FilePath) => Path.GetFileName(FilePath);
 
         /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="path"></param>
+        public static void DeleteFile(string path)
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// 返回指定路径字符串的文件名（不包括扩展名）
         /// </summary>
         /// <param name="FilePath">文件路径</param>
@@ -42,13 +58,53 @@ namespace LeonReader.Common
         /// <param name="path"></param>
         /// <returns></returns>
         public static bool FileExists(string path) => File.Exists(path);
-        
+
+        /// <summary>
+        /// 获取文件长度
+        /// </summary>
+        /// <param name="path">文件路径</param>
+        /// <returns></returns>
+        public static long GetFileSize(string path)
+        {
+            if (string.IsNullOrEmpty(path)) throw new Exception("获取空文件路径的文件大小");
+            if (!File.Exists(path)) throw new Exception("无法获取不存在的路径的文件大小");
+            else
+            {
+                try
+                {
+                    return new FileInfo(path).Length;
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error($"获取文件大小错误：{ex.Message}");
+                    throw ex;
+                }
+            }
+        }
+
         /// <summary>
         /// 检查目录是否存在
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         public static bool DirectoryExists(string path) => Directory.Exists(path);
+
+        /// <summary>
+        /// 创建目录
+        /// </summary>
+        /// <param name="path">目录路径</param>
+        public static void CreateDirectory(string path)
+        {
+            try
+            {
+                Directory.CreateDirectory(path);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error($"IO助手创建目录失败：{path}，{ex.Message}");
+                throw ex;
+            }
+        }
 
         /// <summary>
         /// 通过流读取图像文件（避免文件占用）
