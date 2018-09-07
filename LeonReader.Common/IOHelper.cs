@@ -129,5 +129,29 @@ namespace LeonReader.Common
             }
         }
 
+        /// <summary>
+        /// 获取安全文件名（去除文件名非法字符）
+        /// </summary>
+        /// <returns></returns>
+        public static string GetSafeFileName(string filename)
+        {
+            StringBuilder SafeFileName = new StringBuilder(filename);
+            foreach (char InvalidChar in Path.GetInvalidFileNameChars())
+                SafeFileName.Replace(InvalidChar.ToString(), string.Empty);
+            return SafeFileName.ToString();
+        }
+
+        /// <summary>
+        /// 获取安全目录名（去除目录名非法字符）
+        /// </summary>
+        /// <returns></returns>
+        public static string GetSafeDirectoryName(string directoryname)
+        {
+            StringBuilder SafeDirectoryName = new StringBuilder(directoryname);
+            foreach (char InvalidChar in Path.GetInvalidPathChars())
+                SafeDirectoryName.Replace(InvalidChar.ToString(), string.Empty);
+            return SafeDirectoryName.ToString();
+        }
+
     }
 }

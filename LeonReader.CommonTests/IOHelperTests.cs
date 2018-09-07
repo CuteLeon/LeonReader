@@ -55,5 +55,19 @@ namespace LeonReader.Common.Tests
             Assert.IsNotNull(IOHelper.ReadeImageByStream("Leon_Mathilda.jpg"));
             Assert.IsNull(IOHelper.ReadeImageByStream("FileNotExists.jpg"));
         }
+
+        [TestMethod()]
+        public void GetSafeFileNameTest()
+        {
+            string TestName = "ABC:DEF>GHI\\";
+            Assert.AreEqual("ABCDEFGHI", IOHelper.GetSafeFileName(TestName));
+        }
+
+        [TestMethod()]
+        public void GetSafeDirectoryNameTest()
+        {
+            string TestName = "ABC:DEF>GHI\\";
+            Assert.AreEqual("ABCDEFGHI", IOHelper.GetSafeFileName(TestName));
+        }
     }
 }

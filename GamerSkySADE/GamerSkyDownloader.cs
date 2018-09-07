@@ -12,11 +12,16 @@ namespace GamerSkySADE
 {
     public class GamerSkyDownloader : Downloader
     {
+        /// <summary>
+        /// 下载目录
+        /// </summary>
+        string DownloadDirectory = string.Empty;
 
         /// <summary>
         /// 内容计数
         /// </summary>
         private int ContentCount = 0;
+
         /// <summary>
         /// 下载失败计数
         /// </summary>
@@ -43,12 +48,15 @@ namespace GamerSkySADE
                 LogHelper.Error($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
                 throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
             }
+            if (string.IsNullOrEmpty(article.DownloadDirectoryName)) throw new Exception("文章下载目录名称为空，禁止下载");
             LogHelper.Debug($"匹配到链接关联的文章实体：{article.Title} ({article.ArticleID}) => {article.ArticleLink}");
-            
+
+            //组装文章下载目录
+            DownloadDirectory = IOHelper.PathCombine(ConfigHelper.GetConfigHelper.DownloadDirectory, article.DownloadDirectoryName);
             //检查文章下载目录
             try
             {
-                CheckDownloadDirectory(article);
+                CheckDownloadDirectory(DownloadDirectory);
             }
             catch (Exception ex)
             {
@@ -68,7 +76,7 @@ namespace GamerSkySADE
                 //下载文章内容
                 try
                 {
-                    DownloadContent(content);
+                    DownloadContent(content, DownloadDirectory);
                 }
                 catch (Exception ex)
                 {
@@ -109,16 +117,13 @@ namespace GamerSkySADE
         /// <summary>
         /// 检查下载目录
         /// </summary>
-        private void CheckDownloadDirectory(Article article)
+        private void CheckDownloadDirectory(string directory)
         {
-            if (article == null) throw new Exception($"空的文章对象");
-            string DownloadDirectory = article.DownloadDirectory;
-            if (string.IsNullOrEmpty(DownloadDirectory)) throw new Exception("文章下载目录为空");
-            if (!IOHelper.DirectoryExists(DownloadDirectory))
+            if (!IOHelper.DirectoryExists(directory))
             {
                 try
                 {
-                    IOHelper.CreateDirectory(DownloadDirectory);
+                    IOHelper.CreateDirectory(directory);
                 }
                 catch (Exception ex)
                 {
@@ -131,13 +136,14 @@ namespace GamerSkySADE
         /// 下载内容
         /// </summary>
         /// <param name="content">内容</param>
-        private void DownloadContent(ContentItem content)
+        /// <param name="directory">下载目录</param>
+        private void DownloadContent(ContentItem content, string directory)
         {
             if (content == null) throw new Exception($"空的文章内容对象，From：{ASDESource}");
             if (string.IsNullOrEmpty(content.ImageFileName) || string.IsNullOrEmpty(content.ImageLink))
                 throw new Exception($"文章内容的图像路径或链接为空，From：{ASDESource}");
 
-            string ContentPath = content.ImageFileName;
+            string ContentPath = IOHelper.PathCombine(directory, content.ImageFileName);
             string ContentLink = content.ImageLink;
 
             if (IOHelper.FileExists(ContentPath))

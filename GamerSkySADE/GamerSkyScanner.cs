@@ -152,9 +152,9 @@ namespace GamerSkySADE
                     ASDESource = ASDESource,
                     ScanTime = DateTime.Now,
                     IsNew = true,
+                    DownloadDirectoryName = IOHelper.GetSafeDirectoryName(ArticleID),
+                    ArticleFileName = IOHelper.GetSafeFileName(Title),
                 };
-                article.DownloadDirectory = IOHelper.PathCombine(ConfigHelper.GetConfigHelper.DownloadDirectory, ArticleID);
-                article.ArticleFilePath = IOHelper.PathCombine(article.DownloadDirectory, Title);
             }
             else
             {

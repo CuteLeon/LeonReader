@@ -44,6 +44,8 @@ namespace GamerSkySADE.Tests
                         new ContentItem("欢迎使用 Leon Reader."),
                         new ContentItem("Best Wishes !")
                     }.ToList(),
+                    DownloadDirectoryName = "单元测试下载目录",
+                    ArticleFileName="单元测试文章名称",
                 }
             );
             analyzer.TargetDBContext.SaveChanges();
@@ -89,6 +91,8 @@ namespace GamerSkySADE.Tests
                         new ContentItem("欢迎使用 Leon Reader."),
                         new ContentItem("Best Wishes !")
                     }.ToList(),
+                    DownloadDirectoryName = "单元测试下载目录",
+                    ArticleFileName = "单元测试文章名称",
                 }
             );
             analyzer.TargetDBContext.SaveChanges();

@@ -21,6 +21,6 @@ namespace LeonReader.Common
         /// <summary>
         /// 下载目录
         /// </summary>
-        public string DownloadDirectory { get; } = Environment.CurrentDirectory;
+        public string DownloadDirectory { get; } = IOHelper.PathCombine(Environment.CurrentDirectory, "Articles");
     }
 }

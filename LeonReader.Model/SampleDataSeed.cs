@@ -39,6 +39,8 @@ namespace LeonReader.Model
                         new ContentItem("欢迎使用 Leon Reader."),
                         new ContentItem("Best Wishes !")
                     }.ToList(),
+                    ArticleFileName = "种子文章文件",
+                    DownloadDirectoryName = "种子文章下载目录",
                 }
             );
 

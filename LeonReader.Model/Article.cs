@@ -102,25 +102,29 @@ namespace LeonReader.Model
         [DisplayName("导出时间"), DataType(DataType.DateTime)]
         public DateTime? ExportTime { get; set; }
 
+        /// <summary>
+        /// 文章文件名称（相对）
+        /// </summary>
+        //[NotMapped]
+        [Required]
+        [DisplayName("文章文件名称（相对）")]
+        public string ArticleFileName { get; set; }
+
+        /// <summary>
+        /// 下载目录名称（相对）
+        /// </summary>
+        //[NotMapped]
+        [Required]
+        [DisplayName("下载目录名称（相对）")]
+        public string DownloadDirectoryName { get; set; }
+
         #endregion
-        
+
         /// <summary>
         /// 文章内容集合
         /// </summary>
         [DisplayName("文章内容集合")]
         public virtual List<ContentItem> Contents { get; set; }
-
-        /// <summary>
-        /// 文章文件路径
-        /// </summary>
-        [NotMapped]
-        public virtual string ArticleFilePath { get; set; }
-
-        /// <summary>
-        /// 下载目录
-        /// </summary>
-        [NotMapped]
-        public virtual string DownloadDirectory { get; set; }
 
         public Article() { }
 
