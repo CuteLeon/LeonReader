@@ -41,6 +41,9 @@ namespace LeonReader.Client
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            //需要强制退出时，显示调用堆栈
+            Trace.Assert(e.IsTerminating);
+
             Exception UnhandledException = e.ExceptionObject as Exception;
             string ExceptionDescription = string.Format(
                 "应用域内发现未被捕获的异常：\r\n" +
