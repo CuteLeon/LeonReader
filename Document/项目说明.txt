@@ -38,3 +38,7 @@
 	8. [报告进度] 和 [处理完成] 事件是在主线程执行的，[处理开始] 事件为了操作 DoWorkEventArgs 是在异步线程执行的：
 		如果需要操作控件，需要回到控件所在的线程：
 			button1.Invoke(new Action(()=> { button1.Text = "任务开始咯"; }));
+	9. 分析器、下载器、导出器不同于扫描器，前三者会单一对应一篇文章，所以继承自 SingleArticleProcesser，由 SingleArticleProcesser 在 Process() 方法中使用文章链接匹配到对应的文章实体，
+		并将文章实体传入子类实现的 OnProcessStarted() 方法的 e.Argument 处，可通过模式匹配检查空引用和定义变量：
+			if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体");
+		子类可以覆写 SingleArticleProcesser.PreConfigProcess(Article) 方法以在处理正式开始前有权利根据文章实体配置处理相关参数，例如设置工作目录；

@@ -107,10 +107,20 @@ namespace LeonReader.Client
 
             exporter = GS_ASDE.CreateInstance(ExporterType) as Exporter;
             exporter.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
-            exporter.ProcessReport += (s, v) => { this.Text = $"已导出：{v.ProgressPercentage} 张图片"; };
+            exporter.ProcessReport += (s, v) => { this.Text = $"已导出：{v.ProgressPercentage} / {(int)v.UserState} 张图片"; };
             exporter.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [导出完成]"; button2.Enabled = true; button3.Enabled = true; button4.Enabled = true; };
             exporter.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
             exporter.Process();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form form = new Form();
+            WebBrowser browser = new WebBrowser();
+            form.Controls.Add(browser);
+            browser.Dock = DockStyle.Fill;
+            browser.Navigate(@"F:\C Sharp\LeonReader\Debug\Articles\201809051640044034\日本30岁的女装大佬 这么娇小可爱竟然是男人.html");
+            form.ShowDialog();
         }
     }
 }

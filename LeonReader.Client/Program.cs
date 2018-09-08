@@ -11,6 +11,8 @@ namespace LeonReader.Client
 {
     static class Program
     {
+        //TODO: 增加系统唯一的目录加载器：用于将Scanner存储至数据库的文章显示出来
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>

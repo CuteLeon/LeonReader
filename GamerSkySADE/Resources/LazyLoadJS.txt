@@ -1,0 +1,48 @@
+<script>
+    function click2load(sender){
+        if(sender.getAttribute('src') == null || sender.getAttribute('src') == '')
+            sender.src = sender.getAttribute('data-src');
+        else
+            sender.removeAttribute('src');
+    }
+    window.onload = function(){  loadImages(); };
+    if (!document.getElementsByClassName){
+        document.getElementsByClassName = function(className, element){
+            var children = (element || document).getElementsByTagName('*');
+            var elements = new Array();
+            for (var i = 0; i < children.length; i++)
+            {
+                var child = children[i];
+                var classNames = child.className.split(' ');
+                for (var j = 0; j < classNames.length; j++)
+                {
+                    if (classNames[j] == className)
+                    {
+                        elements.push(child);
+                        break;
+                    }
+                }
+            }
+            return elements;
+        };
+    }
+    var aImg = document.getElementsByClassName('lazyimage');
+    var len = aImg.length;
+    var n = 0;//存储图片加载到的位置，避免每次都从第一张图片开始遍历
+    function loadImages() {
+        var seeHeight = document.documentElement.scrollHeight;
+        var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        for (var i = n; i < len; i++)
+        {
+            if (aImg[i].offsetTop < seeHeight + scrollTop)
+            {
+                if (aImg[i].getAttribute('src') == null || aImg[i].getAttribute('src') == '')
+                {
+                    aImg[i].src = aImg[i].getAttribute('data-src');
+                }
+                n = i + 1;
+            }
+        }
+    };
+    window.onscroll = loadImages;
+</script>

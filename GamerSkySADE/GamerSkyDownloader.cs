@@ -13,11 +13,6 @@ namespace GamerSkySADE
     public class GamerSkyDownloader : Downloader
     {
         /// <summary>
-        /// 下载目录
-        /// </summary>
-        string DownloadDirectory = string.Empty;
-
-        /// <summary>
         /// 内容计数
         /// </summary>
         private int ContentCount = 0;
@@ -34,25 +29,8 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (TargetURI == null)
-            {
-                LogHelper.Error($"下载器使用了空的 TargetURI，From：{this.ASDESource}");
-                throw new Exception($"下载器使用了空的 TargetURI，From：{this.ASDESource}");
-            }
+            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}");
 
-            LogHelper.Info($"开始下载文章链接：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
-            //获取链接关联的文章对象
-            Article article = GetArticle(TargetURI.AbsoluteUri, this.ASDESource);
-            if (article == null)
-            {
-                LogHelper.Error($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-                throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-            }
-            if (string.IsNullOrEmpty(article.DownloadDirectoryName)) throw new Exception("文章下载目录名称为空，禁止下载");
-            LogHelper.Debug($"匹配到链接关联的文章实体：{article.Title} ({article.ArticleID}) => {article.ArticleLink}");
-
-            //组装文章下载目录
-            DownloadDirectory = IOHelper.PathCombine(ConfigHelper.GetConfigHelper.DownloadDirectory, article.DownloadDirectoryName);
             //检查文章下载目录
             try
             {
@@ -77,6 +55,7 @@ namespace GamerSkySADE
                 try
                 {
                     DownloadContent(content, DownloadDirectory);
+                    ContentCount++;
                 }
                 catch (Exception ex)
                 {
@@ -93,26 +72,6 @@ namespace GamerSkySADE
 
             //全部下载后保存文章内容数据
             LogHelper.Info($"文章下载完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
-        }
-
-        /// <summary>
-        /// 获取关联的文章实体
-        /// </summary>
-        /// <param name="link"></param>
-        /// <param name="asdeSource"></param>
-        /// <returns></returns>
-        private Article GetArticle(string link, string asdeSource)
-        {
-            LogHelper.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
-            if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
-
-            Article article = TargetDBContext.Articles
-                .FirstOrDefault(
-                    art =>
-                    art.ArticleLink == link &&
-                    art.ASDESource == asdeSource
-                );
-            return article;
         }
 
         /// <summary>

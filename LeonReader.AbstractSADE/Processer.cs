@@ -101,7 +101,7 @@ namespace LeonReader.AbstractSADE
         /// <summary>
         /// 开始处理
         /// </summary>
-        public void Process()
+        public virtual void Process()
         {
             if (ProcessWorker.IsBusy) return;
             ProcessWorker.RunWorkerAsync();
@@ -122,6 +122,7 @@ namespace LeonReader.AbstractSADE
         private void PreProcessStarted(object sender, DoWorkEventArgs e)
         {
             LogHelper.Info($"处理开始：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            //这个事件会在异步线程触发
             ProcessStarted?.Invoke(this, e);
             //允许用户在接收处理开始事件时即取消处理
             if (e.Cancel) return;
@@ -132,7 +133,7 @@ namespace LeonReader.AbstractSADE
         }
 
         /// <summary>
-        /// 处理开始
+        /// 处理开始（e.Argument 为关联的文章实体或 null）
         /// </summary>
         protected abstract void OnProcessStarted(object sender, DoWorkEventArgs e);
 

@@ -49,6 +49,7 @@
     <Compile Include="Processer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanner.cs" />
+    <Compile Include="SingleArticleProcesser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">

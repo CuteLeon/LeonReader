@@ -17,10 +17,9 @@ namespace LeonReader.Common
         /// <summary>
         /// 安全的合并路径
         /// </summary>
-        /// <param name="DirectoryPath"></param>
-        /// <param name="FileName"></param>
+        /// <param name="paths"></param>
         /// <returns></returns>
-        public static string PathCombine(string DirectoryPath, string FileName) => Path.Combine(DirectoryPath, FileName);
+        public static string PathCombine(params string[] paths) => Path.Combine(paths);
 
         /// <summary>
         /// 返回指定路径字符串的文件名和扩展名

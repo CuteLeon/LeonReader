@@ -30,21 +30,7 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (TargetURI == null)
-            {
-                LogHelper.Error($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
-                throw new Exception($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
-            }
-
-            LogHelper.Info($"开始分析文章链接：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
-            //获取链接关联的文章对象
-            Article article = GetArticle(TargetURI.AbsoluteUri, this.ASDESource);
-            if (article == null)
-            {
-                LogHelper.Error($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-                throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-            }
-            LogHelper.Debug($"匹配到链接关联的文章实体：{article.Title} ({article.ArticleID}) => {article.ArticleLink}");
+            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}");
 
             //初始化
             PageCount = 0;
@@ -71,26 +57,6 @@ namespace GamerSkySADE
             //全部分析后保存文章内容数据
             TargetDBContext.SaveChanges();
             LogHelper.Info($"文章分析完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
-        }
-
-        /// <summary>
-        /// 获取关联的文章实体
-        /// </summary>
-        /// <param name="link"></param>
-        /// <param name="asdeSource"></param>
-        /// <returns></returns>
-        private Article GetArticle(string link, string asdeSource)
-        {
-            LogHelper.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
-            if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
-
-            Article article = TargetDBContext.Articles
-                .FirstOrDefault(
-                    art =>
-                    art.ArticleLink == link &&
-                    art.ASDESource == asdeSource
-                );
-            return article;
         }
 
         /// <summary>

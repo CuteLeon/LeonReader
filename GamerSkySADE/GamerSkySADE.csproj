@@ -46,6 +46,11 @@
     <Compile Include="GamerSkyAnalyzer.cs" />
     <Compile Include="GamerSkyExporter.cs" />
     <Compile Include="GamerSkyScanner.cs" />
+    <Compile Include="GSResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GSResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +66,15 @@
       <Project>{e011572b-10e0-4d9d-88dc-f2b5da057c76}</Project>
       <Name>LeonReader.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GSResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GSResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LazyLoadJS.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
