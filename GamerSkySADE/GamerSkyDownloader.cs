@@ -60,7 +60,7 @@ namespace GamerSkySADE
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"创建文章下载目录失败：{ex.Message}，From：{ASDESource}");
+                LogHelper.Error($"检查文章下载目录失败：{ex.Message}，From：{ASDESource}");
                 throw ex;
             }
 
@@ -80,11 +80,12 @@ namespace GamerSkySADE
                 }
                 catch (Exception ex)
                 {
+                    FailedCount++;
                     LogHelper.Error($"文章内容下载失败：{ex.Message}，From：{ASDESource}");
                 }
 
                 //触发事件更新已下载的图像计数
-                OnProcessReport(ContentCount, null);
+                OnProcessReport(ContentCount, FailedCount);
 
                 //允许用户取消处理
                 if (ProcessWorker.CancellationPending) break;
@@ -168,7 +169,6 @@ namespace GamerSkySADE
             catch (Exception ex)
             {
                 LogHelper.Error($"文章内容下载失败：{ex.Message}，{ContentLink}，{ContentPath}，From：{ASDESource}");
-                FailedCount++;
             }
         }
 

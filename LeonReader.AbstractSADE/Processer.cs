@@ -9,6 +9,8 @@ using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
+    //TODO: 把ASDE子类无权处理或者重复的方法上升至ASDE抽象层
+
     /// <summary>
     /// 抽象处理类
     /// </summary>

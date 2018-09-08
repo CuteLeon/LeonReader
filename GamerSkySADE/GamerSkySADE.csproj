@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="GamerSkyDownloader.cs" />
     <Compile Include="GamerSkyAnalyzer.cs" />
+    <Compile Include="GamerSkyExporter.cs" />
     <Compile Include="GamerSkyScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

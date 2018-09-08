@@ -23,6 +23,8 @@ namespace LeonReader.Client
         Analyzer analyzer;
         Type DownloaderType;
         Downloader downloader;
+        Type ExporterType;
+        Exporter exporter;
 
         public MainForm()
         {
@@ -88,7 +90,7 @@ namespace LeonReader.Client
 
             downloader = GS_ASDE.CreateInstance(DownloaderType) as Downloader;
             downloader.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
-            downloader.ProcessReport += (s, v) => { this.Text = $"已下载：{v.ProgressPercentage} 张图片"; };
+            downloader.ProcessReport += (s, v) => { this.Text = $"已下载：{v.ProgressPercentage} 张图片，{(int)v.UserState} 张失败"; };
             downloader.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [下载完成]"; button2.Enabled = true;button3.Enabled = true; button4.Enabled = true; };
             downloader.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
             downloader.Process();
@@ -96,7 +98,19 @@ namespace LeonReader.Client
 
         private void button4_Click(object sender, EventArgs e)
         {
-            
+            ExporterType = GS_ASDE.GetSubTypes(typeof(Exporter)).FirstOrDefault();
+            if (ExporterType == null)
+            {
+                LogHelper.Fatal("未发现程序集内存在导出器类型，终止");
+                return;
+            }
+
+            exporter = GS_ASDE.CreateInstance(ExporterType) as Exporter;
+            exporter.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
+            exporter.ProcessReport += (s, v) => { this.Text = $"已导出：{v.ProgressPercentage} 张图片"; };
+            exporter.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [导出完成]"; button2.Enabled = true; button3.Enabled = true; button4.Enabled = true; };
+            exporter.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
+            exporter.Process();
         }
     }
 }
