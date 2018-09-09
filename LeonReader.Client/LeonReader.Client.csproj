@@ -67,6 +67,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Control\ArticleCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Factory\ArticleCardFactory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

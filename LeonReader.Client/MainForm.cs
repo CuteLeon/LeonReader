@@ -30,7 +30,7 @@ namespace LeonReader.Client
         {
             InitializeComponent();
         }
-
+        
         private void MainForm_Load(object sender, EventArgs e)
         {
             GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
