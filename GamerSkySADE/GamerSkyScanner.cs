@@ -9,6 +9,7 @@ using LeonReader.AbstractSADE;
 using LeonReader.Model;
 using LeonReader.Common;
 using System.ComponentModel;
+using System.Threading;
 
 namespace GamerSkySADE
 {
@@ -69,6 +70,15 @@ namespace GamerSkySADE
                     TargetDBContext.Articles.Add(article);
                     TargetDBContext.SaveChanges();
                 }
+
+                //下载文章预览图像
+                ThreadPool.QueueUserWorkItem(
+                    new WaitCallback(DownloadPreviewImage), 
+                    new Tuple<string, string>(
+                        article.ImageLink,
+                        article.ImageFileName
+                        )
+                    );
 
                 //更新已发现的文章数
                 OnProcessReport(ArticleCount, null);
