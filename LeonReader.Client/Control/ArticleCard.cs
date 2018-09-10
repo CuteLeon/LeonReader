@@ -51,29 +51,29 @@ namespace LeonReader.Client.Controls
         /// </summary>
         protected Rectangle MainButtonRectangle { get => mainButtonRectangle; set => mainButtonRectangle = value; }
         
-        private Rectangle readedButton;
+        private Rectangle readedButtonRectangle;
         /// <summary>
         /// 已读按钮区域
         /// </summary>
-        protected Rectangle ReadedButton { get => readedButton; set => readedButton = value; }
+        protected Rectangle ReadedButtonRectangle { get => readedButtonRectangle; set => readedButtonRectangle = value; }
         
-        private Rectangle locationButton;
+        private Rectangle locationButtonRectangle;
         /// <summary>
         /// 定位文件夹按钮
         /// </summary>
-        protected Rectangle LocationButton { get => locationButton; set => locationButton = value; }
+        protected Rectangle LocationButtonRectangle { get => locationButtonRectangle; set => locationButtonRectangle = value; }
         
-        private Rectangle browserButton;
+        private Rectangle browserButtonRectangle;
         /// <summary>
         /// 在浏览器打开按钮
         /// </summary>
-        protected Rectangle BrowserButton { get => browserButton; set => browserButton = value; }
+        protected Rectangle BrowserButtonRectangle { get => browserButtonRectangle; set => browserButtonRectangle = value; }
         
-        private Rectangle deleteButton;
+        private Rectangle deleteButtonRectangle;
         /// <summary>
         /// 删除按钮
         /// </summary>
-        protected Rectangle DeleteButton { get => deleteButton; set => deleteButton = value; }
+        protected Rectangle DeleteButtonRectangle { get => deleteButtonRectangle; set => deleteButtonRectangle = value; }
         #endregion
 
         #region 属性
@@ -115,13 +115,24 @@ namespace LeonReader.Client.Controls
 
         public ArticleCard()
         {
-            MinimumSize = new Size(256, 28);
+            InitializeComponent();
 
             base.DoubleBuffered = true;
             base.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             base.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             base.SetStyle(ControlStyles.ResizeRedraw, false);
             base.SetStyle(ControlStyles.UserPaint, true);
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // ArticleCard
+            // 
+            this.MinimumSize = new System.Drawing.Size(100, 28);
+            this.Size = new System.Drawing.Size(256, 28);
+            this.ResumeLayout(false);
 
             ResetRectangle();
         }
@@ -134,17 +145,22 @@ namespace LeonReader.Client.Controls
                 previewImageRectangle = new Rectangle(this.DisplayRectangle.Location,
                     new Size(Math.Min((int)((25.0 / 14.0) * this.DisplayRectangle.Height), this.DisplayRectangle.Width),
                     this.DisplayRectangle.Height));
-                mainButtonRectangle.Size = new Size(Math.Min(this.DisplayRectangle.Width - previewImageRectangle.Width, 90), 28);
+                deleteButtonRectangle = new Rectangle(this.DisplayRectangle.Width - 28, 0, 28, 28);
+                mainButtonRectangle.Size = new Size(Math.Min(this.DisplayRectangle.Width - previewImageRectangle.Width, 112), 28);
                 mainButtonRectangle.Location = new Point(DisplayRectangle.Width - mainButtonRectangle.Width, Math.Max(DisplayRectangle.Height - 28, titleRectangle.Bottom));
-                titleRectangle = new Rectangle(previewImageRectangle.Right, 0, DisplayRectangle.Width - previewImageRectangle.Right, 28);
             }
             else
             {
                 //精简布局
                 previewImageRectangle = new Rectangle(Point.Empty,Size.Empty);
                 mainButtonRectangle = new Rectangle(DisplayRectangle.Width - 90, 0, 90, 28);
+                deleteButtonRectangle = new Rectangle(mainButtonRectangle.Left - 28, 0, 28, 28);
                 titleRectangle = new Rectangle(previewImageRectangle.Right, 0, mainButtonRectangle.Left - previewImageRectangle.Right, 28);
             }
+            browserButtonRectangle = new Rectangle(deleteButtonRectangle.Left - 28, 0, 28, 28);
+            locationButtonRectangle = new Rectangle(browserButtonRectangle.Left - 28, 0, 28, 28);
+            readedButtonRectangle = new Rectangle(locationButtonRectangle.Left - 28, 0, 28, 28);
+            titleRectangle = new Rectangle(previewImageRectangle.Right, 0, readedButtonRectangle.Left - previewImageRectangle.Right, 28);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -159,18 +175,16 @@ namespace LeonReader.Client.Controls
 
             e.Graphics.FillRectangle(Brushes.LightGreen,mainButtonRectangle);
             e.Graphics.DrawRectangle(Pens.Green, mainButtonRectangle.Left, mainButtonRectangle.Top, mainButtonRectangle.Width-1, mainButtonRectangle.Height-1);
+
+            e.Graphics.FillRectangle(Brushes.DodgerBlue, deleteButtonRectangle);
+            e.Graphics.DrawRectangle(Pens.DeepSkyBlue, deleteButtonRectangle.Left, deleteButtonRectangle.Top, deleteButtonRectangle.Width - 1, deleteButtonRectangle.Height - 1);
+            e.Graphics.FillRectangle(Brushes.BlueViolet, browserButtonRectangle);
+            e.Graphics.DrawRectangle(Pens.DeepSkyBlue, browserButtonRectangle.Left, browserButtonRectangle.Top, browserButtonRectangle.Width - 1, browserButtonRectangle.Height - 1);
+            e.Graphics.FillRectangle(Brushes.CadetBlue, locationButtonRectangle);
+            e.Graphics.DrawRectangle(Pens.DeepSkyBlue, locationButtonRectangle.Left, locationButtonRectangle.Top, locationButtonRectangle.Width - 1, locationButtonRectangle.Height - 1);
+            e.Graphics.FillRectangle(Brushes.CornflowerBlue, readedButtonRectangle);
+            e.Graphics.DrawRectangle(Pens.DeepSkyBlue, readedButtonRectangle.Left, readedButtonRectangle.Top, readedButtonRectangle.Width - 1, readedButtonRectangle.Height - 1);
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // ArticleCard
-            // 
-            this.MinimumSize = new System.Drawing.Size(100, 28);
-            this.Size = new System.Drawing.Size(100, 28);
-            this.ResumeLayout(false);
-
-        }
     }
 }
