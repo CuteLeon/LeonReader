@@ -161,6 +161,7 @@ namespace LeonReader.Client.Controls
             locationButtonRectangle = new Rectangle(browserButtonRectangle.Left - 28, 0, 28, 28);
             readedButtonRectangle = new Rectangle(locationButtonRectangle.Left - 28, 0, 28, 28);
             titleRectangle = new Rectangle(previewImageRectangle.Right, 0, readedButtonRectangle.Left - previewImageRectangle.Right, 28);
+            descriptionRectangle = new Rectangle(titleRectangle.Left,titleRectangle.Bottom, mainButtonRectangle.Right-previewImageRectangle.Right,Math.Max(0, mainButtonRectangle.Top-titleRectangle.Bottom));
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -175,6 +176,9 @@ namespace LeonReader.Client.Controls
 
             e.Graphics.FillRectangle(Brushes.LightGreen,mainButtonRectangle);
             e.Graphics.DrawRectangle(Pens.Green, mainButtonRectangle.Left, mainButtonRectangle.Top, mainButtonRectangle.Width-1, mainButtonRectangle.Height-1);
+
+            e.Graphics.FillRectangle(Brushes.LightGray, descriptionRectangle);
+            e.Graphics.DrawRectangle(Pens.Gray,descriptionRectangle.Left, descriptionRectangle.Top, descriptionRectangle.Width-1, descriptionRectangle.Height-1);
 
             e.Graphics.FillRectangle(Brushes.DodgerBlue, deleteButtonRectangle);
             e.Graphics.DrawRectangle(Pens.DeepSkyBlue, deleteButtonRectangle.Left, deleteButtonRectangle.Top, deleteButtonRectangle.Width - 1, deleteButtonRectangle.Height - 1);
