@@ -1,4 +1,4 @@
-﻿抽象控件类型 AbstractControl：
+﻿抽象控件类型 AbstractControl：（单独命名空间：LeonDirectUI）
 	包含基本属性：文本、文本对其方式、图像、图像对其方式、Rectangle、字体、字体颜色、Enable、鼠标状态
 	鼠标状态：Enter、Down、Up
 	继承绘制接口，Paint(Graphics) 可由外部通过接口方法绘制（可覆写以自定义子控件，参数：外部的Graphics），外部容器 OnPaint() 时传入 e.Graphics 实现控制反转（不要使用访问者模式，违反单一职责原则）
@@ -6,4 +6,9 @@
 	
 	属性或状态set时触发 paint 事件给外部容器，由自己虚拟空间当做外部容器的访问者，让外部容器传入 CreateGraphics()，让虚拟控件自己调用绘制逻辑；
 
-外部容器定义虚拟控件，并设置属性和位置大小，需要显示或刷新时， 调用 虚拟空间.Paint(this.CreateGraphics);
+外部容器：
+    定义虚拟控件，并设置属性和位置大小；
+	将控件注册在 IList<> 内，以便于管理和维护；
+	订阅虚拟控件的鼠标事件等，以允许控件回调
+	需要显示或刷新时， 调用 虚拟空间.Paint(this.CreateGraphics)；
+	覆写 WndProc 方法，收到鼠标移动、按压、抬起等消息时判断鼠标坐标所在控件区域，(通过接口或直接)调用控件 OnMouseXXX，由控件再回调鼠标事件，由外部容器刚订阅的事件调用外部容器的方法；
