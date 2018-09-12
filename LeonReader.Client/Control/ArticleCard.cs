@@ -40,7 +40,7 @@ namespace LeonReader.Client.Controls
             Large = 2,
         }
 
-        private CardStyles _style = CardStyles.Normal;
+        protected CardStyles _style = CardStyles.Normal;
 
         /// <summary>
         /// 卡片类型
@@ -72,61 +72,61 @@ namespace LeonReader.Client.Controls
 
         #region 交互单元区域
 
-        private Rectangle previewImageRectangle = new Rectangle();
+        protected Rectangle previewImageRectangle = new Rectangle();
         /// <summary>
         /// 预览图像区域
         /// </summary>
         protected Rectangle PreviewImageRectangle { get => previewImageRectangle; set => previewImageRectangle = value; }
 
-        private Rectangle titleRectangle = new Rectangle();
+        protected Rectangle titleRectangle = new Rectangle();
         /// <summary>
         /// 文章标题区域
         /// </summary>
         protected Rectangle TitleRectangle { get => titleRectangle; set => titleRectangle = value; }
 
-        private Rectangle descriptionRectangle = new Rectangle();
+        protected Rectangle descriptionRectangle = new Rectangle();
         /// <summary>
         /// 文章描述区域
         /// </summary>
         protected Rectangle DescriptionRectangle { get => descriptionRectangle; set => descriptionRectangle = value; }
 
-        private Rectangle publishTimeRectangle = new Rectangle();
+        protected Rectangle publishTimeRectangle = new Rectangle();
         /// <summary>
         /// 发布时间区域
         /// </summary>
         protected Rectangle PublishTimeRectangle { get => publishTimeRectangle; set => publishTimeRectangle = value; }
 
-        private Rectangle stateRectangle = new Rectangle();
+        protected Rectangle stateRectangle = new Rectangle();
         /// <summary>
         /// 状态区域
         /// </summary>
         protected Rectangle StateRectangle { get => stateRectangle; set => stateRectangle = value; }
 
-        private Rectangle mainButtonRectangle = new Rectangle();
+        protected Rectangle mainButtonRectangle = new Rectangle();
         /// <summary>
         /// 主按钮区域
         /// </summary>
         protected Rectangle MainButtonRectangle { get => mainButtonRectangle; set => mainButtonRectangle = value; }
 
-        private Rectangle readedButtonRectangle = new Rectangle();
+        protected Rectangle readedButtonRectangle = new Rectangle();
         /// <summary>
         /// 已读按钮区域
         /// </summary>
         protected Rectangle ReadedButtonRectangle { get => readedButtonRectangle; set => readedButtonRectangle = value; }
 
-        private Rectangle locationButtonRectangle = new Rectangle();
+        protected Rectangle locationButtonRectangle = new Rectangle();
         /// <summary>
         /// 定位文件夹按钮
         /// </summary>
         protected Rectangle LocationButtonRectangle { get => locationButtonRectangle; set => locationButtonRectangle = value; }
 
-        private Rectangle browserButtonRectangle = new Rectangle();
+        protected Rectangle browserButtonRectangle = new Rectangle();
         /// <summary>
         /// 在浏览器打开按钮
         /// </summary>
         protected Rectangle BrowserButtonRectangle { get => browserButtonRectangle; set => browserButtonRectangle = value; }
 
-        private Rectangle deleteButtonRectangle = new Rectangle();
+        protected Rectangle deleteButtonRectangle = new Rectangle();
         /// <summary>
         /// 删除按钮
         /// </summary>
@@ -140,6 +140,7 @@ namespace LeonReader.Client.Controls
         #endregion
 
         #region 属性
+        public new Size Size { get => base.Size; set => base.Size = value; }
         //TODO: 映射为文章标题
         public override string Text { get => base.Text; set => base.Text = value; }
         public override Cursor Cursor { get => base.Cursor; set => base.Cursor = value; }
@@ -206,6 +207,9 @@ namespace LeonReader.Client.Controls
                 stateRectangle,
                 mainButtonRectangle,
             };
+
+            //布局
+            ResetLayout(_style);
         }
 
         private void InitializeComponent()
@@ -215,10 +219,8 @@ namespace LeonReader.Client.Controls
             // ArticleCard
             // 
             this.MinimumSize = new System.Drawing.Size(100, 28);
-            this.Size = new System.Drawing.Size(256, 28);
+            this.Size = new System.Drawing.Size(360, 120);
             this.ResumeLayout(false);
-
-            ResetLayout(_style);
         }
 
         #endregion
@@ -347,12 +349,19 @@ namespace LeonReader.Client.Controls
         {
             _paintCount++;
             //TODO: 仅绘制与 e.ClipRectangle 相交的区域，提高性能
-            //Console.WriteLine($"绘制区域：{e.ClipRectangle.ToString()}");
-            //foreach (var rectangle in GetIntersectedRectangles(e.ClipRectangle))
-            //{
-            //    RePaintRecangle();
-            //}
-
+            /*
+            Console.WriteLine($"绘制区域：{e.ClipRectangle.ToString()}");
+            using (SolidBrush brush = new SolidBrush(Color.Black))
+            {
+                Random random = new Random();
+                foreach (var rectangle in GetIntersectedRectangles(e.ClipRectangle))
+                {
+                    brush.Color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                    e.Graphics.FillRectangle(brush, rectangle);
+                }
+            }
+            return;
+             */
             e.Graphics.FillRectangle(Brushes.Red, previewImageRectangle);
             e.Graphics.FillRectangle(Brushes.Orange, titleRectangle);
             e.Graphics.FillRectangle(Brushes.LightGreen, mainButtonRectangle);
