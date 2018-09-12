@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,67 +14,118 @@ namespace LeonReader.Client.Controls
     /// </summary>
     public class ArticleCard : Control
     {
+        #region 样式布局
 
-        #region Rectangle
-        private Rectangle previewImageRectangle;
+        /// <summary>
+        /// 卡片样式
+        /// </summary>
+        public enum CardStyles
+        {
+            /// <summary>
+            /// 精简
+            /// </summary>
+            Small=0,
+            /// <summary>
+            /// 正常
+            /// </summary>
+            Normal=1,
+            /// <summary>
+            /// 巨幅
+            /// </summary>
+            Large=2,
+        }
+
+        private CardStyles _style = CardStyles.Normal;
+
+        /// <summary>
+        /// 卡片类型
+        /// </summary>
+        [Browsable(true)]
+        [Description("设置卡片类型")]
+        public CardStyles Style
+        {
+            get => _style;
+            set
+            {
+                _style =value;
+                ResetLayout(value);
+            }
+        }
+
+        /// <summary>
+        /// 重新布局方法委托
+        /// </summary>
+        protected delegate void RelayoutDelegate();
+
+        /// <summary>
+        /// 重新布局方法委托
+        /// </summary>
+        protected RelayoutDelegate Relayout;
+
+        #endregion
+
+        #region 交互单元区域
+
+        private Rectangle previewImageRectangle = new Rectangle();
         /// <summary>
         /// 预览图像区域
         /// </summary>
         protected Rectangle PreviewImageRectangle { get => previewImageRectangle; set => previewImageRectangle = value; }
-       
-        private Rectangle titleRectangle;
+
+        private Rectangle titleRectangle = new Rectangle();
         /// <summary>
         /// 文章标题区域
         /// </summary>
         protected Rectangle TitleRectangle { get => titleRectangle; set => titleRectangle = value; }
-        
-        private Rectangle descriptionRectangle;
+
+        private Rectangle descriptionRectangle = new Rectangle();
         /// <summary>
         /// 文章描述区域
         /// </summary>
         protected Rectangle DescriptionRectangle { get => descriptionRectangle; set => descriptionRectangle = value; }
-        
-        private Rectangle publishTimeRectangle;
+
+        private Rectangle publishTimeRectangle = new Rectangle();
         /// <summary>
         /// 发布时间区域
         /// </summary>
         protected Rectangle PublishTimeRectangle { get => publishTimeRectangle; set => publishTimeRectangle = value; }
-        
-        private Rectangle stateRectangle;
+
+        private Rectangle stateRectangle = new Rectangle();
         /// <summary>
         /// 状态区域
         /// </summary>
         protected Rectangle StateRectangle { get => stateRectangle; set => stateRectangle = value; }
-        
-        private Rectangle mainButtonRectangle;
+
+        private Rectangle mainButtonRectangle = new Rectangle();
         /// <summary>
         /// 主按钮区域
         /// </summary>
         protected Rectangle MainButtonRectangle { get => mainButtonRectangle; set => mainButtonRectangle = value; }
-        
-        private Rectangle readedButtonRectangle;
+
+        private Rectangle readedButtonRectangle = new Rectangle();
         /// <summary>
         /// 已读按钮区域
         /// </summary>
         protected Rectangle ReadedButtonRectangle { get => readedButtonRectangle; set => readedButtonRectangle = value; }
-        
-        private Rectangle locationButtonRectangle;
+
+        private Rectangle locationButtonRectangle = new Rectangle();
         /// <summary>
         /// 定位文件夹按钮
         /// </summary>
         protected Rectangle LocationButtonRectangle { get => locationButtonRectangle; set => locationButtonRectangle = value; }
-        
-        private Rectangle browserButtonRectangle;
+
+        private Rectangle browserButtonRectangle = new Rectangle();
         /// <summary>
         /// 在浏览器打开按钮
         /// </summary>
         protected Rectangle BrowserButtonRectangle { get => browserButtonRectangle; set => browserButtonRectangle = value; }
-        
-        private Rectangle deleteButtonRectangle;
+
+        private Rectangle deleteButtonRectangle = new Rectangle();
         /// <summary>
         /// 删除按钮
         /// </summary>
         protected Rectangle DeleteButtonRectangle { get => deleteButtonRectangle; set => deleteButtonRectangle = value; }
+
         #endregion
 
         #region 属性
@@ -95,23 +147,30 @@ namespace LeonReader.Client.Controls
         #endregion
 
         #region 覆写方法
+
         protected override void OnSizeChanged(EventArgs e)
         {
-            ResetRectangle();
+            //尺寸改变重新布局
+            Relayout?.Invoke();
             this.Invalidate();
             base.OnSizeChanged(e);
         }
+
         protected override void OnClick(EventArgs e)
         {
             //TODO: 先根据鼠标所在子Rectangle，判断触发自定义的卡片事件或普通的 base.OnClick(e);
             base.OnClick(e);
         }
+
         protected override void OnTextChanged(EventArgs e)
         {
             //TODO: 刷新文章标题
             base.OnTextChanged(e);
         }
+
         #endregion
+
+        #region 构造初始化
 
         public ArticleCard()
         {
@@ -134,51 +193,121 @@ namespace LeonReader.Client.Controls
             this.Size = new System.Drawing.Size(256, 28);
             this.ResumeLayout(false);
 
-            ResetRectangle();
+            ResetLayout(_style);
         }
 
-        protected virtual void ResetRectangle()
+        #endregion
+
+        #region 布局
+
+        /// <summary>
+        /// 根据布局样式重新绑定布局委托并立即布局
+        /// </summary>
+        /// <param name="styles">布局样式</param>
+        protected virtual void ResetLayout(CardStyles styles)
         {
-            if (this.DisplayRectangle.Height > this.MinimumSize.Height)
+            switch (styles)
             {
-                //正常布局
-                previewImageRectangle = new Rectangle(this.DisplayRectangle.Location,
-                    new Size(Math.Min((int)((25.0 / 14.0) * this.DisplayRectangle.Height), this.DisplayRectangle.Width),
-                    this.DisplayRectangle.Height));
-                deleteButtonRectangle = new Rectangle(this.DisplayRectangle.Width - 28, 0, 28, 28);
-                mainButtonRectangle.Size = new Size(Math.Min(this.DisplayRectangle.Width - previewImageRectangle.Width, 112), 28);
-                mainButtonRectangle.Location = new Point(DisplayRectangle.Width - mainButtonRectangle.Width, Math.Max(DisplayRectangle.Height - 28, titleRectangle.Bottom));
+                case CardStyles.Normal:
+                    {
+                        Relayout = NormalLayout;
+                        break;
+                    }
+                case CardStyles.Small:
+                    {
+                        Relayout = SmallLayout;
+                        break;
+                    }
+                case CardStyles.Large:
+                    {
+                        Relayout = LargeLayout;
+                        break;
+                    }
             }
-            else
-            {
-                //精简布局
-                previewImageRectangle = new Rectangle(Point.Empty,Size.Empty);
-                mainButtonRectangle = new Rectangle(DisplayRectangle.Width - 90, 0, 90, 28);
-                deleteButtonRectangle = new Rectangle(mainButtonRectangle.Left - 28, 0, 28, 28);
-                titleRectangle = new Rectangle(previewImageRectangle.Right, 0, mainButtonRectangle.Left - previewImageRectangle.Right, 28);
-            }
+            Relayout();
+        }
+
+        /// <summary>
+        /// 精简布局（允许覆写）
+        /// </summary>
+        protected virtual void SmallLayout()
+        {
+            //精简布局
+            //        previewImageRectangle.X = previewImageRectangle.Y = previewImageRectangle.Width = previewImageRectangle.Height = 0;
+
+            //        mainButtonRectangle.Width = 90;
+            //        mainButtonRectangle.Height = 28;
+            //        mainButtonRectangle.X = DisplayRectangle.Width - 90;
+            //        mainButtonRectangle.Y = 0;
+
+            //        deleteButtonRectangle.X = mainButtonRectangle.Left - 28;
+            //        deleteButtonRectangle.Y = 0;
+            //        deleteButtonRectangle.Width = deleteButtonRectangle.Height = 28;
+
+            //        stateRectangle.Width = 0;
+            //    }
+
+            //    browserButtonRectangle = new Rectangle(deleteButtonRectangle.Left - 28, 0, 28, 28);
+            //    locationButtonRectangle = new Rectangle(browserButtonRectangle.Left - 28, 0, 28, 28);
+            //    readedButtonRectangle = new Rectangle(locationButtonRectangle.Left - 28, 0, 28, 28);
+            //    titleRectangle = new Rectangle(previewImageRectangle.Right, 0, readedButtonRectangle.Left - previewImageRectangle.Right, 28);
+            //    descriptionRectangle = new Rectangle(titleRectangle.Left, titleRectangle.Bottom, mainButtonRectangle.Right - previewImageRectangle.Right, Math.Max(0, mainButtonRectangle.Top - titleRectangle.Bottom));
+        }
+
+        /// <summary>
+        /// 正常布局（允许覆写）
+        /// </summary>
+        protected virtual void NormalLayout()
+        {
+            previewImageRectangle.X = previewImageRectangle.Y = 0;
+            previewImageRectangle.Width = Math.Min((int)((25.0 / 14.0) * this.DisplayRectangle.Height), this.DisplayRectangle.Width);
+            previewImageRectangle.Height = this.DisplayRectangle.Height;
+
+            deleteButtonRectangle.X = this.DisplayRectangle.Width - 28;
+            deleteButtonRectangle.Y = 0;
+            deleteButtonRectangle.Width = deleteButtonRectangle.Height = 28;
+
+            mainButtonRectangle.Width = Math.Min(this.DisplayRectangle.Width - previewImageRectangle.Width, 112);
+            mainButtonRectangle.Height = 28;
+            mainButtonRectangle.X = DisplayRectangle.Width - mainButtonRectangle.Width;
+            mainButtonRectangle.Y = Math.Max(DisplayRectangle.Height - 28, titleRectangle.Bottom);
+
+            stateRectangle.Height = 28;
+            stateRectangle.Width = 180;
+            stateRectangle.X = mainButtonRectangle.Left - stateRectangle.Width;
+            stateRectangle.Y = mainButtonRectangle.Y;
             browserButtonRectangle = new Rectangle(deleteButtonRectangle.Left - 28, 0, 28, 28);
             locationButtonRectangle = new Rectangle(browserButtonRectangle.Left - 28, 0, 28, 28);
             readedButtonRectangle = new Rectangle(locationButtonRectangle.Left - 28, 0, 28, 28);
             titleRectangle = new Rectangle(previewImageRectangle.Right, 0, readedButtonRectangle.Left - previewImageRectangle.Right, 28);
-            descriptionRectangle = new Rectangle(titleRectangle.Left,titleRectangle.Bottom, mainButtonRectangle.Right-previewImageRectangle.Right,Math.Max(0, mainButtonRectangle.Top-titleRectangle.Bottom));
+            descriptionRectangle = new Rectangle(titleRectangle.Left, titleRectangle.Bottom, mainButtonRectangle.Right - previewImageRectangle.Right, Math.Max(0, mainButtonRectangle.Top - titleRectangle.Bottom));
         }
+
+        /// <summary>
+        /// 巨幅布局（允许覆写）
+        /// </summary>
+        protected virtual void LargeLayout()
+        {
+
+        }
+
+        #endregion
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
             e.Graphics.FillRectangle(Brushes.Red, previewImageRectangle);
-            e.Graphics.DrawRectangle(Pens.DarkRed, previewImageRectangle.Left, previewImageRectangle.Top, previewImageRectangle.Width-1, previewImageRectangle.Height-1);
+            e.Graphics.DrawRectangle(Pens.DarkRed, previewImageRectangle.Left, previewImageRectangle.Top, previewImageRectangle.Width - 1, previewImageRectangle.Height - 1);
 
             e.Graphics.FillRectangle(Brushes.Orange, titleRectangle);
             e.Graphics.DrawRectangle(Pens.DarkOrange, titleRectangle.Left, titleRectangle.Top, titleRectangle.Width - 1, titleRectangle.Height - 1);
 
-            e.Graphics.FillRectangle(Brushes.LightGreen,mainButtonRectangle);
-            e.Graphics.DrawRectangle(Pens.Green, mainButtonRectangle.Left, mainButtonRectangle.Top, mainButtonRectangle.Width-1, mainButtonRectangle.Height-1);
+            e.Graphics.FillRectangle(Brushes.LightGreen, mainButtonRectangle);
+            e.Graphics.DrawRectangle(Pens.Green, mainButtonRectangle.Left, mainButtonRectangle.Top, mainButtonRectangle.Width - 1, mainButtonRectangle.Height - 1);
 
             e.Graphics.FillRectangle(Brushes.LightGray, descriptionRectangle);
-            e.Graphics.DrawRectangle(Pens.Gray,descriptionRectangle.Left, descriptionRectangle.Top, descriptionRectangle.Width-1, descriptionRectangle.Height-1);
+            e.Graphics.DrawRectangle(Pens.Gray, descriptionRectangle.Left, descriptionRectangle.Top, descriptionRectangle.Width - 1, descriptionRectangle.Height - 1);
 
             e.Graphics.FillRectangle(Brushes.DodgerBlue, deleteButtonRectangle);
             e.Graphics.DrawRectangle(Pens.DeepSkyBlue, deleteButtonRectangle.Left, deleteButtonRectangle.Top, deleteButtonRectangle.Width - 1, deleteButtonRectangle.Height - 1);
@@ -188,6 +317,8 @@ namespace LeonReader.Client.Controls
             e.Graphics.DrawRectangle(Pens.DeepSkyBlue, locationButtonRectangle.Left, locationButtonRectangle.Top, locationButtonRectangle.Width - 1, locationButtonRectangle.Height - 1);
             e.Graphics.FillRectangle(Brushes.CornflowerBlue, readedButtonRectangle);
             e.Graphics.DrawRectangle(Pens.DeepSkyBlue, readedButtonRectangle.Left, readedButtonRectangle.Top, readedButtonRectangle.Width - 1, readedButtonRectangle.Height - 1);
+
+            e.Graphics.FillRectangle(Brushes.DeepPink, stateRectangle);
         }
 
     }
