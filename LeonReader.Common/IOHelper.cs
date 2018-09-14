@@ -40,7 +40,7 @@ namespace LeonReader.Common
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -76,7 +76,7 @@ namespace LeonReader.Common
                 catch (Exception ex)
                 {
                     LogHelper.Error($"获取文件大小错误：{ex.Message}");
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -101,7 +101,7 @@ namespace LeonReader.Common
             catch (Exception ex)
             {
                 LogHelper.Error($"IO助手创建目录失败：{path}，{ex.Message}");
-                throw ex;
+                throw;
             }
         }
 

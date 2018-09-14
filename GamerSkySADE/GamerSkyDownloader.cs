@@ -39,7 +39,7 @@ namespace GamerSkySADE
             catch (Exception ex)
             {
                 LogHelper.Error($"检查文章下载目录失败：{ex.Message}，From：{ASDESource}");
-                throw ex;
+                throw;
             }
 
             //初始化
@@ -87,7 +87,7 @@ namespace GamerSkySADE
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }

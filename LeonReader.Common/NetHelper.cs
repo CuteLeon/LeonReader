@@ -56,7 +56,7 @@ namespace LeonReader.Common
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -84,7 +84,7 @@ namespace LeonReader.Common
                 catch (Exception ex)
                 {
                     LogHelper.Error($"获取网页内容遇到异常：{address}，{ex.Message}");
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace LeonReader.Common
                 catch (Exception ex)
                 {
                     LogHelper.Error($"下载网络文件遇到异常：{address}，{ex.Message}");
-                    throw ex;
+                    throw;
                 }
             }
         }

@@ -91,7 +91,7 @@ namespace GamerSkySADE
                 catch (Exception ex)
                 {
                     LogHelper.Error($"获取页面内容遇到错误（第 {PageCount} 页）：{PageLink}，{ex.Message}，From：{this.ASDESource}");
-                    throw ex;
+                    throw;
                 }
 
                 if (string.IsNullOrEmpty(ArticleContent))

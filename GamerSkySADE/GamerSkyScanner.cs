@@ -45,7 +45,7 @@ namespace GamerSkySADE
             catch (Exception ex)
             {
                 LogHelper.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，{ex.Message}，From：{this.ASDESource}");
-                throw ex;
+                throw;
             }
 
             if (string.IsNullOrEmpty(CatalogContent))

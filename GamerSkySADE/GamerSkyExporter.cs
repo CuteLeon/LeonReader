@@ -38,7 +38,7 @@ namespace GamerSkySADE
             catch (Exception ex)
             {
                 LogHelper.Error($"检查文章导出目录失败：{ex.Message}，From：{ASDESource}");
-                throw ex;
+                throw;
             }
 
             //初始化
@@ -56,7 +56,7 @@ namespace GamerSkySADE
             catch (Exception ex)
             {
                 LogHelper.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{ASDESource}");
-                throw ex;
+                throw;
             }
         }
 
@@ -93,7 +93,7 @@ namespace GamerSkySADE
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw;
                 }
                 finally
                 {
@@ -115,7 +115,7 @@ namespace GamerSkySADE
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
