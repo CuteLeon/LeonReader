@@ -2,6 +2,7 @@
 using LeonDirectUI.DUIControl;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -114,6 +115,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 卡片类型
         /// </summary>
+        [DefaultValue(CardStyles.Normal)]
         public CardStyles Style
         {
             get => _style;
@@ -166,22 +168,12 @@ namespace LeonReader.Client.DirectUI.Container
             Add(DUIDeleteButton = new ControlBase());
             Add(DUIMainButton = new ControlBase());
 
-            /*
-            e.Graphics.FillRectangle(Brushes.Red, previewImageRectangle);
-            e.Graphics.FillRectangle(Brushes.Orange, titleRectangle);
-            e.Graphics.FillRectangle(Brushes.LightGreen, mainButtonRectangle);
-            e.Graphics.FillRectangle(Brushes.DodgerBlue, deleteButtonRectangle);
-            e.Graphics.FillRectangle(Brushes.BlueViolet, browserButtonRectangle);
-            e.Graphics.FillRectangle(Brushes.CadetBlue, locationButtonRectangle);
-            e.Graphics.FillRectangle(Brushes.CornflowerBlue, readedButtonRectangle);
-            e.Graphics.FillRectangle(Brushes.Pink, stateRectangle);
-             */
             #region 发布时间标签
 
             DUIPublishTimeLabel.Name = "发布时间标签";
             DUIPublishTimeLabel.Text = DateTime.Now.ToString();
             DUIPublishTimeLabel.ForeColor = Color.Gray;
-            DUIPublishTimeLabel.Image = null;/* TODO: 发布时间图标 */
+            DUIPublishTimeLabel.Image = null; /* TODO: 发布时间图标 */
             DUIPublishTimeLabel.ImageAlign = ContentAlignment.MiddleLeft;
             DUIPublishTimeLabel.ShowEllipsis = true;
             DUIPublishTimeLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -197,10 +189,25 @@ namespace LeonReader.Client.DirectUI.Container
             DUIDescriptionLabel.BackColor = Color.LightGray;
             #endregion
 
+            #region 预览图相框
+
+            DUIPreviewImageBox.Name = "预览图像框";
+            DUIPreviewImageBox.BackColor = Color.Red;
+            DUIPreviewImageBox.BackgroundImage = null; /* TODO: 文章预览图像 */
+            DUIPreviewImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            #endregion
+
+            #region 状态栏标签
+
+            DUIStateLabel.Name = "状态栏标签";
+            DUIStateLabel.BackColor = Color.Pink;
+            #endregion
+
+            #region 标题标签
+
             DUITitleLabel.Name = "标题标签";
             DUITitleLabel.Text = "标题标签";
-            DUITitleLabel.ForeColor = Color.Orange;
-            DUITitleLabel.BackColor = Color.Red;
+            DUITitleLabel.BackColor = Color.Orange;
             DUITitleLabel.ShowEllipsis = true;
             DUITitleLabel.Mouseable = true;
             DUITitleLabel.Font = new Font(DUITitleLabel.Font, FontStyle.Bold);
@@ -209,13 +216,37 @@ namespace LeonReader.Client.DirectUI.Container
             DUITitleLabel.MouseLeave += (s, e) => { DUITitleLabel.ForeColor = Color.Orange; };
             DUITitleLabel.MouseDown += (s, e) => { DUITitleLabel.ForeColor = Color.Chocolate; };
             DUITitleLabel.MouseUp += (s, e) => { DUITitleLabel.ForeColor = Color.OrangeRed; };
+            #endregion
 
-            DUIPreviewImageBox.Name = "预览图像框";
-            DUIPreviewImageBox.Text = string.Empty;
-            DUIPreviewImageBox.BackColor = Color.Silver;
-            DUIPreviewImageBox.Image = null;
-            DUIPreviewImageBox.ImageAlign = ContentAlignment.MiddleCenter;
-            DUIPreviewImageBox.Click += (s, e) => { Console.WriteLine("点击预览图像区域"); };
+            #region 定位按钮
+
+            DUILocationButton.Name = "定位按钮";
+            DUILocationButton.BackColor = Color.CadetBlue;
+            #endregion
+
+            #region 置为已读按钮
+
+            DUIReadedButton.Name = "已读按钮";
+            DUIReadedButton.BackColor = Color.CornflowerBlue;
+            #endregion
+
+            #region 浏览按钮
+
+            DUIBrowserButton.Name = "浏览按钮";
+            DUIBrowserButton.BackColor = Color.BlueViolet;
+            #endregion
+
+            #region 删除按钮
+
+            DUIDeleteButton.Name = "删除按钮";
+            DUIDeleteButton.BackColor = Color.DodgerBlue;
+            #endregion
+
+            #region 主按钮
+
+            DUIMainButton.Name = "主按钮";
+            DUIMainButton.BackColor = Color.LightGreen;
+            #endregion
         }
 
         /// <summary>
@@ -268,53 +299,56 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         protected virtual void NormalLayout(int width, int height)
         {
-            /*
-            previewImageRectangle.X = previewImageRectangle.Y = 0;
-            previewImageRectangle.Width = Math.Min((int)((25.0 / 14.0) * this.DisplayRectangle.Height), this.DisplayRectangle.Width);
-            previewImageRectangle.Height = this.DisplayRectangle.Height;
+            DUIPreviewImageBox.Left = DUIPreviewImageBox.Top = 0;
+            DUIPreviewImageBox.Width = Math.Min((int)((25.0 / 14.0) * height), width);
+            DUIPreviewImageBox.Height = height;
 
-            deleteButtonRectangle.Y = 0;
-            deleteButtonRectangle.Width = Math.Min(this.DisplayRectangle.Width - previewImageRectangle.Right, 28);
-            deleteButtonRectangle.Height = 28;
-            deleteButtonRectangle.X = this.DisplayRectangle.Width - deleteButtonRectangle.Width;
+            DUIDeleteButton.Top = 0;
+            DUIDeleteButton.Width = Math.Min(width - DUIPreviewImageBox.Right, 28);
+            DUIDeleteButton.Height = 28;
+            DUIDeleteButton.Left = width - DUIDeleteButton.Width;
 
-            browserButtonRectangle.Y = 0;
-            browserButtonRectangle.Width = Math.Min(deleteButtonRectangle.Left - previewImageRectangle.Right, 28);
-            browserButtonRectangle.Height = 28;
-            browserButtonRectangle.X = deleteButtonRectangle.Left - browserButtonRectangle.Width;
+            DUIBrowserButton.Top = 0;
+            DUIBrowserButton.Width = Math.Min(DUIDeleteButton.Left - DUIPreviewImageBox.Right, 28);
+            DUIBrowserButton.Height = 28;
+            DUIBrowserButton.Left = DUIDeleteButton.Left - DUIBrowserButton.Width;
 
-            locationButtonRectangle.Y = 0;
-            locationButtonRectangle.Width = Math.Min(browserButtonRectangle.Left - previewImageRectangle.Right, 28);
-            locationButtonRectangle.Height = 28;
-            locationButtonRectangle.X = browserButtonRectangle.Left - locationButtonRectangle.Width;
+            DUILocationButton.Top = 0;
+            DUILocationButton.Width = Math.Min(DUIBrowserButton.Left - DUIPreviewImageBox.Right, 28);
+            DUILocationButton.Height = 28;
+            DUILocationButton.Left = DUIBrowserButton.Left - DUILocationButton.Width;
 
-            readedButtonRectangle.Y = 0;
-            readedButtonRectangle.Width = Math.Min(locationButtonRectangle.Left - previewImageRectangle.Right, 28);
-            readedButtonRectangle.Height = 28;
-            readedButtonRectangle.X = locationButtonRectangle.Left - readedButtonRectangle.Width;
+            DUIReadedButton.Top = 0;
+            DUIReadedButton.Width = Math.Min(DUILocationButton.Left - DUIPreviewImageBox.Right, 28);
+            DUIReadedButton.Height = 28;
+            DUIReadedButton.Left = DUILocationButton.Left - DUIReadedButton.Width;
 
-            titleRectangle.X = previewImageRectangle.Right;
-            titleRectangle.Y = 0;
-            titleRectangle.Width = Math.Max(readedButtonRectangle.Left - previewImageRectangle.Right, 0);
-            titleRectangle.Height = 28;
+            DUITitleLabel.Left = DUIPreviewImageBox.Right;
+            DUITitleLabel.Top = 0;
+            DUITitleLabel.Width = Math.Max(DUIReadedButton.Left - DUIPreviewImageBox.Right, 0);
+            DUITitleLabel.Height = 28;
 
-            mainButtonRectangle.Width = Math.Min(this.DisplayRectangle.Width - previewImageRectangle.Width, 112);
-            mainButtonRectangle.Height = 28;
-            mainButtonRectangle.X = this.DisplayRectangle.Width - mainButtonRectangle.Width;
-            mainButtonRectangle.Y = Math.Max(DisplayRectangle.Height - 28, titleRectangle.Bottom);
+            DUIMainButton.Width = Math.Min(this.DisplayRectangle.Width - DUIPreviewImageBox.Width, 112);
+            DUIMainButton.Height = 28;
+            DUIMainButton.Left = this.DisplayRectangle.Width - DUIMainButton.Width;
+            DUIMainButton.Top = Math.Max(DisplayRectangle.Height - 28, DUITitleLabel.Bottom);
 
-            stateRectangle.Height = 28;
-            stateRectangle.Width = Math.Min(mainButtonRectangle.Left - previewImageRectangle.Right, 180);
-            stateRectangle.X = Math.Max(mainButtonRectangle.Left - stateRectangle.Width, 0);
-            stateRectangle.Y = mainButtonRectangle.Y;
+            DUIStateLabel.Height = 28;
+            DUIStateLabel.Width = Math.Min(DUIMainButton.Left - DUIPreviewImageBox.Right, 180);
+            DUIStateLabel.Left = Math.Max(DUIMainButton.Left - DUIStateLabel.Width, 0);
+            DUIStateLabel.Top = DUIMainButton.Top;
 
-            publishTimeRectangle.X = previewImageRectangle.Right;
-            publishTimeRectangle.Y = mainButtonRectangle.Top;
-            publishTimeRectangle.Width = Math.Max(stateRectangle.Left - previewImageRectangle.Width, 0);
-            publishTimeRectangle.Height = 28;
+            DUIPublishTimeLabel.Left = DUIPreviewImageBox.Right;
+            DUIPublishTimeLabel.Top = DUIMainButton.Top;
+            DUIPublishTimeLabel.Width = DUIStateLabel.Left - DUIPreviewImageBox.Width;
+            DUIPublishTimeLabel.Height = 28;
 
-            descriptionRectangle = new Rectangle(titleRectangle.Left, titleRectangle.Bottom, mainButtonRectangle.Right - previewImageRectangle.Right, Math.Max(0, mainButtonRectangle.Top - titleRectangle.Bottom));
-             */
+            DUIDescriptionLabel.SetBounds(
+                DUITitleLabel.Left,
+                DUITitleLabel.Bottom,
+                DUIMainButton.Right - DUIPreviewImageBox.Right,
+                DUIMainButton.Top - DUITitleLabel.Bottom
+                );
         }
 
         /// <summary>
@@ -328,8 +362,6 @@ namespace LeonReader.Client.DirectUI.Container
         #endregion
 
         /*
-
-
         e.Graphics.DrawRectangle(Pens.DarkRed, previewImageRectangle.Left, previewImageRectangle.Top, previewImageRectangle.Width - 1, previewImageRectangle.Height - 1);
         e.Graphics.DrawRectangle(Pens.DarkOrange, titleRectangle.Left, titleRectangle.Top, titleRectangle.Width - 1, titleRectangle.Height - 1);
         e.Graphics.DrawRectangle(Pens.Green, mainButtonRectangle.Left, mainButtonRectangle.Top, mainButtonRectangle.Width - 1, mainButtonRectangle.Height - 1);
@@ -343,5 +375,15 @@ namespace LeonReader.Client.DirectUI.Container
 
         e.Graphics.DrawString($"Style: {Style}, delegate: {Relayout.Method.Name}", this.Font, Brushes.White, Point.Empty);
          */
+
+
+        //TODO: 调试代码，记得删掉哈
+        public override void Add(ControlBase control)
+        {
+            base.Add(control);
+            control.Mouseable = true;
+            control.MouseEnter += (s, e) => { (s as ControlBase).Text = (s as ControlBase).Name; };
+            control.MouseLeave += (s, e) => { (s as ControlBase).Text = string.Empty; };
+        }
     }
 }

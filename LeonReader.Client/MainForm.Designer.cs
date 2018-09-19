@@ -41,9 +41,11 @@
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.cardContainer1 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
@@ -142,6 +144,7 @@
             // 
             this.flowLayoutPanel2.AutoScroll = true;
             this.flowLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer1);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
@@ -194,6 +197,17 @@
             this.flowLayoutPanel4.TabIndex = 9;
             this.flowLayoutPanel4.WrapContents = false;
             // 
+            // cardContainer1
+            // 
+            this.cardContainer1.Description = "文章描述内容";
+            this.cardContainer1.Location = new System.Drawing.Point(3, 3);
+            this.cardContainer1.Name = "cardContainer1";
+            this.cardContainer1.PreviewImage = null;
+            this.cardContainer1.Size = new System.Drawing.Size(665, 127);
+            this.cardContainer1.TabIndex = 0;
+            this.cardContainer1.Text = "cardContainer1";
+            this.cardContainer1.Title = "标题标签";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -208,6 +222,7 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -229,6 +244,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private DirectUI.Container.CardContainer cardContainer1;
     }
 }
 
