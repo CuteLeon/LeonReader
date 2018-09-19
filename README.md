@@ -22,3 +22,8 @@
 > ### COM层：
   通用组件集合，用于集成系统通用的功能组件，如日志服务、文件服务、API服务、网络服务等；
   无引用；
+
+***
+项目内使用的DirectUI框架：
+
+> [LeonDirectUI](https://github.com/CuteLeon/LeonDirectUI "https://github.com/CuteLeon/LeonDirectUI")
