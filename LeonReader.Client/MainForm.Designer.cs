@@ -42,6 +42,15 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.cardContainer1 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer2 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer3 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer4 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer5 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer6 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer7 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer8 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer9 = new LeonReader.Client.DirectUI.Container.CardContainer();
+            this.cardContainer10 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -145,6 +154,15 @@
             this.flowLayoutPanel2.AutoScroll = true;
             this.flowLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanel2.Controls.Add(this.cardContainer1);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer2);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer3);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer4);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer5);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer6);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer7);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer8);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer9);
+            this.flowLayoutPanel2.Controls.Add(this.cardContainer10);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
@@ -203,10 +221,109 @@
             this.cardContainer1.Location = new System.Drawing.Point(3, 3);
             this.cardContainer1.Name = "cardContainer1";
             this.cardContainer1.PreviewImage = null;
-            this.cardContainer1.Size = new System.Drawing.Size(665, 127);
+            this.cardContainer1.Size = new System.Drawing.Size(99, 91);
             this.cardContainer1.TabIndex = 0;
             this.cardContainer1.Text = "cardContainer1";
             this.cardContainer1.Title = "标题标签";
+            // 
+            // cardContainer2
+            // 
+            this.cardContainer2.Description = "文章描述内容";
+            this.cardContainer2.Location = new System.Drawing.Point(3, 100);
+            this.cardContainer2.Name = "cardContainer2";
+            this.cardContainer2.PreviewImage = null;
+            this.cardContainer2.Size = new System.Drawing.Size(177, 91);
+            this.cardContainer2.TabIndex = 1;
+            this.cardContainer2.Text = "cardContainer2";
+            this.cardContainer2.Title = "标题标签";
+            // 
+            // cardContainer3
+            // 
+            this.cardContainer3.Description = "文章描述内容";
+            this.cardContainer3.Location = new System.Drawing.Point(3, 197);
+            this.cardContainer3.Name = "cardContainer3";
+            this.cardContainer3.PreviewImage = null;
+            this.cardContainer3.Size = new System.Drawing.Size(207, 91);
+            this.cardContainer3.TabIndex = 2;
+            this.cardContainer3.Text = "cardContainer3";
+            this.cardContainer3.Title = "标题标签";
+            // 
+            // cardContainer4
+            // 
+            this.cardContainer4.Description = "文章描述内容";
+            this.cardContainer4.Location = new System.Drawing.Point(3, 294);
+            this.cardContainer4.Name = "cardContainer4";
+            this.cardContainer4.PreviewImage = null;
+            this.cardContainer4.Size = new System.Drawing.Size(230, 91);
+            this.cardContainer4.TabIndex = 3;
+            this.cardContainer4.Text = "cardContainer4";
+            this.cardContainer4.Title = "标题标签";
+            // 
+            // cardContainer5
+            // 
+            this.cardContainer5.Description = "文章描述内容";
+            this.cardContainer5.Location = new System.Drawing.Point(3, 391);
+            this.cardContainer5.Name = "cardContainer5";
+            this.cardContainer5.PreviewImage = null;
+            this.cardContainer5.Size = new System.Drawing.Size(264, 91);
+            this.cardContainer5.TabIndex = 4;
+            this.cardContainer5.Text = "cardContainer5";
+            this.cardContainer5.Title = "标题标签";
+            // 
+            // cardContainer6
+            // 
+            this.cardContainer6.Description = "文章描述内容";
+            this.cardContainer6.Location = new System.Drawing.Point(3, 488);
+            this.cardContainer6.Name = "cardContainer6";
+            this.cardContainer6.PreviewImage = null;
+            this.cardContainer6.Size = new System.Drawing.Size(344, 91);
+            this.cardContainer6.TabIndex = 5;
+            this.cardContainer6.Text = "cardContainer6";
+            this.cardContainer6.Title = "标题标签";
+            // 
+            // cardContainer7
+            // 
+            this.cardContainer7.Description = "文章描述内容";
+            this.cardContainer7.Location = new System.Drawing.Point(3, 585);
+            this.cardContainer7.Name = "cardContainer7";
+            this.cardContainer7.PreviewImage = null;
+            this.cardContainer7.Size = new System.Drawing.Size(489, 91);
+            this.cardContainer7.TabIndex = 6;
+            this.cardContainer7.Text = "cardContainer7";
+            this.cardContainer7.Title = "标题标签";
+            // 
+            // cardContainer8
+            // 
+            this.cardContainer8.Description = "文章描述内容";
+            this.cardContainer8.Location = new System.Drawing.Point(3, 682);
+            this.cardContainer8.Name = "cardContainer8";
+            this.cardContainer8.PreviewImage = null;
+            this.cardContainer8.Size = new System.Drawing.Size(631, 91);
+            this.cardContainer8.TabIndex = 7;
+            this.cardContainer8.Text = "cardContainer8";
+            this.cardContainer8.Title = "标题标签";
+            // 
+            // cardContainer9
+            // 
+            this.cardContainer9.Description = "文章描述内容";
+            this.cardContainer9.Location = new System.Drawing.Point(3, 779);
+            this.cardContainer9.Name = "cardContainer9";
+            this.cardContainer9.PreviewImage = null;
+            this.cardContainer9.Size = new System.Drawing.Size(652, 91);
+            this.cardContainer9.TabIndex = 8;
+            this.cardContainer9.Text = "cardContainer9";
+            this.cardContainer9.Title = "标题标签";
+            // 
+            // cardContainer10
+            // 
+            this.cardContainer10.Description = "文章描述内容";
+            this.cardContainer10.Location = new System.Drawing.Point(3, 876);
+            this.cardContainer10.Name = "cardContainer10";
+            this.cardContainer10.PreviewImage = null;
+            this.cardContainer10.Size = new System.Drawing.Size(361, 220);
+            this.cardContainer10.TabIndex = 9;
+            this.cardContainer10.Text = "cardContainer10";
+            this.cardContainer10.Title = "标题标签";
             // 
             // MainForm
             // 
@@ -245,6 +362,15 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private DirectUI.Container.CardContainer cardContainer1;
+        private DirectUI.Container.CardContainer cardContainer2;
+        private DirectUI.Container.CardContainer cardContainer3;
+        private DirectUI.Container.CardContainer cardContainer4;
+        private DirectUI.Container.CardContainer cardContainer5;
+        private DirectUI.Container.CardContainer cardContainer6;
+        private DirectUI.Container.CardContainer cardContainer7;
+        private DirectUI.Container.CardContainer cardContainer8;
+        private DirectUI.Container.CardContainer cardContainer9;
+        private DirectUI.Container.CardContainer cardContainer10;
     }
 }
 

@@ -168,6 +168,8 @@ namespace LeonReader.Client.DirectUI.Container
             Add(DUIDeleteButton = new ControlBase());
             Add(DUIMainButton = new ControlBase());
 
+            this.SuspendPaint();
+
             #region 发布时间标签
 
             DUIPublishTimeLabel.Name = "发布时间标签";
@@ -247,6 +249,8 @@ namespace LeonReader.Client.DirectUI.Container
             DUIMainButton.Name = "主按钮";
             DUIMainButton.BackColor = Color.LightGreen;
             #endregion
+
+            this.ResumePaint();
         }
 
         /// <summary>
@@ -256,8 +260,12 @@ namespace LeonReader.Client.DirectUI.Container
         /// <param name="height"></param>
         public override void ResetSize(int width, int height)
         {
+            this.SuspendPaint();
+
             //通过委托调用对应样式的绘制方法
             Relayout(width, height);
+
+            this.ResumePaint();
         }
 
         /// <summary>
