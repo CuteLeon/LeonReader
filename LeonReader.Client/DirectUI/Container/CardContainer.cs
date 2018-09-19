@@ -88,6 +88,11 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         protected ControlBase DUIDeleteButton;
 
+        /// <summary>
+        /// 分割线
+        /// </summary>
+        protected ControlBase DUISpliteLine;
+
         #endregion
 
         #region 样式布局
@@ -146,6 +151,9 @@ namespace LeonReader.Client.DirectUI.Container
 
         public CardContainer()
         {
+            this.BackColor = Color.White;
+            this.MouseEnter += (s, e) => { DUISpliteLine.BackColor = Color.Red; };
+            this.MouseLeave += (s, e) => { DUISpliteLine.BackColor = Color.DeepSkyBlue; };
             Relayout = NormalLayout;
         }
 
@@ -167,6 +175,7 @@ namespace LeonReader.Client.DirectUI.Container
             Add(DUIBrowserButton = new ControlBase());
             Add(DUIDeleteButton = new ControlBase());
             Add(DUIMainButton = new ControlBase());
+            Add(DUISpliteLine = new ControlBase());
 
             this.SuspendPaint();
 
@@ -175,41 +184,47 @@ namespace LeonReader.Client.DirectUI.Container
             DUIPublishTimeLabel.Name = "发布时间标签";
             DUIPublishTimeLabel.Text = DateTime.Now.ToString();
             DUIPublishTimeLabel.ForeColor = Color.Gray;
-            DUIPublishTimeLabel.Image = null; /* TODO: 发布时间图标 */
+            DUIPublishTimeLabel.Image = UnityResource.ClockIcon;
             DUIPublishTimeLabel.ImageAlign = ContentAlignment.MiddleLeft;
             DUIPublishTimeLabel.ShowEllipsis = true;
             DUIPublishTimeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            DUIPublishTimeLabel.BackColor = Color.MediumPurple;
+            //DUIPublishTimeLabel.BackColor = Color.MediumPurple;
             #endregion
 
             #region 文章描述标签
 
             DUIDescriptionLabel.Name = "文章描述标签";
             DUIDescriptionLabel.Text = "文章描述内容";
-            DUIDescriptionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            DUIDescriptionLabel.TextAlign = ContentAlignment.TopLeft;
             DUIDescriptionLabel.ShowEllipsis = true;
-            DUIDescriptionLabel.BackColor = Color.LightGray;
+            //DUIDescriptionLabel.BackColor = Color.LightGray;
             #endregion
 
             #region 预览图相框
 
             DUIPreviewImageBox.Name = "预览图像框";
-            DUIPreviewImageBox.BackColor = Color.Red;
-            DUIPreviewImageBox.BackgroundImage = null; /* TODO: 文章预览图像 */
-            DUIPreviewImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            DUIPreviewImageBox.BackgroundImage = UnityResource.BrokenImage; /* TODO: 文章预览图像 */
+            DUIPreviewImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            //DUIPreviewImageBox.BackColor = Color.Red;
             #endregion
 
             #region 状态栏标签
 
             DUIStateLabel.Name = "状态栏标签";
-            DUIStateLabel.BackColor = Color.Pink;
+            DUIStateLabel.Text = "爸爸，点击右边的按钮开始下载";
+            DUIStateLabel.ForeColor = Color.Gray;
+            DUIStateLabel.Image = UnityResource.DownloadIcon;
+            DUIStateLabel.ImageAlign = ContentAlignment.MiddleLeft;
+            DUIStateLabel.ShowEllipsis = false;
+            DUIStateLabel.TextAlign = ContentAlignment.MiddleCenter;
+            //DUIStateLabel.BackColor = Color.Pink;
             #endregion
 
             #region 标题标签
 
             DUITitleLabel.Name = "标题标签";
             DUITitleLabel.Text = "标题标签";
-            DUITitleLabel.BackColor = Color.Orange;
+            DUITitleLabel.ForeColor = Color.Orange;
             DUITitleLabel.ShowEllipsis = true;
             DUITitleLabel.Mouseable = true;
             DUITitleLabel.Font = new Font(DUITitleLabel.Font, FontStyle.Bold);
@@ -218,36 +233,75 @@ namespace LeonReader.Client.DirectUI.Container
             DUITitleLabel.MouseLeave += (s, e) => { DUITitleLabel.ForeColor = Color.Orange; };
             DUITitleLabel.MouseDown += (s, e) => { DUITitleLabel.ForeColor = Color.Chocolate; };
             DUITitleLabel.MouseUp += (s, e) => { DUITitleLabel.ForeColor = Color.OrangeRed; };
+            //DUITitleLabel.BackColor = Color.Orange;
             #endregion
 
             #region 定位按钮
 
             DUILocationButton.Name = "定位按钮";
-            DUILocationButton.BackColor = Color.CadetBlue;
+            DUILocationButton.Mouseable = true;
+            DUILocationButton.Image = UnityResource.Location_0;
+            DUILocationButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUILocationButton.Click += (s, e) => { /* TODO: 抛出点击定位按钮事件 */ };
+            DUILocationButton.MouseEnter += (s, e) => { DUILocationButton.Image = UnityResource.Location_1; };
+            DUILocationButton.MouseLeave += (s, e) => { DUILocationButton.Image = UnityResource.Location_0; };
+            //DUILocationButton.BackColor = Color.CadetBlue;
             #endregion
 
             #region 置为已读按钮
 
             DUIReadedButton.Name = "已读按钮";
-            DUIReadedButton.BackColor = Color.CornflowerBlue;
+            DUIReadedButton.Mouseable = true;
+            DUIReadedButton.Image = UnityResource.Flag_0;
+            DUIReadedButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUIReadedButton.Click += (s, e) => { /* TODO: 抛出点击已读按钮事件 */ };
+            DUIReadedButton.MouseEnter += (s, e) => { DUIReadedButton.Image = UnityResource.Flag_1; };
+            DUIReadedButton.MouseLeave += (s, e) => { DUIReadedButton.Image = UnityResource.Flag_0; };
+            //DUIReadedButton.BackColor = Color.CornflowerBlue;
             #endregion
 
             #region 浏览按钮
 
             DUIBrowserButton.Name = "浏览按钮";
-            DUIBrowserButton.BackColor = Color.BlueViolet;
+            DUIBrowserButton.Mouseable = true;
+            DUIBrowserButton.Image = UnityResource.Browser_0;
+            DUIBrowserButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUIBrowserButton.Click += (s, e) => { /* TODO: 抛出点击浏览按钮事件 */ };
+            DUIBrowserButton.MouseEnter += (s, e) => { DUIBrowserButton.Image = UnityResource.Browser_1; };
+            DUIBrowserButton.MouseLeave += (s, e) => { DUIBrowserButton.Image = UnityResource.Browser_0; };
+            //DUIBrowserButton.BackColor = Color.BlueViolet;
             #endregion
 
             #region 删除按钮
 
             DUIDeleteButton.Name = "删除按钮";
-            DUIDeleteButton.BackColor = Color.DodgerBlue;
+            DUIDeleteButton.Mouseable = true;
+            DUIDeleteButton.Image = UnityResource.Delete_0;
+            DUIDeleteButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUIDeleteButton.Click += (s, e) => { /* TODO: 抛出点击删除按钮事件 */ };
+            DUIDeleteButton.MouseEnter += (s, e) => { DUIDeleteButton.Image = UnityResource.Delete_1; };
+            DUIDeleteButton.MouseLeave += (s, e) => { DUIDeleteButton.Image = UnityResource.Delete_0; };
+            //DUIDeleteButton.BackColor = Color.DodgerBlue;
             #endregion
 
             #region 主按钮
 
             DUIMainButton.Name = "主按钮";
-            DUIMainButton.BackColor = Color.LightGreen;
+            DUIMainButton.Mouseable = true;
+            DUIMainButton.Image = UnityResource.Button_0;
+            DUIMainButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUIMainButton.Click += (s, e) => { /* TODO: 抛出点击主按钮事件 */ };
+            DUIMainButton.MouseEnter += (s, e) => { DUIMainButton.Image = UnityResource.Button_1; };
+            DUIMainButton.MouseLeave += (s, e) => { DUIMainButton.Image = UnityResource.Button_0; };
+            DUIMainButton.MouseDown += (s, e) => { DUIMainButton.Image = UnityResource.Button_2; };
+            DUIMainButton.MouseUp += (s, e) => { DUIMainButton.Image = UnityResource.Button_1; };
+            //DUIMainButton.BackColor = Color.LightGreen;
+            #endregion
+
+            #region 分割线
+
+            DUISpliteLine.Name = "分割线";
+            DUISpliteLine.BackColor = Color.DeepSkyBlue;
             #endregion
 
             this.ResumePaint();
@@ -307,42 +361,45 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         protected virtual void NormalLayout(int width, int height)
         {
-            DUIPreviewImageBox.Left = DUIPreviewImageBox.Top = 0;
-            DUIPreviewImageBox.Width = Math.Min((int)((25.0 / 14.0) * height), width);
-            DUIPreviewImageBox.Height = height;
+            DUISpliteLine.SetBounds(0, 0, width, 6);
 
-            DUIDeleteButton.Top = 0;
+            DUIPreviewImageBox.Left = 0;
+            DUIPreviewImageBox.Top = DUISpliteLine.Bottom;
+            DUIPreviewImageBox.Width = Math.Min((int)((25.0 / 14.0) * (height - DUISpliteLine.Bottom)), width);
+            DUIPreviewImageBox.Height = height- DUISpliteLine.Bottom;
+
+            DUIDeleteButton.Top = DUISpliteLine.Bottom;
             DUIDeleteButton.Width = Math.Min(width - DUIPreviewImageBox.Right, 28);
             DUIDeleteButton.Height = 28;
             DUIDeleteButton.Left = width - DUIDeleteButton.Width;
 
-            DUIBrowserButton.Top = 0;
+            DUIBrowserButton.Top = DUISpliteLine.Bottom;
             DUIBrowserButton.Width = Math.Min(DUIDeleteButton.Left - DUIPreviewImageBox.Right, 28);
             DUIBrowserButton.Height = 28;
             DUIBrowserButton.Left = DUIDeleteButton.Left - DUIBrowserButton.Width;
 
-            DUILocationButton.Top = 0;
+            DUILocationButton.Top = DUISpliteLine.Bottom;
             DUILocationButton.Width = Math.Min(DUIBrowserButton.Left - DUIPreviewImageBox.Right, 28);
             DUILocationButton.Height = 28;
             DUILocationButton.Left = DUIBrowserButton.Left - DUILocationButton.Width;
 
-            DUIReadedButton.Top = 0;
+            DUIReadedButton.Top = DUISpliteLine.Bottom;
             DUIReadedButton.Width = Math.Min(DUILocationButton.Left - DUIPreviewImageBox.Right, 28);
             DUIReadedButton.Height = 28;
             DUIReadedButton.Left = DUILocationButton.Left - DUIReadedButton.Width;
 
             DUITitleLabel.Left = DUIPreviewImageBox.Right;
-            DUITitleLabel.Top = 0;
+            DUITitleLabel.Top = DUISpliteLine.Bottom;
             DUITitleLabel.Width = Math.Max(DUIReadedButton.Left - DUIPreviewImageBox.Right, 0);
             DUITitleLabel.Height = 28;
 
-            DUIMainButton.Width = Math.Min(this.DisplayRectangle.Width - DUIPreviewImageBox.Width, 112);
+            DUIMainButton.Width = Math.Min(this.DisplayRectangle.Width - DUIPreviewImageBox.Width, 100);
             DUIMainButton.Height = 28;
             DUIMainButton.Left = this.DisplayRectangle.Width - DUIMainButton.Width;
             DUIMainButton.Top = Math.Max(DisplayRectangle.Height - 28, DUITitleLabel.Bottom);
 
             DUIStateLabel.Height = 28;
-            DUIStateLabel.Width = Math.Min(DUIMainButton.Left - DUIPreviewImageBox.Right, 180);
+            DUIStateLabel.Width = Math.Min(DUIMainButton.Left - DUIPreviewImageBox.Right, 240);
             DUIStateLabel.Left = Math.Max(DUIMainButton.Left - DUIStateLabel.Width, 0);
             DUIStateLabel.Top = DUIMainButton.Top;
 
@@ -389,6 +446,7 @@ namespace LeonReader.Client.DirectUI.Container
         public override void Add(ControlBase control)
         {
             base.Add(control);
+            return;
             control.Mouseable = true;
             control.MouseEnter += (s, e) => { (s as ControlBase).Text = (s as ControlBase).Name; };
             control.MouseLeave += (s, e) => { (s as ControlBase).Text = string.Empty; };
