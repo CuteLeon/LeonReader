@@ -243,8 +243,8 @@ namespace LeonReader.Client.DirectUI.Container
             DUILocationButton.Image = UnityResource.Location_0;
             DUILocationButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUILocationButton.Click += (s, e) => { /* TODO: 抛出点击定位按钮事件 */ };
-            DUILocationButton.MouseEnter += (s, e) => { DUILocationButton.Image = UnityResource.Location_1; };
-            DUILocationButton.MouseLeave += (s, e) => { DUILocationButton.Image = UnityResource.Location_0; };
+            DUILocationButton.MouseEnter += (s, e) => { this.Invalidate(DUILocationButton.Rectangle); DUILocationButton.Image = UnityResource.Location_1; };
+            DUILocationButton.MouseLeave += (s, e) => { this.Invalidate(DUILocationButton.Rectangle); DUILocationButton.Image = UnityResource.Location_0; };
             //DUILocationButton.BackColor = Color.CadetBlue;
             #endregion
 
@@ -255,8 +255,8 @@ namespace LeonReader.Client.DirectUI.Container
             DUIReadedButton.Image = UnityResource.Flag_0;
             DUIReadedButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIReadedButton.Click += (s, e) => { /* TODO: 抛出点击已读按钮事件 */ };
-            DUIReadedButton.MouseEnter += (s, e) => { DUIReadedButton.Image = UnityResource.Flag_1; };
-            DUIReadedButton.MouseLeave += (s, e) => { DUIReadedButton.Image = UnityResource.Flag_0; };
+            DUIReadedButton.MouseEnter += (s, e) => { this.Invalidate(DUIReadedButton.Rectangle); DUIReadedButton.Image = UnityResource.Flag_1; };
+            DUIReadedButton.MouseLeave += (s, e) => { this.Invalidate(DUIReadedButton.Rectangle); DUIReadedButton.Image = UnityResource.Flag_0; };
             //DUIReadedButton.BackColor = Color.CornflowerBlue;
             #endregion
 
@@ -267,8 +267,8 @@ namespace LeonReader.Client.DirectUI.Container
             DUIBrowserButton.Image = UnityResource.Browser_0;
             DUIBrowserButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIBrowserButton.Click += (s, e) => { /* TODO: 抛出点击浏览按钮事件 */ };
-            DUIBrowserButton.MouseEnter += (s, e) => { DUIBrowserButton.Image = UnityResource.Browser_1; };
-            DUIBrowserButton.MouseLeave += (s, e) => { DUIBrowserButton.Image = UnityResource.Browser_0; };
+            DUIBrowserButton.MouseEnter += (s, e) => { this.Invalidate(DUIBrowserButton.Rectangle); DUIBrowserButton.Image = UnityResource.Browser_1; };
+            DUIBrowserButton.MouseLeave += (s, e) => { this.Invalidate(DUIBrowserButton.Rectangle); DUIBrowserButton.Image = UnityResource.Browser_0; };
             //DUIBrowserButton.BackColor = Color.BlueViolet;
             #endregion
 
@@ -279,8 +279,8 @@ namespace LeonReader.Client.DirectUI.Container
             DUIDeleteButton.Image = UnityResource.Delete_0;
             DUIDeleteButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIDeleteButton.Click += (s, e) => { /* TODO: 抛出点击删除按钮事件 */ };
-            DUIDeleteButton.MouseEnter += (s, e) => { DUIDeleteButton.Image = UnityResource.Delete_1; };
-            DUIDeleteButton.MouseLeave += (s, e) => { DUIDeleteButton.Image = UnityResource.Delete_0; };
+            DUIDeleteButton.MouseEnter += (s, e) => { this.Invalidate(DUIDeleteButton.Rectangle); DUIDeleteButton.Image = UnityResource.Delete_1; };
+            DUIDeleteButton.MouseLeave += (s, e) => { this.Invalidate(DUIDeleteButton.Rectangle); DUIDeleteButton.Image = UnityResource.Delete_0; };
             //DUIDeleteButton.BackColor = Color.DodgerBlue;
             #endregion
 
@@ -291,10 +291,10 @@ namespace LeonReader.Client.DirectUI.Container
             DUIMainButton.Image = UnityResource.Button_0;
             DUIMainButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIMainButton.Click += (s, e) => { /* TODO: 抛出点击主按钮事件 */ };
-            DUIMainButton.MouseEnter += (s, e) => { DUIMainButton.Image = UnityResource.Button_1; };
-            DUIMainButton.MouseLeave += (s, e) => { DUIMainButton.Image = UnityResource.Button_0; };
-            DUIMainButton.MouseDown += (s, e) => { DUIMainButton.Image = UnityResource.Button_2; };
-            DUIMainButton.MouseUp += (s, e) => { DUIMainButton.Image = UnityResource.Button_1; };
+            DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_1; };
+            DUIMainButton.MouseLeave += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_0; };
+            DUIMainButton.MouseDown += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_2; };
+            DUIMainButton.MouseUp += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_1; };
             //DUIMainButton.BackColor = Color.LightGreen;
             #endregion
 
