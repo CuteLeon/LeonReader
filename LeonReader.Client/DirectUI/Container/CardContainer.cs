@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LeonReader.Client.DirectUI.Container
 {
@@ -241,7 +242,6 @@ namespace LeonReader.Client.DirectUI.Container
             DUILocationButton.Name = "定位按钮";
             DUILocationButton.Mouseable = true;
             DUILocationButton.Image = UnityResource.Location_0;
-            DUILocationButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUILocationButton.Click += (s, e) => { /* TODO: 抛出点击定位按钮事件 */ };
             DUILocationButton.MouseEnter += (s, e) => { this.Invalidate(DUILocationButton.Rectangle); DUILocationButton.Image = UnityResource.Location_1; };
             DUILocationButton.MouseLeave += (s, e) => { this.Invalidate(DUILocationButton.Rectangle); DUILocationButton.Image = UnityResource.Location_0; };
@@ -253,7 +253,6 @@ namespace LeonReader.Client.DirectUI.Container
             DUIReadedButton.Name = "已读按钮";
             DUIReadedButton.Mouseable = true;
             DUIReadedButton.Image = UnityResource.Flag_0;
-            DUIReadedButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIReadedButton.Click += (s, e) => { /* TODO: 抛出点击已读按钮事件 */ };
             DUIReadedButton.MouseEnter += (s, e) => { this.Invalidate(DUIReadedButton.Rectangle); DUIReadedButton.Image = UnityResource.Flag_1; };
             DUIReadedButton.MouseLeave += (s, e) => { this.Invalidate(DUIReadedButton.Rectangle); DUIReadedButton.Image = UnityResource.Flag_0; };
@@ -265,7 +264,6 @@ namespace LeonReader.Client.DirectUI.Container
             DUIBrowserButton.Name = "浏览按钮";
             DUIBrowserButton.Mouseable = true;
             DUIBrowserButton.Image = UnityResource.Browser_0;
-            DUIBrowserButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIBrowserButton.Click += (s, e) => { /* TODO: 抛出点击浏览按钮事件 */ };
             DUIBrowserButton.MouseEnter += (s, e) => { this.Invalidate(DUIBrowserButton.Rectangle); DUIBrowserButton.Image = UnityResource.Browser_1; };
             DUIBrowserButton.MouseLeave += (s, e) => { this.Invalidate(DUIBrowserButton.Rectangle); DUIBrowserButton.Image = UnityResource.Browser_0; };
@@ -277,7 +275,6 @@ namespace LeonReader.Client.DirectUI.Container
             DUIDeleteButton.Name = "删除按钮";
             DUIDeleteButton.Mouseable = true;
             DUIDeleteButton.Image = UnityResource.Delete_0;
-            DUIDeleteButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIDeleteButton.Click += (s, e) => { /* TODO: 抛出点击删除按钮事件 */ };
             DUIDeleteButton.MouseEnter += (s, e) => { this.Invalidate(DUIDeleteButton.Rectangle); DUIDeleteButton.Image = UnityResource.Delete_1; };
             DUIDeleteButton.MouseLeave += (s, e) => { this.Invalidate(DUIDeleteButton.Rectangle); DUIDeleteButton.Image = UnityResource.Delete_0; };
@@ -288,8 +285,8 @@ namespace LeonReader.Client.DirectUI.Container
 
             DUIMainButton.Name = "主按钮";
             DUIMainButton.Mouseable = true;
-            DUIMainButton.Image = UnityResource.Button_0;
-            DUIMainButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUIMainButton.BackgroundImage = UnityResource.Button_0;
+            DUIMainButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             DUIMainButton.Click += (s, e) => { /* TODO: 抛出点击主按钮事件 */ };
             DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_1; };
             DUIMainButton.MouseLeave += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_0; };
@@ -451,5 +448,100 @@ namespace LeonReader.Client.DirectUI.Container
             control.MouseEnter += (s, e) => { (s as ControlBase).Text = (s as ControlBase).Name; };
             control.MouseLeave += (s, e) => { (s as ControlBase).Text = string.Empty; };
         }
+
+        #region 支持鼠标拖动位置和调整大小
+
+        Point mousePoint = Point.Empty;
+        bool 允许拖动 = true;
+        bool 正在拖动 = false;
+        bool 允许调整 = true;
+        bool 正在调整 = false;
+        Rectangle 拖动区域 = new Rectangle(0,0,100,6);
+        Rectangle 调整区域 = new Rectangle(90, 90, 10, 10);
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            if (允许拖动)
+            {
+                if (拖动区域.Contains(e.Location))
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        正在拖动 = true;
+                        mousePoint = MousePosition;
+                        this.Cursor = Cursors.SizeAll;
+                        return;
+                    }
+                }
+            }
+            if (允许调整)
+            {
+                if (调整区域.Contains(e.Location))
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        正在调整 = true;
+                        mousePoint = MousePosition;
+                        this.Cursor = Cursors.SizeNWSE;
+                        return;
+                    }
+                }
+            }
+            
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (允许拖动 && 正在拖动)
+                {
+                    Point cpoint = MousePosition;
+                    int x = cpoint.X - mousePoint.X;
+                    int y = cpoint.Y - mousePoint.Y;
+                    this.Left += x;
+                    this.Top += y;
+                    mousePoint = cpoint;
+                    return;
+                }
+                if (允许调整 && 正在调整)
+                {
+                    Point cpoint = MousePosition;
+                    int x = cpoint.X - mousePoint.X;
+                    int y = cpoint.Y - mousePoint.Y;
+                    this.Width += x;
+                    this.Height += y;
+                    mousePoint = cpoint;
+                }
+            }
+
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            if (正在拖动) 正在拖动 = false;
+            if (正在调整) 正在调整 = false;
+            if (e.Button == MouseButtons.Left)
+            {
+                拖动区域 = new Rectangle(0, 0, this.Width, 6);
+                调整区域 = new Rectangle(this.Width-10, this.Height-10, 10, 10);
+                this.Cursor = Cursors.Default;
+                return;
+            }
+
+            this.Invalidate();
+            base.OnMouseUp(e);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            e.Graphics.FillRectangle(Brushes.Red, 调整区域);
+        }
+
+        #endregion
+
     }
 }

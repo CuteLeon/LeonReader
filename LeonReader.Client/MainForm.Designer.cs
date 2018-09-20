@@ -37,6 +37,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.cardContainer1 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.cardContainer2 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.cardContainer3 = new LeonReader.Client.DirectUI.Container.CardContainer();
@@ -47,10 +51,7 @@
             this.cardContainer8 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.cardContainer9 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.cardContainer10 = new LeonReader.Client.DirectUI.Container.CardContainer();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.cardContainer11 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -170,6 +171,50 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(689, 443);
             this.flowLayoutPanel2.TabIndex = 7;
             this.flowLayoutPanel2.WrapContents = false;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.flowLayoutPanel3);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(695, 449);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "精简";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.AutoScroll = true;
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(689, 443);
+            this.flowLayoutPanel3.TabIndex = 8;
+            this.flowLayoutPanel3.WrapContents = false;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.flowLayoutPanel4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(695, 449);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "巨幅";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.AutoScroll = true;
+            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(689, 443);
+            this.flowLayoutPanel4.TabIndex = 9;
+            this.flowLayoutPanel4.WrapContents = false;
             // 
             // cardContainer1
             // 
@@ -291,55 +336,24 @@
             this.cardContainer10.Text = "cardContainer10";
             this.cardContainer10.Title = "标题标签";
             // 
-            // tabPage2
+            // cardContainer11
             // 
-            this.tabPage2.Controls.Add(this.flowLayoutPanel3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(695, 449);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "精简";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.AutoScroll = true;
-            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(689, 443);
-            this.flowLayoutPanel3.TabIndex = 8;
-            this.flowLayoutPanel3.WrapContents = false;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.flowLayoutPanel4);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(695, 449);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "巨幅";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // flowLayoutPanel4
-            // 
-            this.flowLayoutPanel4.AutoScroll = true;
-            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(689, 443);
-            this.flowLayoutPanel4.TabIndex = 9;
-            this.flowLayoutPanel4.WrapContents = false;
+            this.cardContainer11.BackColor = System.Drawing.Color.White;
+            this.cardContainer11.Description = "文章描述内容";
+            this.cardContainer11.Location = new System.Drawing.Point(87, 437);
+            this.cardContainer11.Name = "cardContainer11";
+            this.cardContainer11.PreviewImage = null;
+            this.cardContainer11.Size = new System.Drawing.Size(100, 100);
+            this.cardContainer11.TabIndex = 10;
+            this.cardContainer11.Text = "cardContainer11";
+            this.cardContainer11.Title = "标题标签";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(828, 495);
+            this.Controls.Add(this.cardContainer11);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "MainForm";
@@ -381,6 +395,7 @@
         private DirectUI.Container.CardContainer cardContainer8;
         private DirectUI.Container.CardContainer cardContainer9;
         private DirectUI.Container.CardContainer cardContainer10;
+        private DirectUI.Container.CardContainer cardContainer11;
     }
 }
 
