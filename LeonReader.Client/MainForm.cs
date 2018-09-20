@@ -11,6 +11,7 @@ using System.Reflection;
 
 using LeonReader.Common;
 using LeonReader.AbstractSADE;
+using LeonDirectUI.Container;
 
 namespace LeonReader.Client
 {
@@ -26,11 +27,23 @@ namespace LeonReader.Client
         Type ExporterType;
         Exporter exporter;
 
+        SizableContainer sizableContainer = new SizableContainer();
+
         public MainForm()
         {
             InitializeComponent();
+
+            sizableContainer.SetBounds(20, 20, 107, 91);
+            sizableContainer.Dragable = true;
+            sizableContainer.Sizable = true;
+            sizableContainer.MinimumSize = new Size(107, 91);
+            sizableContainer.BackgroundImage = UnityResource.BrokenImage;
+            sizableContainer.BackgroundImageLayout = ImageLayout.Stretch;
+
+            this.Controls.Add(sizableContainer);
+            sizableContainer.BringToFront();
         }
-        
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
@@ -91,7 +104,7 @@ namespace LeonReader.Client
             downloader = GS_ASDE.CreateInstance(DownloaderType) as Downloader;
             downloader.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
             downloader.ProcessReport += (s, v) => { this.Text = $"已下载：{v.ProgressPercentage} 张图片，{(int)v.UserState} 张失败"; };
-            downloader.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [下载完成]"; button2.Enabled = true;button3.Enabled = true; button4.Enabled = true; };
+            downloader.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [下载完成]"; button2.Enabled = true; button3.Enabled = true; button4.Enabled = true; };
             downloader.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
             downloader.Process();
         }
@@ -122,5 +135,11 @@ namespace LeonReader.Client
             browser.Navigate(@"F:\C Sharp\LeonReader\Debug\Articles\201809051640044034\日本30岁的女装大佬 这么娇小可爱竟然是男人.html");
             form.ShowDialog();
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            sizableContainer.Dispose();
+        }
+
     }
 }

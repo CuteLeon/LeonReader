@@ -51,7 +51,6 @@
             this.cardContainer8 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.cardContainer9 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.cardContainer10 = new LeonReader.Client.DirectUI.Container.CardContainer();
-            this.cardContainer11 = new LeonReader.Client.DirectUI.Container.CardContainer();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -336,29 +335,17 @@
             this.cardContainer10.Text = "cardContainer10";
             this.cardContainer10.Title = "标题标签";
             // 
-            // cardContainer11
-            // 
-            this.cardContainer11.BackColor = System.Drawing.Color.White;
-            this.cardContainer11.Description = "文章描述内容";
-            this.cardContainer11.Location = new System.Drawing.Point(87, 437);
-            this.cardContainer11.Name = "cardContainer11";
-            this.cardContainer11.PreviewImage = null;
-            this.cardContainer11.Size = new System.Drawing.Size(100, 100);
-            this.cardContainer11.TabIndex = 10;
-            this.cardContainer11.Text = "cardContainer11";
-            this.cardContainer11.Title = "标题标签";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(828, 495);
-            this.Controls.Add(this.cardContainer11);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Text = "Main Form";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -395,7 +382,6 @@
         private DirectUI.Container.CardContainer cardContainer8;
         private DirectUI.Container.CardContainer cardContainer9;
         private DirectUI.Container.CardContainer cardContainer10;
-        private DirectUI.Container.CardContainer cardContainer11;
     }
 }
 
