@@ -286,12 +286,12 @@ namespace LeonReader.Client.DirectUI.Container
             DUIMainButton.Name = "主按钮";
             DUIMainButton.Mouseable = true;
             DUIMainButton.BackgroundImage = UnityResource.Button_0;
-            DUIMainButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            DUIMainButton.BackgroundImageLayout = ImageLayout.Stretch;
             DUIMainButton.Click += (s, e) => { /* TODO: 抛出点击主按钮事件 */ };
-            DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_1; };
-            DUIMainButton.MouseLeave += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_0; };
-            DUIMainButton.MouseDown += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_2; };
-            DUIMainButton.MouseUp += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.Image = UnityResource.Button_1; };
+            DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.BackgroundImage = UnityResource.Button_1; };
+            DUIMainButton.MouseLeave += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.BackgroundImage = UnityResource.Button_0; };
+            DUIMainButton.MouseDown += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.BackgroundImage = UnityResource.Button_2; };
+            DUIMainButton.MouseUp += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.BackgroundImage = UnityResource.Button_1; };
             //DUIMainButton.BackColor = Color.LightGreen;
             #endregion
 
