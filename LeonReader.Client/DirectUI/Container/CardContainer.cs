@@ -206,6 +206,9 @@ namespace LeonReader.Client.DirectUI.Container
             DUIPreviewImageBox.Name = "预览图像框";
             DUIPreviewImageBox.BackgroundImage = UnityResource.BrokenImage; /* TODO: 文章预览图像 */
             DUIPreviewImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUIPreviewImageBox.BorderColor = Color.WhiteSmoke;
+            DUIPreviewImageBox.BorderSize = 1;
+            DUIPreviewImageBox.BorderStyle = ButtonBorderStyle.Solid;
             //DUIPreviewImageBox.BackColor = Color.Red;
             #endregion
 
@@ -363,7 +366,7 @@ namespace LeonReader.Client.DirectUI.Container
             DUIPreviewImageBox.Left = 0;
             DUIPreviewImageBox.Top = DUISpliteLine.Bottom;
             DUIPreviewImageBox.Width = Math.Min((int)((25.0 / 14.0) * (height - DUISpliteLine.Bottom)), width);
-            DUIPreviewImageBox.Height = height- DUISpliteLine.Bottom;
+            DUIPreviewImageBox.Height = height - DUISpliteLine.Bottom;
 
             DUIDeleteButton.Top = DUISpliteLine.Bottom;
             DUIDeleteButton.Width = Math.Min(width - DUIPreviewImageBox.Right, 28);
@@ -448,6 +451,6 @@ namespace LeonReader.Client.DirectUI.Container
             control.MouseEnter += (s, e) => { (s as ControlBase).Text = (s as ControlBase).Name; };
             control.MouseLeave += (s, e) => { (s as ControlBase).Text = string.Empty; };
         }
-
+        
     }
 }
