@@ -73,6 +73,7 @@
     <Compile Include="DirectUI\Container\CardContainer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Factory\CardContainerFactory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

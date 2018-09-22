@@ -56,7 +56,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 状态文本
         /// </summary>
-        public string StateText { get => DUIStateLabel.Text; set => DUIStateLabel.Text = value; }
+        public string StateText { get => DUIStateLabel.Text; protected set => DUIStateLabel.Text = value; }
 
         #endregion
 
