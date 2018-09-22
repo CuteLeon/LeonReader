@@ -28,7 +28,16 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 描述
         /// </summary>
-        public string Description { get => DUIDescriptionLabel.Text; set => DUIDescriptionLabel.Text = value; }
+        public string Description {
+            get => DUIDescriptionLabel.Text;
+            set
+            {
+                DUIDescriptionLabel.Text = value;
+
+                if (Style == CardStyles.Large)
+                    DUIPreviewImageBox.Text = value;
+            }
+        }
 
         /// <summary>
         /// 预览图
@@ -377,6 +386,7 @@ namespace LeonReader.Client.DirectUI.Container
                         DUIPreviewImageBox.Visible = true;
                         DUIPublishTimeLabel.Visible = true;
                         DUIStateLabel.Visible = true;
+                        DUIPreviewImageBox.Text = string.Empty;
 
                         this.MaximumSize = new Size(0, 0);
                         this.MinimumSize = new Size(212, 62);
@@ -389,6 +399,7 @@ namespace LeonReader.Client.DirectUI.Container
                         DUIPreviewImageBox.Visible = false;
                         DUIPublishTimeLabel.Visible = false;
                         DUIStateLabel.Visible = false;
+                        DUIPreviewImageBox.Text = string.Empty;
 
                         this.MaximumSize = new Size(1000, 32);
                         this.MinimumSize = new Size(112, 32);
