@@ -72,7 +72,7 @@ namespace LeonReader.Client
 
             LogHelper.Fatal(ExceptionDescription);
 
-            if( MessageBox.Show(ExceptionDescription, "点击<确定>打开日志文件", MessageBoxButtons.OKCancel)== DialogResult.OK)
+            if (MessageBox.Show(ExceptionDescription, "点击<确定>打开日志文件", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 Process.Start(LogHelper.LogFilePath);
         }
 
@@ -88,16 +88,16 @@ namespace LeonReader.Client
                 "   异常信息 : {4}\r\n" +
                 "   调用堆栈 : \r\n{5}\r\n" +
                 "   ——————————\r\n" +
-                "   日志文件：{6}\r\n" +
-                "   出错方法MSIL : {7}",
-                UnhandledException.GetType().ToString(),
-                UnhandledException.Source,
-                UnhandledException.TargetSite.Name,
-                UnhandledException.TargetSite.Module.FullyQualifiedName,
-                UnhandledException.Message,
-                UnhandledException.StackTrace,
-                LogHelper.LogFilePath,
-                string.Join("", UnhandledException.TargetSite.GetMethodBody().GetILAsByteArray())
+                "   日志文件：{6}\r\n",
+                //"   出错方法MSIL : {7}",
+                UnhandledException.GetType()?.ToString() ?? "*",
+                UnhandledException.Source ?? "*",
+                UnhandledException.TargetSite?.Name ?? "*",
+                UnhandledException.TargetSite?.Module?.FullyQualifiedName ?? "*",
+                UnhandledException.Message ?? "*",
+                UnhandledException.StackTrace ?? "*",
+                LogHelper.LogFilePath ?? "*"
+                //string.Join("", UnhandledException.TargetSite?.GetMethodBody()?.GetILAsByteArray())
             );
 
             LogHelper.Fatal(ExceptionDescription);

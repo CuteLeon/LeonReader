@@ -55,51 +55,7 @@ namespace GamerSkySADE.Tests
             //睡眠一段时间，否则调试线程不会等待异步任务线程而立即结束
             Thread.Sleep(10000);
         }
-
-        [TestMethod()]
-        public void GetArticleTest()
-        {
-            Analyzer analyzer = new GamerSkyAnalyzer();
-            MethodInfo methodInfo = typeof(GamerSkyAnalyzer).GetMethod(
-                "GetArticle",
-                BindingFlags.NonPublic | BindingFlags.Instance
-            );
-            if (methodInfo == null)
-            {
-                Console.WriteLine("反射获取方法失败");
-                Assert.Fail();
-            }
-
-            analyzer.TargetDBContext.Articles.RemoveRange(analyzer.TargetDBContext.Articles.ToArray());
-            analyzer.TargetDBContext.SaveChanges();
-
-            Assert.IsNull(methodInfo.Invoke(analyzer, new object[] { "@link", analyzer.ASDESource }));
-
-            analyzer.TargetDBContext.Articles.Add(
-                new Article()
-                {
-                    ArticleID = "10002",
-                    Title = "单元测试文章_2",
-                    ArticleLink = "@link",
-                    Description = "单元测试文章_2",
-                    IsNew = true,
-                    PublishTime = DateTime.Now.ToString(),
-                    ASDESource = analyzer.ASDESource,
-                    ScanTime = DateTime.Now,
-                    Contents = new ContentItem[] {
-                        new ContentItem("单元测试文章_2"),
-                        new ContentItem("欢迎使用 Leon Reader."),
-                        new ContentItem("Best Wishes !")
-                    }.ToList(),
-                    DownloadDirectoryName = "单元测试下载目录",
-                    ArticleFileName = "单元测试文章名称",
-                }
-            );
-            analyzer.TargetDBContext.SaveChanges();
-
-            Assert.IsNotNull(methodInfo.Invoke(analyzer, new object[] { "@link", analyzer.ASDESource }));
-        }
-
+        
         [TestMethod()]
         public void AnalyseArticleTest()
         {

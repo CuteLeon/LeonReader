@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LeonReader.Model\LeonReader.Model.csproj">
-      <Project>{E011572B-10E0-4D9D-88DC-F2B5DA057C76}</Project>
+      <Project>{e011572b-10e0-4d9d-88dc-f2b5da057c76}</Project>
       <Name>LeonReader.Model</Name>
     </ProjectReference>
   </ItemGroup>

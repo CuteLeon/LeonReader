@@ -80,6 +80,10 @@
       <Project>{84B1272A-20D1-47D9-AC04-DCA76B61A456}</Project>
       <Name>LeonReader.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LeonReader.Model\LeonReader.Model.csproj">
+      <Project>{e011572b-10e0-4d9d-88dc-f2b5da057c76}</Project>
+      <Name>LeonReader.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Leon_Mathilda.jpg">

@@ -21,7 +21,11 @@ namespace LeonReader.Client.Factory
         /// </summary>
         /// <returns></returns>
         private CardContainer CreateNormalCard()
-            => new CardContainer() { Style = CardContainer.CardStyles.Normal };
+            => new CardContainer()
+            {
+                Size = new Size(675, 118),
+                Style = CardContainer.CardStyles.Normal
+            };
 
         /// <summary>
         /// 创建正常卡片
@@ -90,7 +94,11 @@ namespace LeonReader.Client.Factory
         /// </summary>
         /// <returns></returns>
         private CardContainer CreateSmallCard()
-            => new CardContainer() { Style = CardContainer.CardStyles.Small };
+            => new CardContainer()
+            {
+                //Size = new Size(675, 118),
+                Style = CardContainer.CardStyles.Small
+            };
 
         /// <summary>
         /// 创建精简卡片
@@ -114,7 +122,7 @@ namespace LeonReader.Client.Factory
         public CardContainer CreateSmallCard(string title, string descript)
         {
             CardContainer cardContainer = CreateSmallCard(title);
-            cardContainer.Description = descript;
+            cardContainer.Description = descript.Replace('\n', ' ').Replace('\r', ' ');
 
             return cardContainer;
         }
@@ -159,7 +167,11 @@ namespace LeonReader.Client.Factory
         /// </summary>
         /// <returns></returns>
         private CardContainer CreateLargeCard()
-            => new CardContainer() { Style = CardContainer.CardStyles.Large };
+            => new CardContainer()
+            {
+                Size = new Size(300, 200),
+                Style = CardContainer.CardStyles.Large
+            };
 
         /// <summary>
         /// 创建巨幅卡片

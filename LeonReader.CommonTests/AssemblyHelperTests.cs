@@ -19,7 +19,7 @@ namespace LeonReader.Common.Tests
         public void CreateAssemblyTest()
         {
             Assert.IsNotNull(AssemblyHelper.CreateAssembly("LeonReader.Common.dll"));
-            Assert.IsNull(AssemblyHelper.CreateAssembly("LeonReader.xxx.dll"));
+            Assert.ThrowsException<System.IO.FileNotFoundException>(() => AssemblyHelper.CreateAssembly("LeonReader.xxx.dll"));
         }
 
         [TestMethod()]

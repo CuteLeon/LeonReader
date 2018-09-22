@@ -152,5 +152,13 @@ namespace LeonReader.Common
             return SafeDirectoryName.ToString();
         }
 
+        /// <summary>
+        /// 筛选子文件
+        /// </summary>
+        /// <param name="directoryPath">目录路径</param>
+        /// <param name="predicate">文件筛选条件</param>
+        /// <returns></returns>
+        public static string[] GetChildrenFiles(string directoryPath, Predicate<string> predicate)
+            => Array.FindAll(Directory.GetFiles(directoryPath), predicate);
     }
 }

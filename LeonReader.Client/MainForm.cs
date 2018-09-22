@@ -12,11 +12,40 @@ using System.Reflection;
 using LeonReader.Common;
 using LeonReader.AbstractSADE;
 using LeonDirectUI.Container;
+using LeonReader.Client.Factory;
+using LeonReader.Model;
+using LeonReader.Client.DirectUI.Container;
 
 namespace LeonReader.Client
 {
     public partial class MainForm : Form
     {
+
+        #region 变量
+
+        /// <summary>
+        /// 数据库交互对象
+        /// </summary>
+        readonly UnityDBContext TargetDBContext = new UnityDBContext();
+
+        /// <summary>
+        /// 反射工厂
+        /// </summary>
+        AssemblyFactory assemblyFactory = new AssemblyFactory();
+
+        /// <summary>
+        /// SADE 工厂
+        /// </summary>
+        SADEFactory sadeFactory = new SADEFactory();
+
+        /// <summary>
+        /// 卡片工厂
+        /// </summary>
+        CardContainerFactory cardFactory = new CardContainerFactory();
+
+        #endregion
+
+
         Assembly GS_ASDE;
         Type ScannerType;
         Scanner scanner;
@@ -45,9 +74,8 @@ namespace LeonReader.Client
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //输出程序集内定义的类型全名称
-            //LogHelper.Debug($"程序集内定义的类型：\n\t{string.Join("\t\n", Assembly.LoadFrom("GamerSkySADE.dll").DefinedTypes.Select(type => type.FullName))}");
-            //LogHelper.Info($"全局配置-下载目录：{ConfigHelper.GetConfigHelper.DownloadDirectory}");
+            RefreshCatalogList();
+            return;
 
             ScannerType = GS_ASDE.GetSubTypes(typeof(Scanner)).FirstOrDefault();
             if (ScannerType == null)
@@ -123,6 +151,80 @@ namespace LeonReader.Client
             browser.Navigate(@"F:\C Sharp\LeonReader\Debug\Articles\201809051640044034\日本30岁的女装大佬 这么娇小可爱竟然是男人.html");
             form.ShowDialog();
         }
+
+
+        #region 扫描目录
+
+        /// <summary>
+        /// 刷新目录列表
+        /// </summary>
+        private void RefreshCatalogList()
+        {
+            LogHelper.Info("刷新目录列表...");
+
+            //清空现有目录列表
+            while (CatalogLayoutPanel.Controls.Count > 0)
+            {
+                CatalogLayoutPanel.Controls[0].Dispose();
+            }
+
+            //扫描目录
+            ScanCatalog(Application.StartupPath);
+            //加载目录
+            foreach (var card in LoadCatalog())
+            {
+                CatalogLayoutPanel.Controls.Add(card);
+            }
+        }
+
+        /// <summary>
+        /// 使用目录内所有扫描器扫描目录
+        /// </summary>
+        private void ScanCatalog(string directoryPath)
+        {
+            LogHelper.Info("使用所有扫描器扫描目录...");
+            //遍历符合条件的链接库
+            foreach (var assembly in assemblyFactory.CreateAssemblys(
+                directoryPath,
+                path => path.ToUpper().EndsWith("SADE.DLL")))
+            {
+                if (assembly == null) continue;
+
+                //遍历程序集内的扫描器
+                foreach (var scanner in sadeFactory.CreateScanners(assembly))
+                {
+                    if (scanner == null) continue;
+
+                    LogHelper.Info($"发现扫描器：{scanner.ASDESource} in {assembly.FullName}");
+                    scanner.Process();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 加载目录
+        /// </summary>
+        private IEnumerable<CardContainer> LoadCatalog()
+        {
+            //巨幅加载新文章
+            foreach (var article in TargetDBContext.Articles.Where(article => article.IsNew))
+            {
+                if (article == null) continue;
+
+                yield return cardFactory.CreateLargeCard(
+                    article.Title, 
+                    article.Description,
+                    article.PublishTime
+                    );
+            }
+
+            foreach (var article in TargetDBContext.Articles.Where(article=>!article.IsNew && article.ExportTime!=null))
+            {
+
+            }
+        }
+
+        #endregion
 
     }
 }

@@ -50,7 +50,7 @@ namespace LeonReader.Common
             catch (Exception ex)
             {
                 LogHelper.Error("创建程序集遇到异常：{0}", ex.Message);
-                return null;
+                throw;
             }
 
             return PluginAssembly;
