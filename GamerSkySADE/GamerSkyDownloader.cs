@@ -85,7 +85,7 @@ namespace GamerSkySADE
                 {
                     IOHelper.CreateDirectory(directory);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw;
                 }

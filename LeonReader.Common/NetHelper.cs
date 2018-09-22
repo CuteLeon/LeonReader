@@ -54,7 +54,7 @@ namespace LeonReader.Common
             {
                 return GetWebPage(address.AbsoluteUri);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

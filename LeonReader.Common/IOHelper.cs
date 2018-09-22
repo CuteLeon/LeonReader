@@ -38,7 +38,7 @@ namespace LeonReader.Common
             {
                 File.Delete(path);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

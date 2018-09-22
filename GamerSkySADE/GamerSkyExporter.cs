@@ -91,7 +91,7 @@ namespace GamerSkySADE
                     ArticleStream.Write("<<<< 文章结束 >>>></center>\n{0}\n</body></html>", GSResource.LazyLoadJS);
                     LogHelper.Debug("文章组装完成：{0}", article.ArticleLink);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw;
                 }
@@ -113,7 +113,7 @@ namespace GamerSkySADE
                 {
                     IOHelper.CreateDirectory(directory);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw;
                 }

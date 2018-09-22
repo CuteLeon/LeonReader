@@ -27,21 +27,9 @@ namespace LeonReader.Client
         Type ExporterType;
         Exporter exporter;
 
-        SizableContainer sizableContainer = new SizableContainer();
-
         public MainForm()
         {
             InitializeComponent();
-
-            sizableContainer.SetBounds(20, 20, 107, 91);
-            sizableContainer.Dragable = true;
-            sizableContainer.Sizable = true;
-            sizableContainer.MinimumSize = new Size(107, 91);
-            sizableContainer.BackgroundImage = UnityResource.BrokenImage;
-            sizableContainer.BackgroundImageLayout = ImageLayout.Stretch;
-
-            this.Controls.Add(sizableContainer);
-            sizableContainer.BringToFront();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -134,11 +122,6 @@ namespace LeonReader.Client
             browser.Dock = DockStyle.Fill;
             browser.Navigate(@"F:\C Sharp\LeonReader\Debug\Articles\201809051640044034\日本30岁的女装大佬 这么娇小可爱竟然是男人.html");
             form.ShowDialog();
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            sizableContainer.Dispose();
         }
 
     }
