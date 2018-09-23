@@ -63,6 +63,22 @@ namespace LeonReader.Client
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            string DownloadDirectory = ConfigHelper.GetConfigHelper.DownloadDirectory;
+            if (!IOHelper.DirectoryExists(DownloadDirectory))
+            {
+                LogHelper.Info($"正在创建下载目录：{DownloadDirectory}");
+                try
+                {
+                    IOHelper.CreateDirectory(DownloadDirectory);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error($"创建下载失败：{ex.Message}");
+                    MessageBox.Show($"无法创建下载目录，886~\n{ex.Message}");
+                    Application.Exit();
+                }
+            }
+
             GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
             if (GS_ASDE == null)
             {

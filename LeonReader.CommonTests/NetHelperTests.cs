@@ -38,5 +38,11 @@ namespace LeonReader.Common.Tests
         {
             Assert.IsTrue(NetHelper.GetWebPage("http://www.cuteleon.com").Length > 0);
         }
+
+        [TestMethod()]
+        public void DownloadWebFileTest()
+        {
+            NetHelper.DownloadWebFile("https://imgs.gamersky.com/upimg/2018/201809211810503717.jpg", @"201809211810503717.jpg");
+        }
     }
 }
