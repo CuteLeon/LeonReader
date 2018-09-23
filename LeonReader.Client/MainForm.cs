@@ -20,6 +20,7 @@ namespace LeonReader.Client
 {
     public partial class MainForm : MetroFramework.Forms.MetroForm
     {
+        //TODO: 设计工具箱 DirectUI Container 刷新、后退、日志
 
         #region 变量
 
@@ -55,7 +56,14 @@ namespace LeonReader.Client
 
         public MainForm()
         {
+            this.Icon = UnityResource.LeonReader;
+
             InitializeComponent();
+
+            this.Click += (s, e) => 
+            {
+
+            };
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -88,8 +96,8 @@ namespace LeonReader.Client
         private void button1_Click(object sender, EventArgs e)
         {
             RefreshCatalogList();
-            return;
 
+            //——————————————————
             ScannerType = GS_ASDE.GetSubTypes(typeof(Scanner)).FirstOrDefault();
             if (ScannerType == null)
             {
@@ -98,9 +106,9 @@ namespace LeonReader.Client
             }
 
             scanner = GS_ASDE.CreateInstance(ScannerType) as Scanner;
-            scanner.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button1.Enabled = false; button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
+            scanner.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
             scanner.ProcessReport += (s, v) => { this.Text = $"已扫描：{v.ProgressPercentage} 篇文章"; };
-            scanner.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [扫描完成]"; button1.Enabled = true; button2.Enabled = true; };
+            scanner.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [扫描完成]"; };
             scanner.Process();
         }
 
@@ -114,9 +122,9 @@ namespace LeonReader.Client
             }
 
             analyzer = GS_ASDE.CreateInstance(AnalyzerType) as Analyzer;
-            analyzer.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
+            analyzer.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
             analyzer.ProcessReport += (s, v) => { this.Text = $"已分析：{v.ProgressPercentage} 页，{(int)v.UserState} 图"; };
-            analyzer.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [分析完成]"; button2.Enabled = true; button3.Enabled = true; };
+            analyzer.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [分析完成]"; };
             analyzer.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
             analyzer.Process();
         }
@@ -131,9 +139,9 @@ namespace LeonReader.Client
             }
 
             downloader = GS_ASDE.CreateInstance(DownloaderType) as Downloader;
-            downloader.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
+            downloader.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
             downloader.ProcessReport += (s, v) => { this.Text = $"已下载：{v.ProgressPercentage} 张图片，{(int)v.UserState} 张失败"; };
-            downloader.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [下载完成]"; button2.Enabled = true; button3.Enabled = true; button4.Enabled = true; };
+            downloader.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [下载完成]"; };
             downloader.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
             downloader.Process();
         }
@@ -148,9 +156,9 @@ namespace LeonReader.Client
             }
 
             exporter = GS_ASDE.CreateInstance(ExporterType) as Exporter;
-            exporter.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { button2.Enabled = false; button3.Enabled = false; button4.Enabled = false; })); };
+            exporter.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
             exporter.ProcessReport += (s, v) => { this.Text = $"已导出：{v.ProgressPercentage} / {(int)v.UserState} 张图片"; };
-            exporter.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [导出完成]"; button2.Enabled = true; button3.Enabled = true; button4.Enabled = true; };
+            exporter.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [导出完成]"; };
             exporter.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
             exporter.Process();
         }
@@ -175,6 +183,7 @@ namespace LeonReader.Client
         {
             LogHelper.Info("刷新目录列表...");
 
+            /*
             //清空现有目录列表
             while (CatalogLayoutPanel.Controls.Count > 0)
             {
@@ -189,6 +198,7 @@ namespace LeonReader.Client
             {
                 CatalogLayoutPanel.Controls.Add(card);
             }
+             */
         }
 
         /// <summary>
