@@ -18,7 +18,7 @@ using LeonReader.ArticleContentManager;
 
 namespace LeonReader.Client
 {
-    public partial class MainForm : Form
+    public partial class MainForm : MetroFramework.Forms.MetroForm
     {
 
         #region 变量
