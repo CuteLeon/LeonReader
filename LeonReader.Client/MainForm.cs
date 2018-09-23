@@ -14,7 +14,6 @@ namespace LeonReader.Client
 {
     public partial class MainForm : MetroFramework.Forms.MetroForm
     {
-        //TODO: 设计工具箱 DirectUI Container 刷新、后退、日志
 
         #region 变量
 
@@ -37,7 +36,6 @@ namespace LeonReader.Client
 
         #endregion
 
-
         Assembly GS_ASDE;
         Type ScannerType;
         Scanner scanner;
@@ -53,11 +51,13 @@ namespace LeonReader.Client
             this.Icon = UnityResource.LeonReader;
 
             InitializeComponent();
+        }
 
-            this.Click += (s, e) => 
-            {
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
 
-            };
+            UnityToolContainer.Left = (this.DisplayRectangle.Width - UnityToolContainer.Width) / 2;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
