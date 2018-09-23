@@ -18,9 +18,15 @@ namespace LeonReader.ArticleContentManager
         /// 获取新文章
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Article> GetNewArticles()
+        public IQueryable<Article> GetNewArticles(string source)
         {
-            return from article in TargetDBContext.Articles where article.IsNew select article;
+            return 
+                from article 
+                in TargetDBContext.Articles
+                where 
+                    article.ASDESource == source &&
+                    article.IsNew
+                select article;
         }
 
     }

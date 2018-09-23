@@ -78,7 +78,7 @@ namespace GamerSkySADE
                     );
 
                 //更新已发现的文章数
-                OnProcessReport(ArticleCount, null);
+                OnProcessReport(ArticleCount, article);
 
                 //允许用户取消处理
                 if (ProcessWorker.CancellationPending) break;

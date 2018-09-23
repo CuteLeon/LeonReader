@@ -52,9 +52,14 @@ namespace LeonReader.AbstractSADE
 
         #endregion
 
-            /// <summary>
-            /// 文章处理源
-            /// </summary>
+        /// <summary>
+        /// 附加参数对象
+        /// </summary>
+        public object Argument { get; protected set; }
+
+        /// <summary>
+        /// 文章处理源
+        /// </summary>
         public abstract string ASDESource { get; protected set; }
 
         /// <summary>
@@ -102,6 +107,16 @@ namespace LeonReader.AbstractSADE
         {
             if (ProcessWorker.IsBusy) return;
             ProcessWorker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// 开始处理
+        /// </summary>
+        public virtual void Process(object argument)
+        {
+            if (ProcessWorker.IsBusy) return;
+            Argument = argument;
+            ProcessWorker.RunWorkerAsync(argument);
         }
 
         /// <summary>

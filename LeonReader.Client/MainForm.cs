@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 using LeonReader.AbstractSADE;
 using LeonReader.ArticleContentManager;
-using LeonReader.Client.DirectUI.Container;
 using LeonReader.Client.Factory;
 using LeonReader.Common;
 
@@ -17,6 +15,9 @@ namespace LeonReader.Client
 
         #region 变量
 
+        /// <summary>
+        /// 文章管理器
+        /// </summary>
         ArticleManager articleManager = new ArticleManager();
 
         /// <summary>
@@ -34,30 +35,42 @@ namespace LeonReader.Client
         /// </summary>
         CardContainerFactory cardFactory = new CardContainerFactory();
 
+        /// <summary>
+        /// 目录Tab容器与内流式布局容器对应关系
+        /// </summary>
+        Dictionary<TabPage, FlowLayoutPanel> PanelInTabPage = new Dictionary<TabPage, FlowLayoutPanel>();
+
         #endregion
 
-        Assembly GS_ASDE;
-        Type ScannerType;
-        Scanner scanner;
-        Type AnalyzerType;
-        Analyzer analyzer;
-        Type DownloaderType;
-        Downloader downloader;
-        Type ExporterType;
-        Exporter exporter;
+        #region 初始化
 
         public MainForm()
         {
             this.Icon = UnityResource.LeonReader;
 
+            //初始化布局
             InitializeComponent();
+
+            //绑定事件
+            BindEvent();
         }
 
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
 
+            //适应工具容器位置
             UnityToolContainer.Left = (this.DisplayRectangle.Width - UnityToolContainer.Width) / 2;
+        }
+
+        /// <summary>
+        /// 绑定事件
+        /// </summary>
+        private void BindEvent()
+        {
+            UnityToolContainer.GoBackClick += UnityToolContainer_GoBackClick;
+            UnityToolContainer.RefreshClick += UnityToolContainer_RefreshClick;
+            UnityToolContainer.LogClick += UnityToolContainer_LogClick;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -77,96 +90,16 @@ namespace LeonReader.Client
                     Application.Exit();
                 }
             }
-
-            GS_ASDE = AssemblyUtils.CreateAssembly("GamerSkySADE.dll");
-            if (GS_ASDE == null)
-            {
-                LogUtils.Fatal("创建程序集反射失败，终止");
-                MessageBox.Show("创建程序集反射失败，终止");
-                Application.Exit();
-            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void MainForm_Shown(object sender, EventArgs e)
         {
+            Application.DoEvents();
+
             RefreshCatalogList();
-
-            //——————————————————
-            ScannerType = GS_ASDE.GetSubTypes(typeof(Scanner)).FirstOrDefault();
-            if (ScannerType == null)
-            {
-                LogUtils.Fatal("未发现程序集内存在扫描器类型，终止");
-                return;
-            }
-
-            scanner = GS_ASDE.CreateInstance(ScannerType) as Scanner;
-            scanner.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
-            scanner.ProcessReport += (s, v) => { this.Text = $"已扫描：{v.ProgressPercentage} 篇文章"; };
-            scanner.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [扫描完成]"; };
-            scanner.Process();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            AnalyzerType = GS_ASDE.GetSubTypes(typeof(Analyzer)).FirstOrDefault();
-            if (ScannerType == null)
-            {
-                LogUtils.Fatal("未发现程序集内存在分析器类型，终止");
-                return;
-            }
-
-            analyzer = GS_ASDE.CreateInstance(AnalyzerType) as Analyzer;
-            analyzer.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
-            analyzer.ProcessReport += (s, v) => { this.Text = $"已分析：{v.ProgressPercentage} 页，{(int)v.UserState} 图"; };
-            analyzer.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [分析完成]"; };
-            analyzer.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
-            analyzer.Process();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            DownloaderType = GS_ASDE.GetSubTypes(typeof(Downloader)).FirstOrDefault();
-            if (DownloaderType == null)
-            {
-                LogUtils.Fatal("未发现程序集内存在下载器类型，终止");
-                return;
-            }
-
-            downloader = GS_ASDE.CreateInstance(DownloaderType) as Downloader;
-            downloader.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
-            downloader.ProcessReport += (s, v) => { this.Text = $"已下载：{v.ProgressPercentage} 张图片，{(int)v.UserState} 张失败"; };
-            downloader.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [下载完成]"; };
-            downloader.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
-            downloader.Process();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            ExporterType = GS_ASDE.GetSubTypes(typeof(Exporter)).FirstOrDefault();
-            if (ExporterType == null)
-            {
-                LogUtils.Fatal("未发现程序集内存在导出器类型，终止");
-                return;
-            }
-
-            exporter = GS_ASDE.CreateInstance(ExporterType) as Exporter;
-            exporter.ProcessStarted += (s, v) => { this.Invoke(new Action(() => { })); };
-            exporter.ProcessReport += (s, v) => { this.Text = $"已导出：{v.ProgressPercentage} / {(int)v.UserState} 张图片"; };
-            exporter.ProcessCompleted += (s, v) => { this.Text = $"{this.Text} - [导出完成]"; };
-            exporter.SetTargetURI(@"https://www.gamersky.com/ent/201809/1096176.shtml");
-            exporter.Process();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Form form = new Form();
-            WebBrowser browser = new WebBrowser();
-            form.Controls.Add(browser);
-            browser.Dock = DockStyle.Fill;
-            browser.Navigate(@"F:\C Sharp\LeonReader\Debug\Articles\201809051640044034\日本30岁的女装大佬 这么娇小可爱竟然是男人.html");
-            form.ShowDialog();
-        }
-
+        #endregion
 
         #region 扫描目录
 
@@ -177,22 +110,32 @@ namespace LeonReader.Client
         {
             LogUtils.Info("刷新目录列表...");
 
-            /*
-            //清空现有目录列表
-            while (CatalogLayoutPanel.Controls.Count > 0)
-            {
-                CatalogLayoutPanel.Controls[0].Dispose();
-            }
+            ClearCatalog();
 
-            //扫描目录
             ScanCatalog(Application.StartupPath);
-            //TODO: Scanner.Process() 是异步方法，加载需要等待扫描完成后再进行：Scanner.ProcessCompleted += (s, e) => { //使用选项卡单独加载此扫描器的文章 }
-            //加载目录
-            foreach (var card in LoadCatalog())
+        }
+
+        /// <summary>
+        /// 清空目录
+        /// </summary>
+        private void ClearCatalog()
+        {
+            foreach (var flowPanel in PanelInTabPage.Values)
             {
-                CatalogLayoutPanel.Controls.Add(card);
+                if (flowPanel != null)
+                {
+                    while (flowPanel.Controls.Count > 0)
+                    {
+                        flowPanel.Controls[0].Dispose();
+                    }
+                    flowPanel.Dispose();
+                }
             }
-             */
+            foreach (var tabPage in PanelInTabPage.Keys)
+            {
+                tabPage.Dispose();
+            }
+            PanelInTabPage.Clear();
         }
 
         /// <summary>
@@ -201,6 +144,7 @@ namespace LeonReader.Client
         private void ScanCatalog(string directoryPath)
         {
             LogUtils.Info("使用所有扫描器扫描目录...");
+
             //遍历符合条件的链接库
             foreach (var assembly in assemblyFactory.CreateAssemblys(
                 directoryPath,
@@ -214,32 +158,127 @@ namespace LeonReader.Client
                     if (scanner == null) continue;
 
                     LogUtils.Info($"发现扫描器：{scanner.ASDESource} in {assembly.FullName}");
-                    scanner.Process();
+
+                    TabPage tabPage = CreateCatalogContainer(scanner.ASDESource);
+                    try
+                    {
+                        scanner.ProcessCompleted += Scanner_ProcessCompleted;
+                        scanner.Process(tabPage);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogUtils.Error($"调用扫描器失败：{ex.Message}");
+                    }
                 }
             }
         }
 
         /// <summary>
+        /// 创建容器
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private TabPage CreateCatalogContainer(string source)
+        {
+            TabPage tabPage = new TabPage()
+            {
+                Text = $"{source} - 正在扫描...",
+            };
+            CatalogTabControl.TabPages.Add(tabPage);
+
+            FlowLayoutPanel flowPanel = new FlowLayoutPanel()
+            {
+                AutoScroll = true,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false
+            };
+            tabPage.Controls.Add(flowPanel);
+            flowPanel.Dock = DockStyle.Fill;
+
+            PanelInTabPage.Add(tabPage, flowPanel);
+            return tabPage;
+        }
+
+        /// <summary>
+        /// 扫描器处理完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Scanner_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            LogUtils.Info($"扫描器处理完成：{(sender as Scanner).ASDESource} {(e.Cancelled ? "(手动取消)" : "")}");
+
+            Scanner scanner = sender as Scanner;
+            TabPage tabPage = scanner.Argument as TabPage;
+
+            LoadCatalog(PanelInTabPage[tabPage], scanner.ASDESource);
+            tabPage.Text = scanner.ASDESource;
+            
+            //扫描完成释放扫描器
+            scanner.Dispose();
+        }
+
+        /// <summary>
         /// 加载目录
         /// </summary>
-        private IEnumerable<CardContainer> LoadCatalog()
+        private void LoadCatalog(FlowLayoutPanel flowPanel, string source)
         {
+            if (flowPanel == null) throw new ArgumentNullException("flowPanel");
+
             //巨幅加载新文章
-            foreach (var article in articleManager.GetNewArticles())
+            foreach (var article in articleManager.GetNewArticles(source))
             {
                 if (article == null) continue;
 
-                yield return cardFactory.CreateLargeCard(
-                    article.Title, 
-                    article.Description,
-                    article.PublishTime
+                flowPanel.Controls.Add(
+                    cardFactory.CreateLargeCard(
+                        article.Title,
+                        article.Description,
+                        article.PublishTime
+                        )
                     );
+
+                Application.DoEvents();
             }
 
             //foreach (var article in TargetDBContext.Articles.Where(article=>!article.IsNew && article.ExportTime!=null))
             {
 
             }
+        }
+
+        #endregion
+
+        #region 工具按钮事件
+
+        /// <summary>
+        /// 点击工具箱日志按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UnityToolContainer_LogClick(object sender, EventArgs e)
+        {
+            //TODO: 点击日志按钮
+        }
+
+        /// <summary>
+        /// 点击工具箱刷新按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UnityToolContainer_RefreshClick(object sender, EventArgs e)
+        {
+            RefreshCatalogList();
+        }
+
+        /// <summary>
+        /// 点击工具箱后退按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UnityToolContainer_GoBackClick(object sender, EventArgs e)
+        {
+            //TODO: 点击后退按钮
         }
 
         #endregion
