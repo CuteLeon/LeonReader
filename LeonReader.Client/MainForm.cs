@@ -225,7 +225,6 @@ namespace LeonReader.Client
         {
             if (flowPanel == null) throw new ArgumentNullException("flowPanel");
 
-            //巨幅加载新文章
             foreach (var article in articleManager.GetNewArticles(source))
             {
                 if (article == null) continue;
@@ -241,9 +240,34 @@ namespace LeonReader.Client
                 Application.DoEvents();
             }
 
-            //foreach (var article in TargetDBContext.Articles.Where(article=>!article.IsNew && article.ExportTime!=null))
+            foreach (var article in articleManager.GetScanedArticle(source))
             {
+                if (article == null) continue;
 
+                flowPanel.Controls.Add(
+                    cardFactory.CreateNormalCard(
+                        article.Title,
+                        article.Description,
+                        article.PublishTime
+                        )
+                    );
+
+                Application.DoEvents();
+            }
+
+            foreach (var article in articleManager.GetDownloadedArticles(source))
+            {
+                if (article == null) continue;
+
+                flowPanel.Controls.Add(
+                    cardFactory.CreateSmallCard(
+                        article.Title,
+                        article.Description,
+                        article.PublishTime
+                        )
+                    );
+
+                Application.DoEvents();
             }
         }
 

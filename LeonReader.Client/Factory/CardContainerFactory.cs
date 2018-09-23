@@ -165,7 +165,7 @@ namespace LeonReader.Client.Factory
         private CardContainer CreateLargeCard()
             => new CardContainer()
             {
-                Size = new Size(300, 200),
+                Size = new Size(675, 200),
                 Style = CardContainer.CardStyles.Large
             };
 

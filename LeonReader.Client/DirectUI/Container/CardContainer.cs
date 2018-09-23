@@ -232,7 +232,7 @@ namespace LeonReader.Client.DirectUI.Container
 
             DUIPreviewImageBox.Name = "预览图像框";
             DUIPreviewImageBox.BackgroundImage = UnityResource.BrokenImage;
-            DUIPreviewImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            DUIPreviewImageBox.BackgroundImageLayout = ImageLayout.Zoom;
             DUIPreviewImageBox.BorderColor = Color.WhiteSmoke;
             DUIPreviewImageBox.BorderSize = 1;
             DUIPreviewImageBox.BorderStyle = ButtonBorderStyle.Solid;
@@ -384,6 +384,7 @@ namespace LeonReader.Client.DirectUI.Container
                         DUIPublishTimeLabel.Visible = true;
                         DUIStateLabel.Visible = true;
                         DUIPreviewImageBox.Text = string.Empty;
+                        DUIPreviewImageBox.BackgroundImageLayout = ImageLayout.Zoom;
 
                         this.MaximumSize = new Size(0, 0);
                         this.MinimumSize = new Size(212, 62);
@@ -410,6 +411,7 @@ namespace LeonReader.Client.DirectUI.Container
                         DUIPublishTimeLabel.Visible = true;
                         DUIStateLabel.Visible = true;
                         DUIPreviewImageBox.Text = DUIDescriptionLabel.Text;
+                        DUIPreviewImageBox.BackgroundImageLayout = ImageLayout.Tile;
 
                         this.MaximumSize = new Size(0, 0);
                         this.MinimumSize = new Size(112, 62);
