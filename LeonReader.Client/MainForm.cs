@@ -13,8 +13,8 @@ using LeonReader.Common;
 using LeonReader.AbstractSADE;
 using LeonDirectUI.Container;
 using LeonReader.Client.Factory;
-using LeonReader.Model;
 using LeonReader.Client.DirectUI.Container;
+using LeonReader.ArticleContentManager;
 
 namespace LeonReader.Client
 {
@@ -23,10 +23,7 @@ namespace LeonReader.Client
 
         #region 变量
 
-        /// <summary>
-        /// 数据库交互对象
-        /// </summary>
-        readonly UnityDBContext TargetDBContext = new UnityDBContext();
+        ArticleManager articleManager = new ArticleManager();
 
         /// <summary>
         /// 反射工厂
@@ -186,6 +183,7 @@ namespace LeonReader.Client
 
             //扫描目录
             ScanCatalog(Application.StartupPath);
+            //TODO: Scanner.Process() 是异步方法，加载需要等待扫描完成后再进行
             //加载目录
             foreach (var card in LoadCatalog())
             {
@@ -223,7 +221,7 @@ namespace LeonReader.Client
         private IEnumerable<CardContainer> LoadCatalog()
         {
             //巨幅加载新文章
-            foreach (var article in TargetDBContext.Articles.Where(article => article.IsNew))
+            foreach (var article in articleManager.GetNewArticles())
             {
                 if (article == null) continue;
 
@@ -234,7 +232,7 @@ namespace LeonReader.Client
                     );
             }
 
-            foreach (var article in TargetDBContext.Articles.Where(article=>!article.IsNew && article.ExportTime!=null))
+            //foreach (var article in TargetDBContext.Articles.Where(article=>!article.IsNew && article.ExportTime!=null))
             {
 
             }

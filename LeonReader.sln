@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonReader.AbstractSADETest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonReader.Model", "LeonReader.Model\LeonReader.Model.csproj", "{E011572B-10E0-4D9D-88DC-F2B5DA057C76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonReader.ArticleContentManager", "LeonReader.ArticleContentManager\LeonReader.ArticleContentManager.csproj", "{025A7084-9192-4538-A40B-92B24861AE1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{E011572B-10E0-4D9D-88DC-F2B5DA057C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E011572B-10E0-4D9D-88DC-F2B5DA057C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E011572B-10E0-4D9D-88DC-F2B5DA057C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{025A7084-9192-4538-A40B-92B24861AE1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{025A7084-9192-4538-A40B-92B24861AE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{025A7084-9192-4538-A40B-92B24861AE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{025A7084-9192-4538-A40B-92B24861AE1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +113,7 @@ Global
 		{FCD1E538-AC4F-4B5C-AED6-4FBE0648802A} = {BA3A35F1-630E-4C90-A7E1-77B75344DC3B}
 		{00793812-77E7-43AA-9B7D-A7340ED466E0} = {BA3A35F1-630E-4C90-A7E1-77B75344DC3B}
 		{E011572B-10E0-4D9D-88DC-F2B5DA057C76} = {E699C821-5474-4DD3-BFD9-DC9710999CAE}
+		{025A7084-9192-4538-A40B-92B24861AE1A} = {72C27E62-F1B9-47D5-9417-CCF745819768}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC6CA0F0-5967-4DF8-A0F8-4F78298B962F}
