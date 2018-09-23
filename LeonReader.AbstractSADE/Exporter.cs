@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LeonReader.Common;
+﻿using LeonReader.Common;
 using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
@@ -32,11 +27,11 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcess(Article article)
         {
-            ExportDirectory = IOHelper.PathCombine(
+            ExportDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 article.DownloadDirectoryName
                 );
-            ExportPath = IOHelper.PathCombine(
+            ExportPath = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 article.DownloadDirectoryName,
                 article.ArticleFileName

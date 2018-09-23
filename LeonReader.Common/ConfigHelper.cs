@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LeonReader.Common
 {
@@ -21,6 +17,6 @@ namespace LeonReader.Common
         /// <summary>
         /// 下载目录
         /// </summary>
-        public string DownloadDirectory { get; } = IOHelper.PathCombine(Environment.CurrentDirectory, "Articles");
+        public string DownloadDirectory { get; } = IOUtils.PathCombine(Environment.CurrentDirectory, "Articles");
     }
 }

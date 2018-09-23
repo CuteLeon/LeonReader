@@ -1,10 +1,8 @@
-﻿using LeonReader.Common;
-using LeonReader.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using LeonReader.Common;
+using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
@@ -21,19 +19,19 @@ namespace LeonReader.AbstractSADE
 
             if (TargetURI == null)
             {
-                LogHelper.Error($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
+                LogUtils.Error($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
                 throw new Exception($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
             }
 
-            LogHelper.Info($"开始分析文章链接：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"开始分析文章链接：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             //获取链接关联的文章对象
             Article article = GetArticle(TargetURI.AbsoluteUri, this.ASDESource);
             if (article == null)
             {
-                LogHelper.Error($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
                 throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
             }
-            LogHelper.Debug($"匹配到链接关联的文章实体：{article.Title} ({article.ArticleID}) => {article.ArticleLink}");
+            LogUtils.Debug($"匹配到链接关联的文章实体：{article.Title} ({article.ArticleID}) => {article.ArticleLink}");
             PreConfigProcess(article);
             ProcessWorker.RunWorkerAsync(article);
         }
@@ -52,7 +50,7 @@ namespace LeonReader.AbstractSADE
         /// <returns></returns>
         private Article GetArticle(string link, string asdeSource)
         {
-            LogHelper.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
+            LogUtils.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
             if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
 
             Article article = TargetDBContext.Articles

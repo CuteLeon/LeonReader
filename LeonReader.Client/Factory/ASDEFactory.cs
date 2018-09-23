@@ -1,10 +1,8 @@
-﻿using LeonReader.AbstractSADE;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
+using LeonReader.AbstractSADE;
 using LeonReader.Common;
 
 namespace LeonReader.Client.Factory
@@ -24,7 +22,7 @@ namespace LeonReader.Client.Factory
         {
             if (assembly == null) throw new Exception("生产扫描器时使用空的程序集");
 
-            LogHelper.Info($"在程序集 {assembly.FullName} 内创建所有扫描器...");
+            LogUtils.Info($"在程序集 {assembly.FullName} 内创建所有扫描器...");
             foreach (var type in assembly.GetSubTypes(typeof(Scanner)))
             {
                 yield return assembly.CreateInstance(type) as Scanner;

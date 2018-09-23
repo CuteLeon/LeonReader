@@ -1,10 +1,8 @@
-﻿using SQLite.CodeFirst;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using SQLite.CodeFirst;
 
 namespace LeonReader.Model
 {

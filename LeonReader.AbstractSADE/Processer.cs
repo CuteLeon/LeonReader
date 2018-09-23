@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -121,14 +118,14 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessStarted(object sender, DoWorkEventArgs e)
         {
-            LogHelper.Info($"处理开始：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            LogUtils.Info($"处理开始：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             //这个事件会在异步线程触发
             ProcessStarted?.Invoke(this, e);
             //允许用户在接收处理开始事件时即取消处理
             if (e.Cancel) return;
             if (ProcessWorker.CancellationPending) return;
             //调用子类ASDE类的方法
-            LogHelper.Debug($"开始处理子ASDE类的 [处理开始] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            LogUtils.Debug($"开始处理子ASDE类的 [处理开始] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             OnProcessStarted(ProcessWorker, e);
         }
 
@@ -160,18 +157,18 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LogHelper.Info($"处理完成：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            LogUtils.Info($"处理完成：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             if (e.Cancelled)
             {
-                LogHelper.Error($"由用户手动取消处理：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+                LogUtils.Error($"由用户手动取消处理：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             }
             if (e.Error != null)
             {
-                LogHelper.Error($"处理时遇到异常：{e.Error.Message}，{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+                LogUtils.Error($"处理时遇到异常：{e.Error.Message}，{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             }
 
             //调用子类ASDE类的方法
-            LogHelper.Debug($"开始处理子ASDE类的 [处理完成] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            LogUtils.Debug($"开始处理子ASDE类的 [处理完成] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
             OnProcessCompleted(ProcessWorker, e);
 
             //优先内部处理完完成事件再通知外部

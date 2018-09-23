@@ -23,8 +23,8 @@ namespace GamerSkySADE.Tests
             Scanner scanner = new GamerSkyScanner();
 
             //用于仅测试进度报告功能
-            LogHelper.LogLevel = LogHelper.LogTypes.FATAL;
-            scanner.ProcessReport += (s, e) => { LogHelper.Fatal($"扫描进度：{e.ProgressPercentage} 篇文章"); };
+            LogUtils.LogLevel = LogUtils.LogTypes.FATAL;
+            scanner.ProcessReport += (s, e) => { LogUtils.Fatal($"扫描进度：{e.ProgressPercentage} 篇文章"); };
 
             scanner.Process();
 
@@ -50,7 +50,7 @@ namespace GamerSkySADE.Tests
             foreach (var article in
                 (IEnumerable<Article>)methodInfo.Invoke(
                     scanner,
-                    new object[] { NetHelper.GetWebPage(scanner.TargetURI) }
+                    new object[] { NetUtils.GetWebPage(scanner.TargetURI) }
                 )
             )
             {
@@ -155,7 +155,7 @@ namespace GamerSkySADE.Tests
             Assert.IsTrue(catalogListOffLine.Length > 0);
 
             //在线资源测试
-            string catalogListOnLine = (string)methodInfo.Invoke(scanner, new object[] { NetHelper.GetWebPage(scanner.TargetURI) });
+            string catalogListOnLine = (string)methodInfo.Invoke(scanner, new object[] { NetUtils.GetWebPage(scanner.TargetURI) });
             Assert.IsTrue(catalogListOnLine.Length > 0);
         }
     }

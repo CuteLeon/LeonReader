@@ -1,10 +1,8 @@
-﻿using LeonReader.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
+using LeonReader.Common;
 
 namespace LeonReader.Client.Factory
 {
@@ -20,7 +18,7 @@ namespace LeonReader.Client.Factory
         /// <returns></returns>
         public Assembly CreateAssembly(string filePath)
         {
-            Assembly assembly = AssemblyHelper.CreateAssembly(filePath);
+            Assembly assembly = AssemblyUtils.CreateAssembly(filePath);
             return assembly;
         }
 
@@ -32,7 +30,7 @@ namespace LeonReader.Client.Factory
         /// <returns></returns>
         public IEnumerable<Assembly> CreateAssemblys(string directoryPath, Predicate<string> pathPredicate)
         {
-            foreach (var filePath in IOHelper.GetChildrenFiles(
+            foreach (var filePath in IOUtils.GetChildrenFiles(
                 directoryPath,
                 pathPredicate
             ))

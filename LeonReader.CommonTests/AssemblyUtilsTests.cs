@@ -1,31 +1,30 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LeonReader.Common;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
-using LeonReader.AbstractSADE;
+
 using GamerSkySADE;
+
+using LeonReader.AbstractSADE;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LeonReader.Common.Tests
 {
     [TestClass()]
-    public class AssemblyHelperTests
+    public class AssemblyUtilsTests
     {
 
         [TestMethod()]
         public void CreateAssemblyTest()
         {
-            Assert.IsNotNull(AssemblyHelper.CreateAssembly("LeonReader.Common.dll"));
-            Assert.ThrowsException<System.IO.FileNotFoundException>(() => AssemblyHelper.CreateAssembly("LeonReader.xxx.dll"));
+            Assert.IsNotNull(AssemblyUtils.CreateAssembly("LeonReader.Common.dll"));
+            Assert.ThrowsException<System.IO.FileNotFoundException>(() => AssemblyUtils.CreateAssembly("LeonReader.xxx.dll"));
         }
 
         [TestMethod()]
         public void GetSubTypesTest()
         {
-            Assembly assembly = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
+            Assembly assembly = AssemblyUtils.CreateAssembly("GamerSkySADE.dll");
             Assert.IsTrue(assembly.GetSubTypes(typeof(Scanner)).Select(type => type.FullName).ToArray().Contains(typeof(GamerSkyScanner).FullName));
             Assert.IsFalse(assembly.GetSubTypes(typeof(Analyzer)).Select(type => type.FullName).ToArray().Contains(typeof(GamerSkyScanner).FullName));
         }
@@ -33,7 +32,7 @@ namespace LeonReader.Common.Tests
         [TestMethod()]
         public void CreateInstanceTest()
         {
-            Assembly assembly = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
+            Assembly assembly = AssemblyUtils.CreateAssembly("GamerSkySADE.dll");
             Type ScannerType = assembly.GetSubTypes(typeof(Scanner)).FirstOrDefault();
             Assert.IsNotNull(ScannerType);
             Scanner scanner = assembly.CreateInstance(ScannerType) as Scanner;

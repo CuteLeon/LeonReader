@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using System.IO;
+using System.Text;
 
 namespace LeonReader.Common
 {
     /// <summary>
     /// IO助手
     /// </summary>
-    public static class IOHelper
+    public static class IOUtils
     {
 
         /// <summary>
@@ -75,7 +72,7 @@ namespace LeonReader.Common
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Error($"获取文件大小错误：{ex.Message}");
+                    LogUtils.Error($"获取文件大小错误：{ex.Message}");
                     throw;
                 }
             }
@@ -100,7 +97,7 @@ namespace LeonReader.Common
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"IO助手创建目录失败：{path}，{ex.Message}");
+                LogUtils.Error($"IO助手创建目录失败：{path}，{ex.Message}");
                 throw;
             }
         }
@@ -123,7 +120,7 @@ namespace LeonReader.Common
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"通过流读取图像文件失败：{imagePath}，{ex.Message}");
+                LogUtils.Error($"通过流读取图像文件失败：{imagePath}，{ex.Message}");
                 return null;
             }
         }

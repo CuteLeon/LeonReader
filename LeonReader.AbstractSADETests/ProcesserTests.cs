@@ -23,20 +23,20 @@ namespace LeonReader.AbstractSADE.Tests
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
             Index = 0;
-            LogHelper.Debug($"内循环开始，Index = {Index}");
+            LogUtils.Debug($"内循环开始，Index = {Index}");
             while (Index++ < 10)
             {
-                LogHelper.Debug($"内循环：Index = {Index}");
+                LogUtils.Debug($"内循环：Index = {Index}");
                 OnProcessReport(Index, null);
                 Thread.Sleep(500);
                 if (ProcessWorker.CancellationPending)
                 {
                     e.Cancel = true;
-                    LogHelper.Debug("内循环：用户取消了处理");
+                    LogUtils.Debug("内循环：用户取消了处理");
                     break;
                 }
             }
-            LogHelper.Debug($"内循环结束，当前 Index = {Index}");
+            LogUtils.Debug($"内循环结束，当前 Index = {Index}");
         }
     }
 
@@ -48,7 +48,7 @@ namespace LeonReader.AbstractSADE.Tests
         [TestMethod()]
         public void ProcesserTest()
         {
-            LogHelper.Debug("<———— 开始 Process 单元测试（自动结束） ————>");
+            LogUtils.Debug("<———— 开始 Process 单元测试（自动结束） ————>");
             TestProcesser processer = new TestProcesser();
 
             processer.ProcessStarted += ProcesseStarted;
@@ -61,7 +61,7 @@ namespace LeonReader.AbstractSADE.Tests
         [TestMethod]
         public void ProcesserHeadOff()
         {
-            LogHelper.Debug("<———— 开始 Process 单元测试（立即拦截） ————>");
+            LogUtils.Debug("<———— 开始 Process 单元测试（立即拦截） ————>");
             TestProcesser processer = new TestProcesser();
 
             processer.ProcessStarted += ProcesseStartedButCancelImmediately;
@@ -73,7 +73,7 @@ namespace LeonReader.AbstractSADE.Tests
         [TestMethod]
         public void ProcesserCancel()
         {
-            LogHelper.Debug("<———— 开始 Process 单元测试（自动取消） ————>");
+            LogUtils.Debug("<———— 开始 Process 单元测试（自动取消） ————>");
             TestProcesser processer = new TestProcesser();
 
             processer.ProcessStarted += ProcesseStarted;
@@ -88,7 +88,7 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcesseStarted(object sender, DoWorkEventArgs e)
         {
-            LogHelper.Info("我天，processer 告诉我她要开始处理了。");
+            LogUtils.Info("我天，processer 告诉我她要开始处理了。");
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcesseStartedButCancelImmediately(object sender, DoWorkEventArgs e)
         {
-            LogHelper.Info("我天，processer 告诉我她要开始处理了，但我反手就取消了她的处理。");
+            LogUtils.Info("我天，processer 告诉我她要开始处理了，但我反手就取消了她的处理。");
             e.Cancel = true;
         }
 
@@ -105,7 +105,7 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcessReport(object sender, ProgressChangedEventArgs e)
         {
-            LogHelper.Info($"我天，processer 说她处理进度为：Index = {e.ProgressPercentage}");
+            LogUtils.Info($"我天，processer 说她处理进度为：Index = {e.ProgressPercentage}");
         }
 
         /// <summary>
@@ -113,10 +113,10 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcessReportAndCancel(object sender, ProgressChangedEventArgs e)
         {
-            LogHelper.Info($"我天，processer 说她处理进度为：Index = {e.ProgressPercentage}");
+            LogUtils.Info($"我天，processer 说她处理进度为：Index = {e.ProgressPercentage}");
             if (e.ProgressPercentage == 5)
             {
-                LogHelper.Info("但是我反手就取消了她");
+                LogUtils.Info("但是我反手就取消了她");
                 (sender as Processer).Cancle();
             }
         }
@@ -126,8 +126,8 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         private void ProcesseCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LogHelper.Info("我天，processer 告诉我她处理完成了。");
-            LogHelper.Info("<———— Process 单元测试完成 ————>");
+            LogUtils.Info("我天，processer 告诉我她处理完成了。");
+            LogUtils.Info("<———— Process 单元测试完成 ————>");
         }
 
     }

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 using LeonReader.AbstractSADE;
-using LeonReader.Model;
 using LeonReader.Common;
-using System.ComponentModel;
-using System.Threading;
+using LeonReader.Model;
 
 namespace GamerSkySADE
 {
@@ -32,29 +29,29 @@ namespace GamerSkySADE
         {
             if (TargetURI == null)
             {
-                LogHelper.Error($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
+                LogUtils.Error($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
                 throw new Exception($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
             }
 
-            LogHelper.Info($"开始扫描文章目录：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"开始扫描文章目录：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             string CatalogContent = string.Empty;
             try
             {
-                CatalogContent = NetHelper.GetWebPage(TargetURI);
+                CatalogContent = NetUtils.GetWebPage(TargetURI);
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，{ex.Message}，From：{this.ASDESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，{ex.Message}，From：{this.ASDESource}");
                 throw;
             }
 
             if (string.IsNullOrEmpty(CatalogContent))
             {
-                LogHelper.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
                 throw new Exception($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
             }
 
-            LogHelper.Info($"开始分析目录... ，From：{this.ASDESource}");
+            LogUtils.Info($"开始分析目录... ，From：{this.ASDESource}");
             int ArticleCount = 0;
             //扫描目录
             foreach (var article in ScanArticles(CatalogContent))
@@ -62,11 +59,11 @@ namespace GamerSkySADE
                 ArticleCount++;
                 if (CheckArticleExist(article))
                 {
-                    LogHelper.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
+                    LogUtils.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
                 }
                 else
                 {
-                    LogHelper.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
+                    LogUtils.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
                     TargetDBContext.Articles.Add(article);
                     TargetDBContext.SaveChanges();
                 }
@@ -99,7 +96,7 @@ namespace GamerSkySADE
             string CatalogContentCore = GetCatalogContent(catalogContent);
             if (CatalogContentCore == string.Empty)
             {
-                LogHelper.Error($"目录主体内容匹配为空，From：{this.ASDESource}");
+                LogUtils.Error($"目录主体内容匹配为空，From：{this.ASDESource}");
                 throw new Exception($"目录主体内容匹配为空，From：{this.ASDESource}");
             }
 
@@ -107,12 +104,12 @@ namespace GamerSkySADE
             string[] CatalogList = GetCatalogList(CatalogContentCore);
             if (CatalogList.Length == 0)
             {
-                LogHelper.Error($"分割目录项目失败，From：{this.ASDESource}");
+                LogUtils.Error($"分割目录项目失败，From：{this.ASDESource}");
                 throw new Exception($"分割目录项目失败，From：{this.ASDESource}");
             }
 
             //遍历目录项
-            LogHelper.Debug($"开始遍历目录项");
+            LogUtils.Debug($"开始遍历目录项");
             foreach (string CatalogItem in CatalogList)
             {
                 Article article = ConvertToArticle(CatalogItem);
@@ -136,16 +133,16 @@ namespace GamerSkySADE
             
             if (CatalogMatch.Success)
             {
-                string ArticleID = IOHelper.GetFileNameWithoutExtension(CatalogMatch.Groups["ImageLink"].Value);
+                string ArticleID = IOUtils.GetFileNameWithoutExtension(CatalogMatch.Groups["ImageLink"].Value);
                 string Title = CatalogMatch.Groups["Title"].Value;
                 string ArticleLink = CatalogMatch.Groups["ArticleLink"].Value;
                 string ImageLink = CatalogMatch.Groups["ImageLink"].Value;
                 string Description = CatalogMatch.Groups["Description"].Value;
                 string PublishTime = CatalogMatch.Groups["PublishTime"].Value;
-                string ImageFileName = IOHelper.GetFileName(CatalogMatch.Groups["ImageLink"].Value);
+                string ImageFileName = IOUtils.GetFileName(CatalogMatch.Groups["ImageLink"].Value);
 
                 //预处理
-                if (ArticleLink.StartsWith("/")) ArticleLink = NetHelper.LinkCombine(TargetURI, ArticleLink);
+                if (ArticleLink.StartsWith("/")) ArticleLink = NetUtils.LinkCombine(TargetURI, ArticleLink);
                 Title = Title.Replace("'", "");
                 Description = Description.Replace("'", "");
 
@@ -162,13 +159,13 @@ namespace GamerSkySADE
                     ASDESource = ASDESource,
                     ScanTime = DateTime.Now,
                     IsNew = true,
-                    DownloadDirectoryName = IOHelper.GetSafeDirectoryName(ArticleID),
-                    ArticleFileName = IOHelper.GetSafeFileName(Title),
+                    DownloadDirectoryName = IOUtils.GetSafeDirectoryName(ArticleID),
+                    ArticleFileName = IOUtils.GetSafeFileName(Title),
                 };
             }
             else
             {
-                LogHelper.Warn($"转换为文章实体失败，From：{this.ASDESource}，内容：\n< ——————————\n{catalogItem}\n—————————— >");
+                LogUtils.Warn($"转换为文章实体失败，From：{this.ASDESource}，内容：\n< ——————————\n{catalogItem}\n—————————— >");
             }
             return article;
         }

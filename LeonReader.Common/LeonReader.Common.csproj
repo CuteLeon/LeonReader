@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyHelper.cs" />
+    <Compile Include="AssemblyUtils.cs" />
     <Compile Include="ConfigHelper.cs" />
-    <Compile Include="IOHelper.cs" />
-    <Compile Include="LogHelper.cs" />
-    <Compile Include="NetHelper.cs" />
+    <Compile Include="IOUtils.cs" />
+    <Compile Include="LogUtils.cs" />
+    <Compile Include="NetUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

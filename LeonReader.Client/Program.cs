@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using LeonReader.Common;
 
 namespace LeonReader.Client
@@ -25,9 +23,9 @@ namespace LeonReader.Client
             Application.ApplicationExit += Application_ApplicationExit;
 
             //配置依赖组件
-            ConfigLogHelper();
-            LogHelper.Fatal("系统启动");
-            LogHelper.Fatal("———————————");
+            ConfigLogUtils();
+            LogUtils.Fatal("系统启动");
+            LogUtils.Fatal("———————————");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -36,9 +34,9 @@ namespace LeonReader.Client
 
         private static void Application_ApplicationExit(object sender, EventArgs e)
         {
-            LogHelper.Fatal("———————————");
-            LogHelper.Fatal("系统关闭");
-            LogHelper.CloseLogListener();
+            LogUtils.Fatal("———————————");
+            LogUtils.Fatal("系统关闭");
+            LogUtils.CloseLogListener();
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -66,14 +64,14 @@ namespace LeonReader.Client
                 UnhandledException.Message,
                 UnhandledException.StackTrace,
                 e.IsTerminating,
-                LogHelper.LogFilePath,
+                LogUtils.LogFilePath,
                 string.Join("", UnhandledException.TargetSite.GetMethodBody().GetILAsByteArray())
             );
 
-            LogHelper.Fatal(ExceptionDescription);
+            LogUtils.Fatal(ExceptionDescription);
 
             if (MessageBox.Show(ExceptionDescription, "点击<确定>打开日志文件", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                Process.Start(LogHelper.LogFilePath);
+                Process.Start(LogUtils.LogFilePath);
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -96,27 +94,27 @@ namespace LeonReader.Client
                 UnhandledException.TargetSite?.Module?.FullyQualifiedName ?? "*",
                 UnhandledException.Message ?? "*",
                 UnhandledException.StackTrace ?? "*",
-                LogHelper.LogFilePath ?? "*"
+                LogUtils.LogFilePath ?? "*"
                 //string.Join("", UnhandledException.TargetSite?.GetMethodBody()?.GetILAsByteArray())
             );
 
-            LogHelper.Fatal(ExceptionDescription);
+            LogUtils.Fatal(ExceptionDescription);
 
             if (MessageBox.Show(ExceptionDescription, "点击<确定>打开日志文件", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                Process.Start(LogHelper.LogFilePath);
+                Process.Start(LogUtils.LogFilePath);
         }
 
         /// <summary>
         /// 配置日志助手
         /// </summary>
-        static void ConfigLogHelper()
+        static void ConfigLogUtils()
         {
 #if DEBUG
-            LogHelper.LogLevel = LogHelper.LogTypes.DEBUG;
-            LogHelper.Info("调试模式");
+            LogUtils.LogLevel = LogUtils.LogTypes.DEBUG;
+            LogUtils.Info("调试模式");
 #else
-            LogHelper.LogLevel = LogHelper.LogTypes.INFO;
-            LogHelper.Info("非调试模式");
+            LogUtils.LogLevel = LogUtils.LogTypes.INFO;
+            LogUtils.Info("非调试模式");
 #endif
         }
 

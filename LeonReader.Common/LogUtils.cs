@@ -1,16 +1,14 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.VisualBasic.Logging;
 
 namespace LeonReader.Common
 {
     /// <summary>
     /// 日志助手（饿汉单实例模式）
     /// </summary>
-    public static class LogHelper
+    public static class LogUtils
     {
         /// <summary>
         /// 日志类型枚举
@@ -53,13 +51,13 @@ namespace LeonReader.Common
         /// <summary>
         /// 日志监听器
         /// </summary>
-        private static FileLogTraceListener LogListener { get; }=new FileLogTraceListener("LeonReaderLogHelper")
+        private static FileLogTraceListener LogListener { get; }=new FileLogTraceListener("LeonReaderLogUtils")
         {
             DiskSpaceExhaustedBehavior = DiskSpaceExhaustedOption.DiscardMessages,
             LogFileCreationSchedule = LogFileCreationScheduleOption.None,
             Location = LogFileLocation.Custom,
             MaxFileSize = 100 * 1024 * 1024,
-            CustomLocation = IOHelper.PathCombine(Environment.CurrentDirectory,"Logs"),
+            CustomLocation = IOUtils.PathCombine(Environment.CurrentDirectory,"Logs"),
             BaseFileName = $"Log_{DateTime.Now.ToString("yyyyMMdd_hh_mm_ss.fff")}",
             Encoding = Encoding.UTF8,
             IncludeHostName = true,

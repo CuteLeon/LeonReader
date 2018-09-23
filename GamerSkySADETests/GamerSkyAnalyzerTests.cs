@@ -24,8 +24,8 @@ namespace GamerSkySADE.Tests
             analyzer.SetTargetURI(@link);
             
             //用于仅测试进度报告功能
-            LogHelper.LogLevel = LogHelper.LogTypes.FATAL;
-            analyzer.ProcessReport += (s, e) => { LogHelper.Fatal($"分析进度：{e.ProgressPercentage} 页，{(int)e.UserState}图"); };
+            LogUtils.LogLevel = LogUtils.LogTypes.FATAL;
+            analyzer.ProcessReport += (s, e) => { LogUtils.Fatal($"分析进度：{e.ProgressPercentage} 页，{(int)e.UserState}图"); };
 
             analyzer.TargetDBContext.Articles.RemoveRange(analyzer.TargetDBContext.Articles.ToArray());
             analyzer.TargetDBContext.Articles.Add(

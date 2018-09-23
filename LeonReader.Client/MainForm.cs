@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
-using LeonReader.Common;
 using LeonReader.AbstractSADE;
-using LeonDirectUI.Container;
-using LeonReader.Client.Factory;
-using LeonReader.Client.DirectUI.Container;
 using LeonReader.ArticleContentManager;
+using LeonReader.Client.DirectUI.Container;
+using LeonReader.Client.Factory;
+using LeonReader.Common;
 
 namespace LeonReader.Client
 {
@@ -69,25 +63,25 @@ namespace LeonReader.Client
         private void MainForm_Load(object sender, EventArgs e)
         {
             string DownloadDirectory = ConfigHelper.GetConfigHelper.DownloadDirectory;
-            if (!IOHelper.DirectoryExists(DownloadDirectory))
+            if (!IOUtils.DirectoryExists(DownloadDirectory))
             {
-                LogHelper.Info($"正在创建下载目录：{DownloadDirectory}");
+                LogUtils.Info($"正在创建下载目录：{DownloadDirectory}");
                 try
                 {
-                    IOHelper.CreateDirectory(DownloadDirectory);
+                    IOUtils.CreateDirectory(DownloadDirectory);
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Error($"创建下载失败：{ex.Message}");
+                    LogUtils.Error($"创建下载失败：{ex.Message}");
                     MessageBox.Show($"无法创建下载目录，886~\n{ex.Message}");
                     Application.Exit();
                 }
             }
 
-            GS_ASDE = AssemblyHelper.CreateAssembly("GamerSkySADE.dll");
+            GS_ASDE = AssemblyUtils.CreateAssembly("GamerSkySADE.dll");
             if (GS_ASDE == null)
             {
-                LogHelper.Fatal("创建程序集反射失败，终止");
+                LogUtils.Fatal("创建程序集反射失败，终止");
                 MessageBox.Show("创建程序集反射失败，终止");
                 Application.Exit();
             }
@@ -101,7 +95,7 @@ namespace LeonReader.Client
             ScannerType = GS_ASDE.GetSubTypes(typeof(Scanner)).FirstOrDefault();
             if (ScannerType == null)
             {
-                LogHelper.Fatal("未发现程序集内存在扫描器类型，终止");
+                LogUtils.Fatal("未发现程序集内存在扫描器类型，终止");
                 return;
             }
 
@@ -117,7 +111,7 @@ namespace LeonReader.Client
             AnalyzerType = GS_ASDE.GetSubTypes(typeof(Analyzer)).FirstOrDefault();
             if (ScannerType == null)
             {
-                LogHelper.Fatal("未发现程序集内存在分析器类型，终止");
+                LogUtils.Fatal("未发现程序集内存在分析器类型，终止");
                 return;
             }
 
@@ -134,7 +128,7 @@ namespace LeonReader.Client
             DownloaderType = GS_ASDE.GetSubTypes(typeof(Downloader)).FirstOrDefault();
             if (DownloaderType == null)
             {
-                LogHelper.Fatal("未发现程序集内存在下载器类型，终止");
+                LogUtils.Fatal("未发现程序集内存在下载器类型，终止");
                 return;
             }
 
@@ -151,7 +145,7 @@ namespace LeonReader.Client
             ExporterType = GS_ASDE.GetSubTypes(typeof(Exporter)).FirstOrDefault();
             if (ExporterType == null)
             {
-                LogHelper.Fatal("未发现程序集内存在导出器类型，终止");
+                LogUtils.Fatal("未发现程序集内存在导出器类型，终止");
                 return;
             }
 
@@ -181,7 +175,7 @@ namespace LeonReader.Client
         /// </summary>
         private void RefreshCatalogList()
         {
-            LogHelper.Info("刷新目录列表...");
+            LogUtils.Info("刷新目录列表...");
 
             /*
             //清空现有目录列表
@@ -206,7 +200,7 @@ namespace LeonReader.Client
         /// </summary>
         private void ScanCatalog(string directoryPath)
         {
-            LogHelper.Info("使用所有扫描器扫描目录...");
+            LogUtils.Info("使用所有扫描器扫描目录...");
             //遍历符合条件的链接库
             foreach (var assembly in assemblyFactory.CreateAssemblys(
                 directoryPath,
@@ -219,7 +213,7 @@ namespace LeonReader.Client
                 {
                     if (scanner == null) continue;
 
-                    LogHelper.Info($"发现扫描器：{scanner.ASDESource} in {assembly.FullName}");
+                    LogUtils.Info($"发现扫描器：{scanner.ASDESource} in {assembly.FullName}");
                     scanner.Process();
                 }
             }

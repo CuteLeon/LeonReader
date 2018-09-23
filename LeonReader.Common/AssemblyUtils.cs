@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LeonReader.Common
 {
-    
+
     /// <summary>
     /// 程序集反射助手
     /// </summary>
-    public static class AssemblyHelper
+    public static class AssemblyUtils
     {
         /// <summary>
         /// 加载程序集
@@ -22,7 +19,7 @@ namespace LeonReader.Common
         /// <returns>程序集</returns>
         public static Assembly CreateAssembly(string AssemblyPath, bool DynamicLoad = true)
         {
-            LogHelper.Debug("开始{0}加载程序集路径：{1} ...", (DynamicLoad ? "动态" : string.Empty), AssemblyPath);
+            LogUtils.Debug("开始{0}加载程序集路径：{1} ...", (DynamicLoad ? "动态" : string.Empty), AssemblyPath);
 
             Assembly PluginAssembly = null;
             try
@@ -49,7 +46,7 @@ namespace LeonReader.Common
             }
             catch (Exception ex)
             {
-                LogHelper.Error("创建程序集遇到异常：{0}", ex.Message);
+                LogUtils.Error("创建程序集遇到异常：{0}", ex.Message);
                 throw;
             }
 
@@ -66,11 +63,11 @@ namespace LeonReader.Common
         {
             if (assembly == null)
             {
-                LogHelper.Warn($"获取 {baseType.FullName} 的子类型时遇到错误：空的程序集。");
+                LogUtils.Warn($"获取 {baseType.FullName} 的子类型时遇到错误：空的程序集。");
                 return new Type[] { };
             }
 
-            LogHelper.Debug($"在程序集 {assembly.FullName} 中获取 {baseType.Name} 的子类型...");
+            LogUtils.Debug($"在程序集 {assembly.FullName} 中获取 {baseType.Name} 的子类型...");
             return assembly.GetTypes().Where(
                             type =>
                             type.IsSubclassOf(baseType)
@@ -85,14 +82,14 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static object CreateInstance(this Assembly assembly, Type type)
         {
-            LogHelper.Debug($"在程序集 {assembly.FullName} 中创建 {type.Name} 的实例...");
+            LogUtils.Debug($"在程序集 {assembly.FullName} 中创建 {type.Name} 的实例...");
             try
             {
                 return assembly.CreateInstance(type.FullName);
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"在程序集 {assembly.FullName} 中创建 {type.Name} 的实例遇到异常：{ex.Message}");
+                LogUtils.Error($"在程序集 {assembly.FullName} 中创建 {type.Name} 的实例遇到异常：{ex.Message}");
                 return null;
             }
         }

@@ -82,6 +82,9 @@
     <Compile Include="DirectUI\Container\CardContainer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DirectUI\Container\ToolContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Factory\ASDEFactory.cs" />
     <Compile Include="Factory\AssemblyFactory.cs" />
     <Compile Include="Factory\CardContainerFactory.cs" />

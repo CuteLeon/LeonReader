@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LeonReader.Common
 {
     /// <summary>
     /// 网络助手
     /// </summary>
-    public static class NetHelper
+    public static class NetUtils
     {
         /// <summary>
         /// 安全的合并链接
@@ -67,7 +64,7 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static string GetWebPage(string address)
         {
-            LogHelper.Debug($"获取网页内容：{address}");
+            LogUtils.Debug($"获取网页内容：{address}");
             using (WebClient client = new WebClient()
             {
                 BaseAddress = address,
@@ -83,7 +80,7 @@ namespace LeonReader.Common
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Error($"获取网页内容遇到异常：{address}，{ex.Message}");
+                    LogUtils.Error($"获取网页内容遇到异常：{address}，{ex.Message}");
                     throw;
                 }
             }
@@ -106,7 +103,7 @@ namespace LeonReader.Common
         /// <param name="filePath">文件路径</param>
         public static void DownloadWebFile(string address,string filePath)
         {
-            LogHelper.Debug($"下载网络文件：{address} => {filePath}");
+            LogUtils.Debug($"下载网络文件：{address} => {filePath}");
             using (WebClient client = new WebClient()
             {
                 BaseAddress = address,
@@ -122,7 +119,7 @@ namespace LeonReader.Common
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Error($"下载网络文件遇到异常：{address}，{ex.Message}");
+                    LogUtils.Error($"下载网络文件遇到异常：{address}，{ex.Message}");
                     throw;
                 }
             }

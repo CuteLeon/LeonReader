@@ -1,10 +1,8 @@
-﻿using LeonReader.Common;
-using LeonReader.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using LeonReader.Common;
+using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
@@ -48,19 +46,19 @@ namespace LeonReader.AbstractSADE
             string ImagePath = (TupleOfLinkAndPath as Tuple<string, string>).Item2;
             if (string.IsNullOrEmpty(ImageLink) || string.IsNullOrEmpty(ImagePath))
             {
-                LogHelper.Error($"下载文章预览图像遇到空的图像链接或图像文件名称：{ImageLink}，{ImagePath}");
+                LogUtils.Error($"下载文章预览图像遇到空的图像链接或图像文件名称：{ImageLink}，{ImagePath}");
                 return;
             }
-            ImagePath = IOHelper.PathCombine(ScanDirectory, ImagePath);
+            ImagePath = IOUtils.PathCombine(ScanDirectory, ImagePath);
 
-            if (!IOHelper.FileExists(ImagePath) || IOHelper.GetFileSize(ImagePath) == 0)
+            if (!IOUtils.FileExists(ImagePath) || IOUtils.GetFileSize(ImagePath) == 0)
                 try
                 {
-                    NetHelper.DownloadWebFile(ImageLink, ImagePath);
+                    NetUtils.DownloadWebFile(ImageLink, ImagePath);
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.Error($"下载文章预览图像遇到异常：{ImageLink} => {ImagePath}：{ex.Message}");
+                    LogUtils.Error($"下载文章预览图像遇到异常：{ImageLink} => {ImagePath}：{ex.Message}");
                 }
         }
     }

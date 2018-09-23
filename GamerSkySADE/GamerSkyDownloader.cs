@@ -1,12 +1,9 @@
-﻿using LeonReader.AbstractSADE;
+﻿using System;
+using System.ComponentModel;
+
+using LeonReader.AbstractSADE;
 using LeonReader.Common;
 using LeonReader.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GamerSkySADE
 {
@@ -38,7 +35,7 @@ namespace GamerSkySADE
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"检查文章下载目录失败：{ex.Message}，From：{ASDESource}");
+                LogUtils.Error($"检查文章下载目录失败：{ex.Message}，From：{ASDESource}");
                 throw;
             }
 
@@ -60,7 +57,7 @@ namespace GamerSkySADE
                 catch (Exception ex)
                 {
                     FailedCount++;
-                    LogHelper.Error($"文章内容下载失败：{ex.Message}，From：{ASDESource}");
+                    LogUtils.Error($"文章内容下载失败：{ex.Message}，From：{ASDESource}");
                 }
 
                 //触发事件更新已下载的图像计数
@@ -71,7 +68,7 @@ namespace GamerSkySADE
             }
 
             //全部下载后保存文章内容数据
-            LogHelper.Info($"文章下载完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+            LogUtils.Info($"文章下载完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
         }
 
         /// <summary>
@@ -79,11 +76,11 @@ namespace GamerSkySADE
         /// </summary>
         private void CheckDownloadDirectory(string directory)
         {
-            if (!IOHelper.DirectoryExists(directory))
+            if (!IOUtils.DirectoryExists(directory))
             {
                 try
                 {
-                    IOHelper.CreateDirectory(directory);
+                    IOUtils.CreateDirectory(directory);
                 }
                 catch (Exception)
                 {
@@ -103,12 +100,12 @@ namespace GamerSkySADE
             if (string.IsNullOrEmpty(content.ImageFileName) || string.IsNullOrEmpty(content.ImageLink))
                 throw new Exception($"文章内容的图像路径或链接为空，From：{ASDESource}");
 
-            string ContentPath = IOHelper.PathCombine(directory, content.ImageFileName);
+            string ContentPath = IOUtils.PathCombine(directory, content.ImageFileName);
             string ContentLink = content.ImageLink;
 
-            if (IOHelper.FileExists(ContentPath))
+            if (IOUtils.FileExists(ContentPath))
             {
-                if (IOHelper.GetFileSize(ContentPath) > 0)
+                if (IOUtils.GetFileSize(ContentPath) > 0)
                 {
                     //已经存在且长度大于0的文件直接跳过
                     return;
@@ -116,18 +113,18 @@ namespace GamerSkySADE
                 else
                 {
                     //尝试删除存在的空文件，删不掉也无所谓，随缘
-                    try { IOHelper.DeleteFile(ContentPath); } catch { }
+                    try { IOUtils.DeleteFile(ContentPath); } catch { }
                 }
             }
 
             try
             {
-                NetHelper.DownloadWebFile(ContentLink, ContentPath);
-                LogHelper.Error($"文章内容下载成功：{ContentLink}，{ContentPath}，From：{ASDESource}");
+                NetUtils.DownloadWebFile(ContentLink, ContentPath);
+                LogUtils.Error($"文章内容下载成功：{ContentLink}，{ContentPath}，From：{ASDESource}");
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"文章内容下载失败：{ex.Message}，{ContentLink}，{ContentPath}，From：{ASDESource}");
+                LogUtils.Error($"文章内容下载失败：{ex.Message}，{ContentLink}，{ContentPath}，From：{ASDESource}");
             }
         }
 

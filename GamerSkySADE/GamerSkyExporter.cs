@@ -1,13 +1,11 @@
-﻿using LeonReader.AbstractSADE;
-using LeonReader.Common;
-using LeonReader.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
+using LeonReader.AbstractSADE;
+using LeonReader.Common;
+using LeonReader.Model;
 
 namespace GamerSkySADE
 {
@@ -37,7 +35,7 @@ namespace GamerSkySADE
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"检查文章导出目录失败：{ex.Message}，From：{ASDESource}");
+                LogUtils.Error($"检查文章导出目录失败：{ex.Message}，From：{ASDESource}");
                 throw;
             }
 
@@ -51,11 +49,11 @@ namespace GamerSkySADE
             {
                 ExportArticle(article);
                 //全部导出后保存文章内容数据
-                LogHelper.Info($"文章导出完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+                LogUtils.Info($"文章导出完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
             }
             catch (Exception ex)
             {
-                LogHelper.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{ASDESource}");
+                LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{ASDESource}");
                 throw;
             }
         }
@@ -89,7 +87,7 @@ namespace GamerSkySADE
                         if (ProcessWorker.CancellationPending) break;
                     }
                     ArticleStream.Write("<<<< 文章结束 >>>></center>\n{0}\n</body></html>", GSResource.LazyLoadJS);
-                    LogHelper.Debug("文章组装完成：{0}", article.ArticleLink);
+                    LogUtils.Debug("文章组装完成：{0}", article.ArticleLink);
                 }
                 catch (Exception)
                 {
@@ -107,11 +105,11 @@ namespace GamerSkySADE
         /// </summary>
         private void CheckDownloadDirectory(string directory)
         {
-            if (!IOHelper.DirectoryExists(directory))
+            if (!IOUtils.DirectoryExists(directory))
             {
                 try
                 {
-                    IOHelper.CreateDirectory(directory);
+                    IOUtils.CreateDirectory(directory);
                 }
                 catch (Exception)
                 {
