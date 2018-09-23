@@ -183,7 +183,7 @@ namespace LeonReader.Client
 
             //扫描目录
             ScanCatalog(Application.StartupPath);
-            //TODO: Scanner.Process() 是异步方法，加载需要等待扫描完成后再进行
+            //TODO: Scanner.Process() 是异步方法，加载需要等待扫描完成后再进行：Scanner.ProcessCompleted += (s, e) => { //使用选项卡单独加载此扫描器的文章 }
             //加载目录
             foreach (var card in LoadCatalog())
             {

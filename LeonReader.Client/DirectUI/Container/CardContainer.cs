@@ -234,7 +234,7 @@ namespace LeonReader.Client.DirectUI.Container
             #region 预览图相框
 
             DUIPreviewImageBox.Name = "预览图像框";
-            DUIPreviewImageBox.BackgroundImage = UnityResource.BrokenImage; /* TODO: 文章预览图像 */
+            DUIPreviewImageBox.BackgroundImage = UnityResource.BrokenImage;
             DUIPreviewImageBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             DUIPreviewImageBox.BorderColor = Color.WhiteSmoke;
             DUIPreviewImageBox.BorderSize = 1;
@@ -539,16 +539,6 @@ namespace LeonReader.Client.DirectUI.Container
         }
 
         #endregion
-
-        //TODO: 调试代码，记得删掉哈
-        public override void Add(ControlBase control)
-        {
-            base.Add(control);
-            return;
-            control.Mouseable = true;
-            control.MouseEnter += (s, e) => { (s as ControlBase).Text = (s as ControlBase).Name; };
-            control.MouseLeave += (s, e) => { (s as ControlBase).Text = string.Empty; };
-        }
-
+        
     }
 }
