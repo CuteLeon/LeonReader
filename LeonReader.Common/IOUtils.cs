@@ -109,11 +109,11 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static Image ReadeImageByStream(string imagePath)
         {
-            if (string.IsNullOrEmpty(imagePath)) throw new Exception("无法通过空路径流读取图像文件的流。");
+            if (!FileExists(imagePath)) throw new FileNotFoundException("找不到文件。", imagePath);
 
             try
             {
-                using (FileStream ImageStream = new FileStream(imagePath, FileMode.Open))
+                using (FileStream ImageStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
                 {
                     return Image.FromStream(ImageStream);
                 }

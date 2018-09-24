@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LeonReader.Common.Tests
 {
@@ -46,8 +48,16 @@ namespace LeonReader.Common.Tests
         [TestMethod()]
         public void ReadeImageByStreamTest()
         {
-            Assert.IsNotNull(IOUtils.ReadeImageByStream("Leon_Mathilda.jpg"));
-            Assert.IsNull(IOUtils.ReadeImageByStream("FileNotExists.jpg"));
+            Image image = IOUtils.ReadeImageByStream("Leon_Mathilda.jpg");
+            Assert.IsNotNull(image);
+            using (Graphics graphics = Graphics.FromImage(image))
+            {
+                graphics.FillEllipse(Brushes.Red, 10, 10, image.Width - 20, image.Height - 20);
+            }
+            image.Save("New.jpg");
+
+            Assert.ThrowsException<System.IO.FileNotFoundException>(
+                () => IOUtils.ReadeImageByStream("FileNotExists.jpg"));
         }
 
         [TestMethod()]

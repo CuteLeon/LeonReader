@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 
 using LeonReader.Client.DirectUI.Container;
+using LeonReader.Common;
+using LeonReader.Model;
 
 namespace LeonReader.Client.Factory
 {
@@ -9,6 +11,26 @@ namespace LeonReader.Client.Factory
     /// </summary>
     public class CardContainerFactory
     {
+        /// <summary>
+        /// 创建卡片控件
+        /// </summary>
+        /// <returns></returns>
+        private CardContainer CreateCardContainer(Article article)
+        {
+            CardContainer cardContainer = new CardContainer();
+            cardContainer.Title = article.Title;
+            cardContainer.Description = article.Description;
+            cardContainer.PublishTime = article.PublishTime;
+            cardContainer.PreviewImage = IOUtils.ReadeImageByStream(
+                IOUtils.PathCombine(
+                    ConfigHelper.GetConfigHelper.DownloadDirectory,
+                    article.ImageFileName
+                    )
+                );
+            cardContainer.Article = article;
+
+            return cardContainer;
+        }
 
         #region 创建正常卡片
 
@@ -16,67 +38,14 @@ namespace LeonReader.Client.Factory
         /// 创建正常卡片
         /// </summary>
         /// <returns></returns>
-        private CardContainer CreateNormalCard()
-            => new CardContainer()
-            {
-                Size = new Size(675, 118),
-                Style = CardContainer.CardStyles.Normal
-            };
-
-        /// <summary>
-        /// 创建正常卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <returns></returns>
-        public CardContainer CreateNormalCard(string title)
+        public CardContainer CreateNormalCard(Article article)
         {
-            CardContainer cardContainer = CreateNormalCard();
-            cardContainer.Title = title;
+            if (article == null)
+                throw new System.ArgumentNullException(nameof(article));
 
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建正常卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <returns></returns>
-        public CardContainer CreateNormalCard(string title, string descript)
-        {
-            CardContainer cardContainer = CreateNormalCard(title);
-            cardContainer.Description = descript;
-
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建正常卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <param name="publishTime">发布时间</param>
-        /// <returns></returns>
-        public CardContainer CreateNormalCard(string title, string descript, string publishTime)
-        {
-            CardContainer cardContainer = CreateNormalCard(title, descript);
-            cardContainer.PublishTime = publishTime;
-
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建正常卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <param name="publishTime">发布时间</param>
-        /// <param name="previewImage">预览图像</param>
-        /// <returns></returns>
-        public CardContainer CreateNormalCard(string title, string descript, string publishTime, Image previewImage)
-        {
-            CardContainer cardContainer = CreateNormalCard(title, descript, publishTime);
-            cardContainer.PreviewImage = previewImage;
+            CardContainer cardContainer = CreateCardContainer(article);
+            cardContainer.Size = new Size(675, 118);
+            cardContainer.Style = CardContainer.CardStyles.Normal;
 
             return cardContainer;
         }
@@ -89,67 +58,14 @@ namespace LeonReader.Client.Factory
         /// 创建精简卡片
         /// </summary>
         /// <returns></returns>
-        private CardContainer CreateSmallCard()
-            => new CardContainer()
-            {
-                //Size = new Size(675, 118),
-                Style = CardContainer.CardStyles.Small
-            };
-
-        /// <summary>
-        /// 创建精简卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <returns></returns>
-        public CardContainer CreateSmallCard(string title)
+        public CardContainer CreateSmallCard(Article article)
         {
-            CardContainer cardContainer = CreateSmallCard();
-            cardContainer.Title = title;
+            if (article == null)
+                throw new System.ArgumentNullException(nameof(article));
 
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建精简卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <returns></returns>
-        public CardContainer CreateSmallCard(string title, string descript)
-        {
-            CardContainer cardContainer = CreateSmallCard(title);
-            cardContainer.Description = descript.Replace('\n', ' ').Replace('\r', ' ');
-
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建精简卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <param name="publishTime">发布时间</param>
-        /// <returns></returns>
-        public CardContainer CreateSmallCard(string title, string descript, string publishTime)
-        {
-            CardContainer cardContainer = CreateSmallCard(title, descript);
-            cardContainer.PublishTime = publishTime;
-
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建精简卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <param name="publishTime">发布时间</param>
-        /// <param name="previewImage">预览图像</param>
-        /// <returns></returns>
-        public CardContainer CreateSmallCard(string title, string descript, string publishTime, Image previewImage)
-        {
-            CardContainer cardContainer = CreateSmallCard(title, descript, publishTime);
-            cardContainer.PreviewImage = previewImage;
+            CardContainer cardContainer = CreateCardContainer(article);
+            cardContainer.Size = new Size(675, 32);
+            cardContainer.Style = CardContainer.CardStyles.Small;
 
             return cardContainer;
         }
@@ -162,67 +78,14 @@ namespace LeonReader.Client.Factory
         /// 创建巨幅卡片
         /// </summary>
         /// <returns></returns>
-        private CardContainer CreateLargeCard()
-            => new CardContainer()
-            {
-                Size = new Size(675, 200),
-                Style = CardContainer.CardStyles.Large
-            };
-
-        /// <summary>
-        /// 创建巨幅卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <returns></returns>
-        public CardContainer CreateLargeCard(string title)
+        public CardContainer CreateLargeCard(Article article)
         {
-            CardContainer cardContainer = CreateLargeCard();
-            cardContainer.Title = title;
+            if (article == null)
+                throw new System.ArgumentNullException(nameof(article));
 
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建巨幅卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <returns></returns>
-        public CardContainer CreateLargeCard(string title, string descript)
-        {
-            CardContainer cardContainer = CreateLargeCard(title);
-            cardContainer.Description = descript;
-
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建巨幅卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <param name="publishTime">发布时间</param>
-        /// <returns></returns>
-        public CardContainer CreateLargeCard(string title, string descript, string publishTime)
-        {
-            CardContainer cardContainer = CreateLargeCard(title, descript);
-            cardContainer.PublishTime = publishTime;
-
-            return cardContainer;
-        }
-
-        /// <summary>
-        /// 创建巨幅卡片
-        /// </summary>
-        /// <param name="title">文章标题</param>
-        /// <param name="descript">文章描述</param>
-        /// <param name="publishTime">发布时间</param>
-        /// <param name="previewImage">预览图像</param>
-        /// <returns></returns>
-        public CardContainer CreateLargeCard(string title, string descript, string publishTime, Image previewImage)
-        {
-            CardContainer cardContainer = CreateLargeCard(title, descript, publishTime);
-            cardContainer.PreviewImage = previewImage;
+            CardContainer cardContainer = CreateCardContainer(article);
+            cardContainer.Size = new Size(675, 180);
+            cardContainer.Style = CardContainer.CardStyles.Large;
 
             return cardContainer;
         }

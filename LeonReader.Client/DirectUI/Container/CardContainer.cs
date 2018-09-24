@@ -5,6 +5,8 @@ using System.Windows.Forms;
 
 using LeonDirectUI.Container;
 using LeonDirectUI.DUIControl;
+using LeonReader.AbstractSADE;
+using LeonReader.Model;
 
 namespace LeonReader.Client.DirectUI.Container
 {
@@ -14,8 +16,32 @@ namespace LeonReader.Client.DirectUI.Container
     public class CardContainer : ContainerBase
     {
 
+        #region 关联对象
+
+        /// <summary>
+        /// 文章对象
+        /// </summary>
+        public Article Article { get; set; }
+
+        /// <summary>
+        /// 处理器对象
+        /// </summary>
+        public SingleArticleProcesser Processer { get; set; }
+
+        #endregion
+
+        #region 自定义事件
+
+        public event EventHandler TitleClick;
+        public event EventHandler LocationClick;
+        public event EventHandler ReadedClick;
+        public event EventHandler BrowserClick;
+        public event EventHandler DeleteClick;
+        public event EventHandler MainButtonClick;
+
+        #endregion
+
         #region 自定义属性
-        //TODO: [提醒] 添加自定义属性到这里
 
         /// <summary>
         /// 标题
@@ -25,7 +51,8 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 描述
         /// </summary>
-        public string Description {
+        public string Description
+        {
             get => DUIDescriptionLabel.Text;
             set
             {
@@ -263,7 +290,7 @@ namespace LeonReader.Client.DirectUI.Container
             DUITitleLabel.ShowEllipsis = true;
             DUITitleLabel.Mouseable = true;
             DUITitleLabel.Font = new Font(DUITitleLabel.Font, FontStyle.Bold);
-            DUITitleLabel.Click += (s, e) => { /* TODO: 抛出点击标题事件 */ };
+            DUITitleLabel.Click += (s, e) => TitleClick?.Invoke(this, EventArgs.Empty);
             DUITitleLabel.MaxSize = new Size(0, 28);
             DUITitleLabel.MinSize = new Size(0, 28);
             DUITitleLabel.MouseEnter += (s, e) => { DUITitleLabel.ForeColor = Color.OrangeRed; };
@@ -278,7 +305,7 @@ namespace LeonReader.Client.DirectUI.Container
             DUILocationButton.Name = "定位按钮";
             DUILocationButton.Mouseable = true;
             DUILocationButton.Image = UnityResource.Location_0;
-            DUILocationButton.Click += (s, e) => { /* TODO: 抛出点击定位按钮事件 */ };
+            DUILocationButton.Click += (s, e) => LocationClick?.Invoke(this, EventArgs.Empty);
             DUILocationButton.MouseEnter += (s, e) => { this.Invalidate(DUILocationButton.Rectangle); DUILocationButton.Image = UnityResource.Location_1; };
             DUILocationButton.MouseLeave += (s, e) => { this.Invalidate(DUILocationButton.Rectangle); DUILocationButton.Image = UnityResource.Location_0; };
             DUILocationButton.MaxSize = new Size(28, 28);
@@ -291,7 +318,7 @@ namespace LeonReader.Client.DirectUI.Container
             DUIReadedButton.Name = "已读按钮";
             DUIReadedButton.Mouseable = true;
             DUIReadedButton.Image = UnityResource.Flag_0;
-            DUIReadedButton.Click += (s, e) => { /* TODO: 抛出点击已读按钮事件 */ };
+            DUIReadedButton.Click += (s, e) => ReadedClick?.Invoke(this, EventArgs.Empty);
             DUIReadedButton.MouseEnter += (s, e) => { this.Invalidate(DUIReadedButton.Rectangle); DUIReadedButton.Image = UnityResource.Flag_1; };
             DUIReadedButton.MouseLeave += (s, e) => { this.Invalidate(DUIReadedButton.Rectangle); DUIReadedButton.Image = UnityResource.Flag_0; };
             DUIReadedButton.MaxSize = new Size(28, 28);
@@ -304,7 +331,7 @@ namespace LeonReader.Client.DirectUI.Container
             DUIBrowserButton.Name = "浏览按钮";
             DUIBrowserButton.Mouseable = true;
             DUIBrowserButton.Image = UnityResource.Browser_0;
-            DUIBrowserButton.Click += (s, e) => { /* TODO: 抛出点击浏览按钮事件 */ };
+            DUIBrowserButton.Click += (s, e) => BrowserClick?.Invoke(this, EventArgs.Empty);
             DUIBrowserButton.MouseEnter += (s, e) => { this.Invalidate(DUIBrowserButton.Rectangle); DUIBrowserButton.Image = UnityResource.Browser_1; };
             DUIBrowserButton.MouseLeave += (s, e) => { this.Invalidate(DUIBrowserButton.Rectangle); DUIBrowserButton.Image = UnityResource.Browser_0; };
             DUIBrowserButton.MaxSize = new Size(28, 28);
@@ -317,7 +344,7 @@ namespace LeonReader.Client.DirectUI.Container
             DUIDeleteButton.Name = "删除按钮";
             DUIDeleteButton.Mouseable = true;
             DUIDeleteButton.Image = UnityResource.Delete_0;
-            DUIDeleteButton.Click += (s, e) => { /* TODO: 抛出点击删除按钮事件 */ };
+            DUIDeleteButton.Click += (s, e) => DeleteClick?.Invoke(this, EventArgs.Empty);
             DUIDeleteButton.MouseEnter += (s, e) => { this.Invalidate(DUIDeleteButton.Rectangle); DUIDeleteButton.Image = UnityResource.Delete_1; };
             DUIDeleteButton.MouseLeave += (s, e) => { this.Invalidate(DUIDeleteButton.Rectangle); DUIDeleteButton.Image = UnityResource.Delete_0; };
             DUIDeleteButton.MaxSize = new Size(28, 28);
@@ -332,7 +359,7 @@ namespace LeonReader.Client.DirectUI.Container
             DUIMainButton.BackgroundImage = UnityResource.Button_0;
             DUIMainButton.BackgroundImageLayout = ImageLayout.Stretch;
             DUIMainButton.Padding = new Padding(6, 0, 6, 0);
-            DUIMainButton.Click += (s, e) => { /* TODO: 抛出点击主按钮事件 */ };
+            DUIMainButton.Click += (s, e) => MainButtonClick?.Invoke(this, EventArgs.Empty);
             DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.BackgroundImage = UnityResource.Button_1; };
             DUIMainButton.MouseLeave += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.BackgroundImage = UnityResource.Button_0; };
             DUIMainButton.MouseDown += (s, e) => { this.Invalidate(DUIMainButton.Rectangle); DUIMainButton.BackgroundImage = UnityResource.Button_2; };
@@ -393,6 +420,7 @@ namespace LeonReader.Client.DirectUI.Container
                     }
                 case CardStyles.Small:
                     {
+                        DUITitleLabel.SetLocation(0, 4);
                         DUIDescriptionLabel.Visible = false;
                         DUIPreviewImageBox.Visible = false;
                         DUIPublishTimeLabel.Visible = false;
@@ -406,6 +434,7 @@ namespace LeonReader.Client.DirectUI.Container
                     }
                 case CardStyles.Large:
                     {
+                        DUITitleLabel.SetLocation(0, 6);
                         DUIDescriptionLabel.Visible = false;
                         DUIPreviewImageBox.Visible = true;
                         DUIPublishTimeLabel.Visible = true;
@@ -446,7 +475,6 @@ namespace LeonReader.Client.DirectUI.Container
             DUIReadedButton.Width = DUILocationButton.Left - 28;
             DUIReadedButton.SetLocation(DUILocationButton.Left - DUIReadedButton.Width, 4);
 
-            DUITitleLabel.SetLocation(0, 0);
             DUITitleLabel.SetSize(DUIReadedButton.Left, 28);
 
             this.ResumePaint();
@@ -522,14 +550,14 @@ namespace LeonReader.Client.DirectUI.Container
             DUIReadedButton.Width = DUILocationButton.Left;
             DUIReadedButton.SetLocation(DUILocationButton.Left - DUIReadedButton.Width, 6);
 
-            DUITitleLabel.SetBounds(0, 6, width - DUIReadedButton.Left, 28);
+            DUITitleLabel.SetSize(DUIReadedButton.Left, 28);
 
             DUIMainButton.Width = width;
             DUIMainButton.Left = width - DUIMainButton.Width;
             DUIMainButton.Top = height - 28;
 
             DUIStateLabel.Width = Math.Min(DUIMainButton.Left, 200);
-            DUIStateLabel.SetLocation(DUIMainButton.Left - DUIStateLabel.Width,DUIMainButton.Top);
+            DUIStateLabel.SetLocation(DUIMainButton.Left - DUIStateLabel.Width, DUIMainButton.Top);
 
             DUIPublishTimeLabel.SetLocation(0, DUIMainButton.Top);
             DUIPublishTimeLabel.Width = DUIStateLabel.Left;
@@ -538,6 +566,6 @@ namespace LeonReader.Client.DirectUI.Container
         }
 
         #endregion
-        
+
     }
 }

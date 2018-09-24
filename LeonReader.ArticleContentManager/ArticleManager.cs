@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using LeonReader.Model;
 
@@ -62,6 +63,18 @@ namespace LeonReader.ArticleContentManager
                     !article.IsNew &&
                     article.ExportTime != null
                 select article;
+        }
+
+        /// <summary>
+        /// 将文章置为已读
+        /// </summary>
+        /// <param name="article"></param>
+        /// <returns></returns>
+        public void SetArticleReaded(Article article)
+        {
+            article.IsNew = false;
+            article.ExportTime = DateTime.Now;
+            TargetDBContext.SaveChanges();
         }
 
     }
