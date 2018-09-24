@@ -18,11 +18,6 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public string ExportPath { get; private set; }
 
-        /// <summary>
-        /// 导出文件扩展名
-        /// </summary>
-        protected abstract string Extension { get; set; }
-
         public Exporter() : base() { }
 
         protected override void PreConfigProcess(Article article)
@@ -34,9 +29,9 @@ namespace LeonReader.AbstractSADE
             ExportPath = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 article.DownloadDirectoryName,
-                article.ArticleFileName
+                article.ArticleFileName,
+                ConfigHelper.GetConfigHelper.Extension
                 );
-            ExportPath += Extension.StartsWith(".") ? Extension : "." + Extension;
         }
     }
 }

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeonReader.Client.DirectUI.Container;
+using LeonReader.Common;
+using LeonReader.Model;
 
 namespace LeonReader.Client
 {
-    public partial class MainForm 
+    public partial class MainForm
     {
 
         #region 卡片控件事件
@@ -51,7 +54,20 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_LocationClick(object sender, EventArgs e)
         {
+            Article article = (sender as CardContainer)?.Article;
+            if (article == null) return;
 
+            string ArticleFileName = IOUtils.PathCombine(
+                ConfigHelper.GetConfigHelper.DownloadDirectory,
+                article.DownloadDirectoryName,
+                article.ArticleFileName,
+                ConfigHelper.GetConfigHelper.Extension
+                );
+
+            if (IOUtils.FileExists(ArticleFileName))
+            {
+                Process.Start(ArticleFileName);
+            }
         }
 
         /// <summary>
@@ -71,7 +87,10 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_BrowserClick(object sender, EventArgs e)
         {
+            Article article = (sender as CardContainer)?.Article;
+            if (article == null) return;
 
+            Process.Start(article.ArticleLink);
         }
 
         #endregion

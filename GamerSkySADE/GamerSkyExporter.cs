@@ -22,8 +22,6 @@ namespace GamerSkySADE
         /// </summary>
         public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
 
-        protected override string Extension { get; set; } = ".html";
-
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
             if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}");
