@@ -21,7 +21,7 @@ namespace LeonReader.Client.Factory
             cardContainer.Title = article.Title;
             cardContainer.Description = article.Description;
             cardContainer.PublishTime = article.PublishTime;
-            cardContainer.PreviewImage = IOUtils.ReadeImageByStream(
+            cardContainer.PreviewImage = IOUtils.ReadeImageWithoutDispose(
                 IOUtils.PathCombine(
                     ConfigHelper.GetConfigHelper.DownloadDirectory,
                     article.ImageFileName

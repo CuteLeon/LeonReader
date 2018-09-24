@@ -48,7 +48,7 @@ namespace LeonReader.Common.Tests
         [TestMethod()]
         public void ReadeImageByStreamTest()
         {
-            Image image = IOUtils.ReadeImageByStream("Leon_Mathilda.jpg");
+            Image image = IOUtils.ReadeImage("Leon_Mathilda.jpg");
             Assert.IsNotNull(image);
             using (Graphics graphics = Graphics.FromImage(image))
             {
@@ -57,7 +57,7 @@ namespace LeonReader.Common.Tests
             image.Save("New.jpg");
 
             Assert.ThrowsException<System.IO.FileNotFoundException>(
-                () => IOUtils.ReadeImageByStream("FileNotExists.jpg"));
+                () => IOUtils.ReadeImage("FileNotExists.jpg"));
         }
 
         [TestMethod()]

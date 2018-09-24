@@ -107,7 +107,7 @@ namespace LeonReader.Common
         /// </summary>
         /// <param name="imagePath">图像路径</param>
         /// <returns></returns>
-        public static Image ReadeImageByStream(string imagePath)
+        public static Image ReadeImage(string imagePath)
         {
             if (!FileExists(imagePath)) throw new FileNotFoundException("找不到文件。", imagePath);
 
@@ -117,6 +117,26 @@ namespace LeonReader.Common
                 {
                     return Image.FromStream(ImageStream);
                 }
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Error($"通过流读取图像文件失败：{imagePath}，{ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 通过流读取图像文件（不释放自动 stream）
+        /// </summary>
+        /// <param name="imagePath">图像路径</param>
+        /// <returns></returns>
+        public static Image ReadeImageWithoutDispose(string imagePath)
+        {
+            if (!FileExists(imagePath)) throw new FileNotFoundException("找不到文件。", imagePath);
+
+            try
+            {
+                return Image.FromStream(new FileStream(imagePath, FileMode.Open, FileAccess.Read));
             }
             catch (Exception ex)
             {
