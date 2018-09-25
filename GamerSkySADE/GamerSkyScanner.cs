@@ -27,50 +27,50 @@ namespace GamerSkySADE
         /// </summary>
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (TargetURI == null)
+            if (this.TargetURI == null)
             {
                 LogUtils.Error($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
                 throw new Exception($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
             }
 
-            LogUtils.Info($"开始扫描文章目录：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"开始扫描文章目录：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             string CatalogContent = string.Empty;
             try
             {
-                CatalogContent = NetUtils.GetWebPage(TargetURI);
+                CatalogContent = NetUtils.GetWebPage(this.TargetURI);
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，{ex.Message}，From：{this.ASDESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，{ex.Message}，From：{this.ASDESource}");
                 throw;
             }
 
             if (string.IsNullOrEmpty(CatalogContent))
             {
-                LogUtils.Error($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-                throw new Exception($"获取页面内容遇到错误：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                throw new Exception($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
             }
 
             LogUtils.Info($"开始分析目录... ，From：{this.ASDESource}");
             int ArticleCount = 0;
             //扫描目录
-            foreach (var article in ScanArticles(CatalogContent))
+            foreach (var article in this.ScanArticles(CatalogContent))
             {
                 ArticleCount++;
-                if (CheckArticleExist(article))
+                if (this.CheckArticleExist(article))
                 {
                     LogUtils.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
                 }
                 else
                 {
                     LogUtils.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
-                    TargetDBContext.Articles.Add(article);
-                    TargetDBContext.SaveChanges();
+                    this.TargetDBContext.Articles.Add(article);
+                    this.TargetDBContext.SaveChanges();
                 }
 
                 //下载文章预览图像
                 ThreadPool.QueueUserWorkItem(
-                    new WaitCallback(DownloadPreviewImage), 
+                    new WaitCallback(this.DownloadPreviewImage), 
                     new Tuple<string, string>(
                         article.ImageLink,
                         article.ImageFileName
@@ -78,10 +78,10 @@ namespace GamerSkySADE
                     );
 
                 //更新已发现的文章数
-                OnProcessReport(ArticleCount, article);
+                this.OnProcessReport(ArticleCount, article);
 
                 //允许用户取消处理
-                if (ProcessWorker.CancellationPending) break;
+                if (this.ProcessWorker.CancellationPending) break;
             }
         }
 
@@ -93,7 +93,7 @@ namespace GamerSkySADE
         private IEnumerable<Article> ScanArticles(string catalogContent)
         {
             //获取目录主体内容
-            string CatalogContentCore = GetCatalogContent(catalogContent);
+            string CatalogContentCore = this.GetCatalogContent(catalogContent);
             if (CatalogContentCore == string.Empty)
             {
                 LogUtils.Error($"目录主体内容匹配为空，From：{this.ASDESource}");
@@ -101,7 +101,7 @@ namespace GamerSkySADE
             }
 
             //分割目录
-            string[] CatalogList = GetCatalogList(CatalogContentCore);
+            string[] CatalogList = this.GetCatalogList(CatalogContentCore);
             if (CatalogList.Length == 0)
             {
                 LogUtils.Error($"分割目录项目失败，From：{this.ASDESource}");
@@ -112,7 +112,7 @@ namespace GamerSkySADE
             LogUtils.Debug($"开始遍历目录项");
             foreach (string CatalogItem in CatalogList)
             {
-                Article article = ConvertToArticle(CatalogItem);
+                Article article = this.ConvertToArticle(CatalogItem);
                 if (article == null){continue;}
 
                 yield return article;
@@ -142,7 +142,7 @@ namespace GamerSkySADE
                 string ImageFileName = IOUtils.GetFileName(CatalogMatch.Groups["ImageLink"].Value);
 
                 //预处理
-                if (ArticleLink.StartsWith("/")) ArticleLink = NetUtils.LinkCombine(TargetURI, ArticleLink);
+                if (ArticleLink.StartsWith("/")) ArticleLink = NetUtils.LinkCombine(this.TargetURI, ArticleLink);
                 Title = Title.Replace("'", "");
                 Description = Description.Replace("'", "");
 

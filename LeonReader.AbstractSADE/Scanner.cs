@@ -27,7 +27,7 @@ namespace LeonReader.AbstractSADE
         /// <returns></returns>
         protected virtual bool CheckArticleExist(Article article)
         {
-            Article tempArticle = TargetDBContext.Articles
+            Article tempArticle = this.TargetDBContext.Articles
                 .FirstOrDefault(
                     art =>
                     art.ArticleID == article.ArticleID &&
@@ -49,7 +49,7 @@ namespace LeonReader.AbstractSADE
                 LogUtils.Error($"下载文章预览图像遇到空的图像链接或图像文件名称：{ImageLink}，{ImagePath}");
                 return;
             }
-            ImagePath = IOUtils.PathCombine(ScanDirectory, ImagePath);
+            ImagePath = IOUtils.PathCombine(this.ScanDirectory, ImagePath);
 
             if (!IOUtils.FileExists(ImagePath) || IOUtils.GetFileSize(ImagePath) == 0)
                 try

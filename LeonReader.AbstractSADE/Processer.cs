@@ -48,7 +48,7 @@ namespace LeonReader.AbstractSADE
         /// <summary>
         /// 是否在进行异步操作
         /// </summary>
-        public bool IsBusy { get => ProcessWorker.IsBusy; }
+        public bool IsBusy { get => this.ProcessWorker.IsBusy; }
 
         #endregion
 
@@ -74,30 +74,30 @@ namespace LeonReader.AbstractSADE
 
         public Processer()
         {
-            ProcessWorker.DoWork += PreProcessStarted;
-            ProcessWorker.ProgressChanged += PreProcessReport;
-            ProcessWorker.RunWorkerCompleted += PreProcessCompleted;
+            this.ProcessWorker.DoWork += this.PreProcessStarted;
+            this.ProcessWorker.ProgressChanged += this.PreProcessReport;
+            this.ProcessWorker.RunWorkerCompleted += this.PreProcessCompleted;
 
-            TargetDBContext = new UnityDBContext();
+            this.TargetDBContext = new UnityDBContext();
         }
 
         /// <summary>
         /// 注入文章地址
         /// </summary>
         /// <param name="uri">文章地址</param>
-        public void SetTargetURI(Uri uri) => TargetURI = uri;
+        public void SetTargetURI(Uri uri) => this.TargetURI = uri;
 
         /// <summary>
         /// 注入文章地址
         /// </summary>
         /// <param name="uri">文章地址</param>
-        public void SetTargetURI(string uri) => TargetURI = new Uri(uri);
+        public void SetTargetURI(string uri) => this.TargetURI = new Uri(uri);
 
         public void Dispose()
         {
-            TargetDBContext.Dispose();
-            Cancle();
-            ProcessWorker.Dispose();
+            this.TargetDBContext.Dispose();
+            this.Cancle();
+            this.ProcessWorker.Dispose();
         }
 
         /// <summary>
@@ -105,8 +105,8 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public virtual void Process()
         {
-            if (ProcessWorker.IsBusy) return;
-            ProcessWorker.RunWorkerAsync();
+            if (this.ProcessWorker.IsBusy) return;
+            this.ProcessWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public virtual void Process(object argument)
         {
-            if (ProcessWorker.IsBusy) return;
-            Argument = argument;
-            ProcessWorker.RunWorkerAsync(argument);
+            if (this.ProcessWorker.IsBusy) return;
+            this.Argument = argument;
+            this.ProcessWorker.RunWorkerAsync(argument);
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public void Cancle()
         {
-            if (!ProcessWorker.IsBusy) return;
-            ProcessWorker.CancelAsync();
+            if (!this.ProcessWorker.IsBusy) return;
+            this.ProcessWorker.CancelAsync();
         }
 
         /// <summary>
@@ -133,15 +133,15 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessStarted(object sender, DoWorkEventArgs e)
         {
-            LogUtils.Info($"处理开始：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            LogUtils.Info($"处理开始：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             //这个事件会在异步线程触发
             ProcessStarted?.Invoke(this, e);
             //允许用户在接收处理开始事件时即取消处理
             if (e.Cancel) return;
-            if (ProcessWorker.CancellationPending) return;
+            if (this.ProcessWorker.CancellationPending) return;
             //调用子类ASDE类的方法
-            LogUtils.Debug($"开始处理子ASDE类的 [处理开始] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
-            OnProcessStarted(ProcessWorker, e);
+            LogUtils.Debug($"开始处理子ASDE类的 [处理开始] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            this.OnProcessStarted(this.ProcessWorker, e);
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace LeonReader.AbstractSADE
         /// <param name="userState">其他对象</param>
         protected void OnProcessReport(int progress, object userState)
         {
-            ProcessWorker.ReportProgress(progress, userState);
+            this.ProcessWorker.ReportProgress(progress, userState);
         }
 
         /// <summary>
@@ -172,19 +172,19 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LogUtils.Info($"处理完成：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+            LogUtils.Info($"处理完成：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             if (e.Cancelled)
             {
-                LogUtils.Error($"由用户手动取消处理：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+                LogUtils.Error($"由用户手动取消处理：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             }
             if (e.Error != null)
             {
-                LogUtils.Error($"处理时遇到异常：{e.Error.Message}，{TargetURI?.AbsoluteUri}，From：{ASDESource}");
+                LogUtils.Error($"处理时遇到异常：{e.Error.Message}，{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             }
 
             //调用子类ASDE类的方法
-            LogUtils.Debug($"开始处理子ASDE类的 [处理完成] 方法：{TargetURI?.AbsoluteUri}，From：{ASDESource}");
-            OnProcessCompleted(ProcessWorker, e);
+            LogUtils.Debug($"开始处理子ASDE类的 [处理完成] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            this.OnProcessCompleted(this.ProcessWorker, e);
 
             //优先内部处理完完成事件再通知外部
             ProcessCompleted?.Invoke(this, e);

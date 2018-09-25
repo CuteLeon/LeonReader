@@ -26,24 +26,24 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}");
+            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}");
 
             //检查文章下载目录
             try
             {
-                CheckDownloadDirectory(DownloadDirectory);
+                this.CheckDownloadDirectory(this.DownloadDirectory);
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"检查文章下载目录失败：{ex.Message}，From：{ASDESource}");
+                LogUtils.Error($"检查文章下载目录失败：{ex.Message}，From：{this.ASDESource}");
                 throw;
             }
 
             //初始化
-            ContentCount = 0;
-            FailedCount = 0;
+            this.ContentCount = 0;
+            this.FailedCount = 0;
             article.DownloadTime = DateTime.Now;
-            TargetDBContext.SaveChanges();
+            this.TargetDBContext.SaveChanges();
 
             //开始任务
             foreach (var content in article.Contents)
@@ -51,24 +51,24 @@ namespace GamerSkySADE
                 //下载文章内容
                 try
                 {
-                    DownloadContent(content, DownloadDirectory);
-                    ContentCount++;
+                    this.DownloadContent(content, this.DownloadDirectory);
+                    this.ContentCount++;
                 }
                 catch (Exception ex)
                 {
-                    FailedCount++;
-                    LogUtils.Error($"文章内容下载失败：{ex.Message}，From：{ASDESource}");
+                    this.FailedCount++;
+                    LogUtils.Error($"文章内容下载失败：{ex.Message}，From：{this.ASDESource}");
                 }
 
                 //触发事件更新已下载的图像计数
-                OnProcessReport(ContentCount, FailedCount);
+                this.OnProcessReport(this.ContentCount, this.FailedCount);
 
                 //允许用户取消处理
-                if (ProcessWorker.CancellationPending) break;
+                if (this.ProcessWorker.CancellationPending) break;
             }
 
             //全部下载后保存文章内容数据
-            LogUtils.Info($"文章下载完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+            LogUtils.Info($"文章下载完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
         }
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace GamerSkySADE
         /// <param name="directory">下载目录</param>
         private void DownloadContent(ContentItem content, string directory)
         {
-            if (content == null) throw new Exception($"空的文章内容对象，From：{ASDESource}");
+            if (content == null) throw new Exception($"空的文章内容对象，From：{this.ASDESource}");
             if (string.IsNullOrEmpty(content.ImageFileName) || string.IsNullOrEmpty(content.ImageLink))
-                throw new Exception($"文章内容的图像路径或链接为空，From：{ASDESource}");
+                throw new Exception($"文章内容的图像路径或链接为空，From：{this.ASDESource}");
 
             string ContentPath = IOUtils.PathCombine(directory, content.ImageFileName);
             string ContentLink = content.ImageLink;
@@ -120,11 +120,11 @@ namespace GamerSkySADE
             try
             {
                 NetUtils.DownloadWebFile(ContentLink, ContentPath);
-                LogUtils.Error($"文章内容下载成功：{ContentLink}，{ContentPath}，From：{ASDESource}");
+                LogUtils.Error($"文章内容下载成功：{ContentLink}，{ContentPath}，From：{this.ASDESource}");
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"文章内容下载失败：{ex.Message}，{ContentLink}，{ContentPath}，From：{ASDESource}");
+                LogUtils.Error($"文章内容下载失败：{ex.Message}，{ContentLink}，{ContentPath}，From：{this.ASDESource}");
             }
         }
 

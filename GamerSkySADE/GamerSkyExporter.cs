@@ -24,34 +24,34 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}");
+            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}");
 
             //检查文章导出目录
             try
             {
-                CheckDownloadDirectory(ExportDirectory);
+                this.CheckDownloadDirectory(this.ExportDirectory);
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"检查文章导出目录失败：{ex.Message}，From：{ASDESource}");
+                LogUtils.Error($"检查文章导出目录失败：{ex.Message}，From：{this.ASDESource}");
                 throw;
             }
 
             //初始化
-            ContentCount = 0;
+            this.ContentCount = 0;
             article.ExportTime = DateTime.Now;
-            TargetDBContext.SaveChanges();
+            this.TargetDBContext.SaveChanges();
 
             //导出文章内容
             try
             {
-                ExportArticle(article);
+                this.ExportArticle(article);
                 //全部导出后保存文章内容数据
-                LogUtils.Info($"文章导出完成：{TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+                LogUtils.Info($"文章导出完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{ASDESource}");
+                LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{this.ASDESource}");
                 throw;
             }
         }
@@ -68,7 +68,7 @@ namespace GamerSkySADE
                 string.IsNullOrEmpty(article.ArticleFileName))
                 throw new Exception("导出文章传入的参数为空");
 
-            using (StreamWriter ArticleStream = new StreamWriter(ExportPath, false, Encoding.UTF8))
+            using (StreamWriter ArticleStream = new StreamWriter(this.ExportPath, false, Encoding.UTF8))
             {
                 try
                 {
@@ -78,11 +78,11 @@ namespace GamerSkySADE
                     {
                         ArticleStream.WriteLine(@"<img class=""lazyimage"" onclick=""click2load(this)"" data-src="".\{0}"" alt=""点击以重新加载图片    {1}""><br>{2}<br><hr>", content.ImageFileName, content.ImageLink, content.ImageDescription);
                         //触发事件更新已导出的图像计数
-                        ContentCount++;
-                        OnProcessReport(ContentCount, article.Contents.Count);
+                        this.ContentCount++;
+                        this.OnProcessReport(this.ContentCount, article.Contents.Count);
 
                         //允许用户取消处理，用户取消后仍会写入后续的结束标记和JS
-                        if (ProcessWorker.CancellationPending) break;
+                        if (this.ProcessWorker.CancellationPending) break;
                     }
                     ArticleStream.Write("<<<< 文章结束 >>>></center>\n{0}\n</body></html>", GSResource.LazyLoadJS);
                     LogUtils.Debug("文章组装完成：{0}", article.ArticleLink);

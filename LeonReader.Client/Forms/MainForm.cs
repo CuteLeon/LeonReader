@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
-using LeonReader.AbstractSADE;
 using LeonReader.ArticleContentManager;
 using LeonReader.Client.Factory;
 using LeonReader.Common;
@@ -50,10 +47,10 @@ namespace LeonReader.Client
             this.Icon = UnityResource.LeonReader;
 
             //初始化布局
-            InitializeComponent();
+            this.InitializeComponent();
 
             //绑定事件
-            BindEvent();
+            this.BindEvent();
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -61,7 +58,7 @@ namespace LeonReader.Client
             base.OnSizeChanged(e);
 
             //适应工具容器位置
-            UnityToolContainer.Left = (this.DisplayRectangle.Width - UnityToolContainer.Width) / 2;
+            this.UnityToolContainer.Left = (this.DisplayRectangle.Width - this.UnityToolContainer.Width) / 2;
         }
 
         /// <summary>
@@ -69,9 +66,9 @@ namespace LeonReader.Client
         /// </summary>
         private void BindEvent()
         {
-            UnityToolContainer.GoBackClick += UnityToolContainer_GoBackClick;
-            UnityToolContainer.RefreshClick += UnityToolContainer_RefreshClick;
-            UnityToolContainer.LogClick += UnityToolContainer_LogClick;
+            this.UnityToolContainer.GoBackClick += this.UnityToolContainer_GoBackClick;
+            this.UnityToolContainer.RefreshClick += this.UnityToolContainer_RefreshClick;
+            this.UnityToolContainer.LogClick += this.UnityToolContainer_LogClick;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -97,7 +94,7 @@ namespace LeonReader.Client
         {
             Application.DoEvents();
 
-            RefreshCatalogList();
+            this.RefreshCatalogList();
         }
 
         #endregion

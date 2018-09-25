@@ -56,36 +56,36 @@ namespace LeonReader.Client.DirectUI.Container
             this.MaximumSize = new Size(150, 40);
             this.MinimumSize = new Size(150, 40);
 
-            Add(GoBackButton = new ControlBase());
-            Add(RefreshButton = new ControlBase());
-            Add(LogButton = new ControlBase());
+            this.Add(this.GoBackButton = new ControlBase());
+            this.Add(this.RefreshButton = new ControlBase());
+            this.Add(this.LogButton = new ControlBase());
 
-            GoBackButton.SetLocation(5, 0);
-            GoBackButton.Mouseable = true;
-            GoBackButton.MaxSize = new Size(40, 40);
-            GoBackButton.MinSize = new Size(40, 40);
-            GoBackButton.Image = UnityResource.GoBack_0;
-            GoBackButton.MouseEnter += (s, e) => { this.Invalidate(GoBackButton.Rectangle); GoBackButton.Image = UnityResource.GoBack_1; };
-            GoBackButton.MouseLeave += (s, e) => { this.Invalidate(GoBackButton.Rectangle); GoBackButton.Image = UnityResource.GoBack_0; };
-            GoBackButton.Click += (s, e) => { GoBackClick?.Invoke(this, EventArgs.Empty); };
+            this.GoBackButton.SetLocation(5, 0);
+            this.GoBackButton.Mouseable = true;
+            this.GoBackButton.MaxSize = new Size(40, 40);
+            this.GoBackButton.MinSize = new Size(40, 40);
+            this.GoBackButton.Image = UnityResource.GoBack_0;
+            this.GoBackButton.MouseEnter += (s, e) => { this.Invalidate(this.GoBackButton.Rectangle); this.GoBackButton.Image = UnityResource.GoBack_1; };
+            this.GoBackButton.MouseLeave += (s, e) => { this.Invalidate(this.GoBackButton.Rectangle); this.GoBackButton.Image = UnityResource.GoBack_0; };
+            this.GoBackButton.Click += (s, e) => { GoBackClick?.Invoke(this, EventArgs.Empty); };
 
-            RefreshButton.SetLocation(55, 0);
-            RefreshButton.Mouseable = true;
-            RefreshButton.MaxSize = new Size(40, 40);
-            RefreshButton.MinSize = new Size(40, 40);
-            RefreshButton.Image = UnityResource.Refresh_0;
-            RefreshButton.MouseEnter += (s, e) => { this.Invalidate(RefreshButton.Rectangle); RefreshButton.Image = UnityResource.Refresh_1; };
-            RefreshButton.MouseLeave += (s, e) => { this.Invalidate(RefreshButton.Rectangle); RefreshButton.Image = UnityResource.Refresh_0; };
-            RefreshButton.Click += (s, e) => { RefreshClick?.Invoke(this, EventArgs.Empty); };
+            this.RefreshButton.SetLocation(55, 0);
+            this.RefreshButton.Mouseable = true;
+            this.RefreshButton.MaxSize = new Size(40, 40);
+            this.RefreshButton.MinSize = new Size(40, 40);
+            this.RefreshButton.Image = UnityResource.Refresh_0;
+            this.RefreshButton.MouseEnter += (s, e) => { this.Invalidate(this.RefreshButton.Rectangle); this.RefreshButton.Image = UnityResource.Refresh_1; };
+            this.RefreshButton.MouseLeave += (s, e) => { this.Invalidate(this.RefreshButton.Rectangle); this.RefreshButton.Image = UnityResource.Refresh_0; };
+            this.RefreshButton.Click += (s, e) => { RefreshClick?.Invoke(this, EventArgs.Empty); };
 
-            LogButton.SetLocation(105, 0);
-            LogButton.Mouseable = true;
-            LogButton.MaxSize = new Size(40, 40);
-            LogButton.MinSize = new Size(40, 40);
-            LogButton.Image = UnityResource.Log_0;
-            LogButton.MouseEnter += (s, e) => { this.Invalidate(LogButton.Rectangle); LogButton.Image = UnityResource.Log_1; };
-            LogButton.MouseLeave += (s, e) => { this.Invalidate(LogButton.Rectangle); LogButton.Image = UnityResource.Log_0; };
-            LogButton.Click += (s, e) => { LogClick?.Invoke(this, EventArgs.Empty); };
+            this.LogButton.SetLocation(105, 0);
+            this.LogButton.Mouseable = true;
+            this.LogButton.MaxSize = new Size(40, 40);
+            this.LogButton.MinSize = new Size(40, 40);
+            this.LogButton.Image = UnityResource.Log_0;
+            this.LogButton.MouseEnter += (s, e) => { this.Invalidate(this.LogButton.Rectangle); this.LogButton.Image = UnityResource.Log_1; };
+            this.LogButton.MouseLeave += (s, e) => { this.Invalidate(this.LogButton.Rectangle); this.LogButton.Image = UnityResource.Log_0; };
+            this.LogButton.Click += (s, e) => { LogClick?.Invoke(this, EventArgs.Empty); };
         }
 
         /// <summary>

@@ -15,25 +15,25 @@ namespace LeonReader.AbstractSADE
         public override void Process()
         {
             //把链接转换为文章实体再传入处理方法，方便子ASDE类
-            if (ProcessWorker.IsBusy) return;
+            if (this.ProcessWorker.IsBusy) return;
 
-            if (TargetURI == null)
+            if (this.TargetURI == null)
             {
                 LogUtils.Error($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
                 throw new Exception($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
             }
 
-            LogUtils.Info($"开始分析文章链接：{TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"开始分析文章链接：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             //获取链接关联的文章对象
-            Article article = GetArticle(TargetURI.AbsoluteUri, this.ASDESource);
+            Article article = this.GetArticle(this.TargetURI.AbsoluteUri, this.ASDESource);
             if (article == null)
             {
-                LogUtils.Error($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-                throw new Exception($"未找到链接关联的文章实体：{TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
             }
             LogUtils.Debug($"匹配到链接关联的文章实体：{article.Title} ({article.ArticleID}) => {article.ArticleLink}");
-            PreConfigProcess(article);
-            ProcessWorker.RunWorkerAsync(article);
+            this.PreConfigProcess(article);
+            this.ProcessWorker.RunWorkerAsync(article);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace LeonReader.AbstractSADE
             LogUtils.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
             if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
 
-            Article article = TargetDBContext.Articles
+            Article article = this.TargetDBContext.Articles
                 .FirstOrDefault(
                     art =>
                     art.ArticleLink == link &&

@@ -17,7 +17,7 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcess(Article article)
         {
-            DownloadDirectory = IOUtils.PathCombine(
+            this.DownloadDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 article.DownloadDirectoryName
                 );

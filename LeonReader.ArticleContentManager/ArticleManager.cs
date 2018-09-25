@@ -13,7 +13,7 @@ namespace LeonReader.ArticleContentManager
         /// <summary>
         /// 数据库交互对象
         /// </summary>
-        UnityDBContext TargetDBContext = new UnityDBContext();
+        readonly UnityDBContext TargetDBContext = new UnityDBContext();
 
         /// <summary>
         /// 获取新文章
@@ -24,7 +24,7 @@ namespace LeonReader.ArticleContentManager
         {
             return 
                 from article 
-                in TargetDBContext.Articles
+                in this.TargetDBContext.Articles
                 where 
                     article.ASDESource == source &&
                     article.IsNew
@@ -40,7 +40,7 @@ namespace LeonReader.ArticleContentManager
         {
             return
                 from article
-                in TargetDBContext.Articles
+                in this.TargetDBContext.Articles
                 where
                     article.ASDESource == source &&
                     !article.IsNew &&
@@ -57,7 +57,7 @@ namespace LeonReader.ArticleContentManager
         {
             return
                 from article
-                in TargetDBContext.Articles
+                in this.TargetDBContext.Articles
                 where
                     article.ASDESource == source &&
                     !article.IsNew &&
@@ -74,7 +74,7 @@ namespace LeonReader.ArticleContentManager
         {
             article.IsNew = false;
             article.ExportTime = DateTime.Now;
-            TargetDBContext.SaveChanges();
+            this.TargetDBContext.SaveChanges();
         }
 
     }

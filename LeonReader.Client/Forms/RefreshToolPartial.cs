@@ -19,7 +19,7 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void UnityToolContainer_RefreshClick(object sender, EventArgs e)
         {
-            RefreshCatalogList();
+            this.RefreshCatalogList();
         }
 
         #region 扫描目录
@@ -31,9 +31,9 @@ namespace LeonReader.Client
         {
             LogUtils.Info("刷新目录列表...");
 
-            ClearCatalog();
+            this.ClearCatalog();
 
-            ScanCatalog(Application.StartupPath);
+            this.ScanCatalog(Application.StartupPath);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace LeonReader.Client
         /// </summary>
         private void ClearCatalog()
         {
-            foreach (var flowPanel in PanelInTabPage.Values)
+            foreach (var flowPanel in this.PanelInTabPage.Values)
             {
                 if (flowPanel != null)
                 {
@@ -52,11 +52,11 @@ namespace LeonReader.Client
                     flowPanel.Dispose();
                 }
             }
-            foreach (var tabPage in PanelInTabPage.Keys)
+            foreach (var tabPage in this.PanelInTabPage.Keys)
             {
                 tabPage.Dispose();
             }
-            PanelInTabPage.Clear();
+            this.PanelInTabPage.Clear();
         }
 
         /// <summary>
@@ -67,24 +67,24 @@ namespace LeonReader.Client
             LogUtils.Info("使用所有扫描器扫描目录...");
 
             //遍历符合条件的链接库
-            foreach (var assembly in assemblyFactory.CreateAssemblys(
+            foreach (var assembly in this.assemblyFactory.CreateAssemblys(
                 directoryPath,
                 path => path.ToUpper().EndsWith("SADE.DLL")))
             {
                 if (assembly == null) continue;
 
                 //遍历程序集内的扫描器
-                foreach (var scanner in sadeFactory.CreateScanners(assembly))
+                foreach (var scanner in this.sadeFactory.CreateScanners(assembly))
                 {
                     if (scanner == null) continue;
 
                     LogUtils.Info($"发现扫描器：{scanner.ASDESource} in {assembly.FullName}");
 
-                    TabPage tabPage = CreateCatalogContainer(scanner.ASDESource);
+                    TabPage tabPage = this.CreateCatalogContainer(scanner.ASDESource);
                     try
                     {
                         scanner.ProcessReport += (s, e) => { tabPage.Text = $"{scanner.ASDESource}-发现：{e.ProgressPercentage}"; Application.DoEvents(); };
-                        scanner.ProcessCompleted += Scanner_ProcessCompleted;
+                        scanner.ProcessCompleted += this.Scanner_ProcessCompleted;
                         scanner.Process(tabPage);
                     }
                     catch (Exception ex)
@@ -106,7 +106,7 @@ namespace LeonReader.Client
             {
                 Text = $"{source} - 正在扫描...",
             };
-            CatalogTabControl.TabPages.Add(tabPage);
+            this.CatalogTabControl.TabPages.Add(tabPage);
 
             FlowLayoutPanel flowPanel = new FlowLayoutPanel()
             {
@@ -118,7 +118,7 @@ namespace LeonReader.Client
             tabPage.Controls.Add(flowPanel);
             flowPanel.Dock = DockStyle.Fill;
 
-            PanelInTabPage.Add(tabPage, flowPanel);
+            this.PanelInTabPage.Add(tabPage, flowPanel);
             return tabPage;
         }
 
@@ -134,7 +134,7 @@ namespace LeonReader.Client
             Scanner scanner = sender as Scanner;
             TabPage tabPage = scanner.Argument as TabPage;
 
-            LoadCatalog(PanelInTabPage[tabPage], scanner.ASDESource);
+            this.LoadCatalog(this.PanelInTabPage[tabPage], scanner.ASDESource);
             tabPage.Text = scanner.ASDESource;
 
             //扫描完成释放扫描器
@@ -148,28 +148,28 @@ namespace LeonReader.Client
         {
             if (flowPanel == null) throw new ArgumentNullException("flowPanel");
 
-            foreach (var article in articleManager.GetNewArticles(source))
+            foreach (var article in this.articleManager.GetNewArticles(source))
             {
                 if (article == null) continue;
 
-                CardContainer cardContainer = cardFactory.CreateLargeCard(article);
-                AddCardContainer(flowPanel, cardContainer);
+                CardContainer cardContainer = this.cardFactory.CreateLargeCard(article);
+                this.AddCardContainer(flowPanel, cardContainer);
             }
 
-            foreach (var article in articleManager.GetScanedArticle(source))
+            foreach (var article in this.articleManager.GetScanedArticle(source))
             {
                 if (article == null) continue;
 
-                CardContainer cardContainer = cardFactory.CreateNormalCard(article);
-                AddCardContainer(flowPanel, cardContainer);
+                CardContainer cardContainer = this.cardFactory.CreateNormalCard(article);
+                this.AddCardContainer(flowPanel, cardContainer);
             }
 
-            foreach (var article in articleManager.GetDownloadedArticles(source))
+            foreach (var article in this.articleManager.GetDownloadedArticles(source))
             {
                 if (article == null) continue;
 
-                CardContainer cardContainer = cardFactory.CreateSmallCard(article);
-                AddCardContainer(flowPanel, cardContainer);
+                CardContainer cardContainer = this.cardFactory.CreateSmallCard(article);
+                this.AddCardContainer(flowPanel, cardContainer);
             }
         }
 
@@ -184,12 +184,12 @@ namespace LeonReader.Client
             if (cardContainer == null)
                 throw new ArgumentNullException("cardContainer");
 
-            cardContainer.BrowserClick += CardContainer_BrowserClick;
-            cardContainer.DeleteClick += CardContainer_DeleteClick;
-            cardContainer.LocationClick += CardContainer_LocationClick;
-            cardContainer.MainButtonClick += CardContainer_MainButtonClick;
-            cardContainer.ReadedClick += CardContainer_ReadedClick;
-            cardContainer.TitleClick += CardContainer_TitleClick;
+            cardContainer.BrowserClick += this.CardContainer_BrowserClick;
+            cardContainer.DeleteClick += this.CardContainer_DeleteClick;
+            cardContainer.LocationClick += this.CardContainer_LocationClick;
+            cardContainer.MainButtonClick += this.CardContainer_MainButtonClick;
+            cardContainer.ReadedClick += this.CardContainer_ReadedClick;
+            cardContainer.TitleClick += this.CardContainer_TitleClick;
 
             flowPanel.Controls.Add(cardContainer);
             Application.DoEvents();

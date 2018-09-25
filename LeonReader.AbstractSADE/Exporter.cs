@@ -22,11 +22,11 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcess(Article article)
         {
-            ExportDirectory = IOUtils.PathCombine(
+            this.ExportDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 article.DownloadDirectoryName
                 );
-            ExportPath = IOUtils.PathCombine(
+            this.ExportPath = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 article.DownloadDirectoryName,
                 article.ArticleFileName,

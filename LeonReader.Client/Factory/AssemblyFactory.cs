@@ -35,7 +35,7 @@ namespace LeonReader.Client.Factory
                 pathPredicate
             ))
             {
-                yield return CreateAssembly(filePath);
+                yield return this.CreateAssembly(filePath);
             }
         }
 

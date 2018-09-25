@@ -33,7 +33,7 @@ namespace LeonReader.Client
         private void CardContainer_ReadedClick(object sender, EventArgs e)
         {
             CardContainer cardContainer = sender as CardContainer;
-            articleManager.SetArticleReaded(cardContainer.Article);
+            this.articleManager.SetArticleReaded(cardContainer.Article);
             cardContainer.Style = CardContainer.CardStyles.Small;
         }
 

@@ -45,19 +45,19 @@ namespace LeonReader.Model
 
         public ContentItem(string description) : this()
         {
-            ImageDescription = description;
+            this.ImageDescription = description;
         }
 
         public ContentItem(string description, string link) : this(description)
         {
-            ImageLink = link;
+            this.ImageLink = link;
             //ImageFileName = IOUtils.GetFileName(link);
         }
 
         public ContentItem(string description, string link, string filename) : this(description)
         {
-            ImageLink = link;
-            ImageFileName = filename;
+            this.ImageLink = link;
+            this.ImageFileName = filename;
         }
 
     }
