@@ -6,6 +6,7 @@ using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
+    //TODO: SADE 只允许使用数据实体，不允许访问 DBContext，与数据库的交互通过 Biz.Manager 实现；
     //TODO: [提醒] 把ASDE子类无权处理或者重复的方法上升至ASDE抽象层
 
     /// <summary>
