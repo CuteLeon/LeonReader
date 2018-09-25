@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 using LeonReader.Client.DirectUI.Container;
 using LeonReader.Common;
@@ -18,15 +19,23 @@ namespace LeonReader.Client.Factory
         private CardContainer CreateCardContainer(Article article)
         {
             CardContainer cardContainer = new CardContainer();
-            cardContainer.Title = article.Title;
-            cardContainer.Description = article.Description;
-            cardContainer.PublishTime = article.PublishTime;
-            cardContainer.PreviewImage = IOUtils.ReadeImageWithoutDispose(
-                IOUtils.PathCombine(
-                    ConfigHelper.GetConfigHelper.DownloadDirectory,
-                    article.ImageFileName
-                    )
-                );
+            try
+            {
+                cardContainer.Title = article.Title;
+                cardContainer.Description = article.Description;
+                cardContainer.PublishTime = article.PublishTime;
+                cardContainer.PreviewImage = IOUtils.ReadeImageWithoutDispose(
+                    IOUtils.PathCombine(
+                        ConfigHelper.GetConfigHelper.DownloadDirectory,
+                        article.ImageFileName
+                        )
+                    );
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Error($"根据文章实体创建卡片时遇到错误：{ex.Message}");
+            }
+
             cardContainer.Article = article;
 
             return cardContainer;
@@ -41,7 +50,7 @@ namespace LeonReader.Client.Factory
         public CardContainer CreateNormalCard(Article article)
         {
             if (article == null)
-                throw new System.ArgumentNullException(nameof(article));
+                throw new ArgumentNullException(nameof(article));
 
             CardContainer cardContainer = CreateCardContainer(article);
             cardContainer.Size = new Size(675, 118);
@@ -61,7 +70,7 @@ namespace LeonReader.Client.Factory
         public CardContainer CreateSmallCard(Article article)
         {
             if (article == null)
-                throw new System.ArgumentNullException(nameof(article));
+                throw new ArgumentNullException(nameof(article));
 
             CardContainer cardContainer = CreateCardContainer(article);
             cardContainer.Size = new Size(675, 32);
@@ -81,7 +90,7 @@ namespace LeonReader.Client.Factory
         public CardContainer CreateLargeCard(Article article)
         {
             if (article == null)
-                throw new System.ArgumentNullException(nameof(article));
+                throw new ArgumentNullException(nameof(article));
 
             CardContainer cardContainer = CreateCardContainer(article);
             cardContainer.Size = new Size(675, 180);

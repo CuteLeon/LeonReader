@@ -132,7 +132,7 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static Image ReadeImageWithoutDispose(string imagePath)
         {
-            if (!FileExists(imagePath)) throw new FileNotFoundException("找不到文件。", imagePath);
+            if (!FileExists(imagePath)) throw new FileNotFoundException($"找不到文件：{imagePath}", imagePath);
 
             try
             {
