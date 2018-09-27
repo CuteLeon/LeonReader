@@ -73,7 +73,7 @@ namespace GamerSkySADE
 
                 //下载文章预览图像
                 ThreadPool.QueueUserWorkItem(
-                    new WaitCallback(this.DownloadPreviewImage), 
+                    new WaitCallback(this.DownloadPreviewImage),
                     new Tuple<string, string>(
                         article.ImageLink,
                         article.ImageFileName
@@ -116,7 +116,7 @@ namespace GamerSkySADE
             foreach (string CatalogItem in CatalogList)
             {
                 Article article = this.ConvertToArticle(CatalogItem);
-                if (article == null){continue;}
+                if (article == null) { continue; }
 
                 yield return article;
             }
@@ -133,7 +133,7 @@ namespace GamerSkySADE
             Regex CatalogRegex = new Regex(CatalogPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             Match CatalogMatch = CatalogRegex.Match(catalogItem);
             Article article = null;
-            
+
             if (CatalogMatch.Success)
             {
                 string ArticleID = IOUtils.GetFileNameWithoutExtension(CatalogMatch.Groups["ImageLink"].Value);

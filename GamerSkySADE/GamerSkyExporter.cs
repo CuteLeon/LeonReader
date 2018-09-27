@@ -65,9 +65,9 @@ namespace GamerSkySADE
         ///<param name="article">文章实体</param>
         private void ExportArticle(Article article)
         {
-            if (article == null || 
-                article.Contents==null ||
-                string.IsNullOrEmpty(article.DownloadDirectoryName) || 
+            if (article == null ||
+                article.Contents == null ||
+                string.IsNullOrEmpty(article.DownloadDirectoryName) ||
                 string.IsNullOrEmpty(article.ArticleFileName))
                 throw new Exception("导出文章传入的参数为空");
 
@@ -100,7 +100,7 @@ namespace GamerSkySADE
                 }
             }
         }
-        
+
         /// <summary>
         /// 检查导出目录
         /// </summary>

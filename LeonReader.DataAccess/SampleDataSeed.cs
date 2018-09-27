@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+
 using LeonReader.Model;
+
 using SQLite.CodeFirst;
 
 namespace LeonReader.DataAccess

@@ -38,7 +38,7 @@ namespace GamerSkySADE
                 LogUtils.Error($"检查文章下载目录失败：{ex.Message}，From：{this.ASDESource}");
                 throw;
             }
-            
+
             //TODO: 需要 BIZ 实现
             /*
             //初始化

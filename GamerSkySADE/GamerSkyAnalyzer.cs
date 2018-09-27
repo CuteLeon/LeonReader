@@ -75,7 +75,7 @@ namespace GamerSkySADE
             Queue<string> PageLinkQueue = new Queue<string>();
             PageLinkQueue.Enqueue(PageAddress);
 
-            while(PageLinkQueue.Count>0)
+            while (PageLinkQueue.Count > 0)
             {
                 //页面计数自加
                 this.PageCount++;
@@ -111,7 +111,7 @@ namespace GamerSkySADE
 
                 try
                 {
-                    Tuple<string,string> tuple = this.SplitContentAndPagination(ArticleContent);
+                    Tuple<string, string> tuple = this.SplitContentAndPagination(ArticleContent);
                     ArticleContent = tuple.Item1;
                     PaginationString = tuple.Item2;
                 }
@@ -119,7 +119,7 @@ namespace GamerSkySADE
                 {
                     LogUtils.Warn($"分割内容和分页失败（第 {this.PageCount} 页）：{PageLink}，异常：{ex.Message}，From：{this.ASDESource}");
                 }
-            
+
                 //分析页面内容
                 if (ArticleContent == string.Empty)
                 {

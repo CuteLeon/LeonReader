@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Linq;
-using LeonReader.ArticleContentManager;
+
 using LeonReader.Common;
 using LeonReader.Model;
 

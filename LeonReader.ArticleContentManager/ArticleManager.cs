@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+
 using LeonReader.DataAccess;
 using LeonReader.Model;
 
@@ -8,7 +9,7 @@ namespace LeonReader.ArticleContentManager
     /// <summary>
     /// 文章管理器
     /// </summary>
-    public class ArticleManager:IDisposable
+    public class ArticleManager : IDisposable
     {
         /// <summary>
         /// 数据库交互对象
@@ -22,10 +23,10 @@ namespace LeonReader.ArticleContentManager
         /// <returns></returns>
         public IQueryable<Article> GetNewArticles(string source)
         {
-            return 
-                from article 
+            return
+                from article
                 in this.TargetDBContext.Articles
-                where 
+                where
                     article.ASDESource == source &&
                     article.IsNew
                 select article;
@@ -92,7 +93,7 @@ namespace LeonReader.ArticleContentManager
                 this.disposedValue = true;
             }
         }
-        
+
         // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {

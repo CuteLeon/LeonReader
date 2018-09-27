@@ -1,11 +1,11 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+
 using LeonReader.Model;
 
 namespace LeonReader.DataAccess
 {
-    //TODO: 隔离 Model 和 DBContext，UI层仅引用 Model，BIZ层同时引用 Model 和 DBContext；
-
+    
     /// <summary>
     /// 全局数据库交互类
     /// </summary>

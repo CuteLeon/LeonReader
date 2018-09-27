@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using LeonReader.Common;
 using LeonReader.Model;

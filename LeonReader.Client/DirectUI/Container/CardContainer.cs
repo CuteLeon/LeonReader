@@ -397,9 +397,9 @@ namespace LeonReader.Client.DirectUI.Container
         /// 根据布局样式重新绑定布局委托
         /// </summary>
         /// <param name="styles">布局样式</param>
+        /// <remarks>这里放置切换布局模式时调用一次即可而不用在响应布局时频繁调用的代码</remarks>
         protected virtual void ResetLayout(CardStyles styles)
         {
-            //TODO: [提醒] 这里放置切换布局模式时调用一次即可而不用在响应布局时频繁调用的代码。
             this.SuspendPaint();
 
             switch (styles)
