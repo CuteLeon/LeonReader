@@ -52,6 +52,10 @@
     <Compile Include="SingleArticleProcesser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LeonReader.ArticleContentManager\LeonReader.ArticleContentManager.csproj">
+      <Project>{025A7084-9192-4538-A40B-92B24861AE1A}</Project>
+      <Name>LeonReader.ArticleContentManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">
       <Project>{84b1272a-20d1-47d9-ac04-dca76b61a456}</Project>
       <Name>LeonReader.Common</Name>

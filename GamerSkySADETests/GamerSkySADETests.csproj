@@ -98,6 +98,10 @@
       <Project>{7FC2F8A9-D953-4211-B910-BAD9B580BF5F}</Project>
       <Name>LeonReader.AbstractSADE</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LeonReader.ArticleContentManager\LeonReader.ArticleContentManager.csproj">
+      <Project>{025A7084-9192-4538-A40B-92B24861AE1A}</Project>
+      <Name>LeonReader.ArticleContentManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LeonReader.Common\LeonReader.Common.csproj">
       <Project>{84B1272A-20D1-47D9-AC04-DCA76B61A456}</Project>
       <Name>LeonReader.Common</Name>

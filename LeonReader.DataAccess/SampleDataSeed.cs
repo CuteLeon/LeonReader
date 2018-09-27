@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-
+using LeonReader.Model;
 using SQLite.CodeFirst;
 
-namespace LeonReader.Model
+namespace LeonReader.DataAccess
 {
     /// <summary>
     /// 数据种子

@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LeonReader.DataAccess\LeonReader.DataAccess.csproj">
+      <Project>{B1F93F90-0190-40C3-A77D-2E4EADDB4306}</Project>
+      <Name>LeonReader.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LeonReader.Model\LeonReader.Model.csproj">
       <Project>{e011572b-10e0-4d9d-88dc-f2b5da057c76}</Project>
       <Name>LeonReader.Model</Name>

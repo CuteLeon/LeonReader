@@ -38,12 +38,14 @@ namespace GamerSkySADE
                 LogUtils.Error($"检查文章下载目录失败：{ex.Message}，From：{this.ASDESource}");
                 throw;
             }
-
+            
+            //TODO: 需要 BIZ 实现
+            /*
             //初始化
             this.ContentCount = 0;
             this.FailedCount = 0;
             article.DownloadTime = DateTime.Now;
-            this.TargetDBContext.SaveChanges();
+            this.TargetArticleManager.SaveChanges();
 
             //开始任务
             foreach (var content in article.Contents)
@@ -69,6 +71,7 @@ namespace GamerSkySADE
 
             //全部下载后保存文章内容数据
             LogUtils.Info($"文章下载完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+             */
         }
 
         /// <summary>

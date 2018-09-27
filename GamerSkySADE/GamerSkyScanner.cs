@@ -63,9 +63,12 @@ namespace GamerSkySADE
                 }
                 else
                 {
+                    //TODO: 需要 BIZ 实现
+                    /*
                     LogUtils.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
-                    this.TargetDBContext.Articles.Add(article);
-                    this.TargetDBContext.SaveChanges();
+                    this.TargetArticleManager.Articles.Add(article);
+                    this.TargetArticleManager.SaveChanges();
+                     */
                 }
 
                 //下载文章预览图像

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -69,9 +69,9 @@ namespace LeonReader.AbstractSADE
         public virtual Uri TargetURI { get; protected set; }
 
         /// <summary>
-        /// 目标数据库交互对象
+        /// 目标文章管理对象
         /// </summary>
-        public UnityDBContext TargetDBContext { get; set; }
+        public ArticleManager TargetArticleManager { get; protected set; }
 
         public Processer()
         {
@@ -79,7 +79,7 @@ namespace LeonReader.AbstractSADE
             this.ProcessWorker.ProgressChanged += this.PreProcessReport;
             this.ProcessWorker.RunWorkerCompleted += this.PreProcessCompleted;
 
-            this.TargetDBContext = new UnityDBContext();
+            this.TargetArticleManager = new ArticleManager();
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace LeonReader.AbstractSADE
 
         public void Dispose()
         {
-            this.TargetDBContext.Dispose();
+            this.TargetArticleManager.Dispose();
             this.Cancle();
             this.ProcessWorker.Dispose();
         }

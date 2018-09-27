@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -12,14 +12,15 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class Scanner : Processer
     {
+
         /// <summary>
         /// 扫描目录
         /// </summary>
-        public string ScanDirectory { get; private set; } 
+        public string ScanDirectory { get; private set; }
             = ConfigHelper.GetConfigHelper.DownloadDirectory;
 
         public Scanner() : base() { }
-        
+
         /// <summary>
         /// 检查文章是否已经存在
         /// </summary>
@@ -27,13 +28,17 @@ namespace LeonReader.AbstractSADE
         /// <returns></returns>
         protected virtual bool CheckArticleExist(Article article)
         {
-            Article tempArticle = this.TargetDBContext.Articles
+            //TODO: 需要 BIZ 实现
+            /*
+            Article tempArticle = this.TargetArticleManager.Articles
                 .FirstOrDefault(
                     art =>
                     art.ArticleID == article.ArticleID &&
                     art.ASDESource == article.ASDESource
                 );
             return (tempArticle != null);
+             */
+            return true;
         }
 
         /// <summary>

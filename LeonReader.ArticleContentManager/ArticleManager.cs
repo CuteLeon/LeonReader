@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-
+using LeonReader.DataAccess;
 using LeonReader.Model;
 
 namespace LeonReader.ArticleContentManager
@@ -8,7 +8,7 @@ namespace LeonReader.ArticleContentManager
     /// <summary>
     /// 文章管理器
     /// </summary>
-    public class ArticleManager
+    public class ArticleManager:IDisposable
     {
         /// <summary>
         /// 数据库交互对象
@@ -76,6 +76,29 @@ namespace LeonReader.ArticleContentManager
             article.ExportTime = DateTime.Now;
             this.TargetDBContext.SaveChanges();
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 要检测冗余调用
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.TargetDBContext?.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
+        }
+        
+        // 添加此代码以正确实现可处置模式。
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+        #endregion
 
     }
 }

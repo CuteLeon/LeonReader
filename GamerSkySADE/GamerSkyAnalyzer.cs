@@ -30,15 +30,16 @@ namespace GamerSkySADE
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
             if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}");
-
+            //TODO: 需要 BIZ 实现
+            /*
             //初始化
             this.PageCount = 0;
             this.ContentCount = 0;
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
             if(article.Contents!=null && article.Contents.Count>0)
-                this.TargetDBContext.Contents.RemoveRange(article.Contents);
+                this.TargetArticleManager.Contents.RemoveRange(article.Contents);
             article.AnalyzeTime = DateTime.Now;
-            this.TargetDBContext.SaveChanges();
+            this.TargetArticleManager.SaveChanges();
 
             //开始任务
             foreach (var content in this.AnalyseArticle(article.ArticleLink))
@@ -54,8 +55,9 @@ namespace GamerSkySADE
             }
 
             //全部分析后保存文章内容数据
-            this.TargetDBContext.SaveChanges();
+            this.TargetArticleManager.SaveChanges();
             LogUtils.Info($"文章分析完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+             */
         }
 
         /// <summary>

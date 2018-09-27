@@ -37,10 +37,12 @@ namespace GamerSkySADE
                 throw;
             }
 
+            //TODO: 需要 BIZ 实现
+            /*
             //初始化
             this.ContentCount = 0;
             article.ExportTime = DateTime.Now;
-            this.TargetDBContext.SaveChanges();
+            this.TargetArticleManager.SaveChanges();
 
             //导出文章内容
             try
@@ -54,6 +56,7 @@ namespace GamerSkySADE
                 LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{this.ASDESource}");
                 throw;
             }
+             */
         }
 
         /// <summary>

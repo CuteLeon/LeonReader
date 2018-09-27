@@ -11,7 +11,9 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class SingleArticleProcesser : Processer
     {
-        
+
+        //TODO: 创建只读文章内容管理对象（注意创建和释放），参照 Processer()
+
         public override void Process()
         {
             //把链接转换为文章实体再传入处理方法，方便子ASDE类
@@ -53,13 +55,17 @@ namespace LeonReader.AbstractSADE
             LogUtils.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
             if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
 
-            Article article = this.TargetDBContext.Articles
+            //TODO: 需要 BIZ 实现
+            /*
+            Article article = this.TargetArticleManager.Articles
                 .FirstOrDefault(
                     art =>
                     art.ArticleLink == link &&
                     art.ASDESource == asdeSource
                 );
             return article;
+             */
+            return default(Article);
         }
 
     }
