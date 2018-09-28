@@ -14,11 +14,6 @@ namespace LeonReader.Client.Factory
     {
 
         /// <summary>
-        /// 程序集工厂
-        /// </summary>
-        readonly AssemblyFactory assemblyFactory = new AssemblyFactory();
-
-        /// <summary>
         /// 创建卡片控件
         /// </summary>
         /// <returns></returns>

@@ -41,6 +41,7 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_MainButtonClick(object sender, EventArgs e)
         {
+            //TODO: 点击卡片主按钮
         }
 
         /// <summary>
@@ -50,19 +51,33 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_LocationClick(object sender, EventArgs e)
         {
-            Article article = (sender as CardContainer)?.Article;
+            CardContainer cardContainer = sender as CardContainer ?? throw new ArgumentNullException(nameof(sender));
+            if (cardContainer.ArticleState < CardContainer.ArticleStates.Downloading) return;
+
+            Article article = cardContainer.Article;
             if (article == null) return;
 
-            string ArticleFileName = IOUtils.PathCombine(
-                ConfigHelper.GetConfigHelper.DownloadDirectory,
-                article.DownloadDirectoryName,
-                article.ArticleFileName,
-                ConfigHelper.GetConfigHelper.Extension
-                );
-
-            if (IOUtils.FileExists(ArticleFileName))
+            if (cardContainer.ArticleState < CardContainer.ArticleStates.Exporting)
             {
-                Process.Start(ArticleFileName);
+                //TODO: 使用 explorer.exe 浏览此文章下载目录（由IOUtils提供方法）
+            }
+            else
+            {
+                string ArticleFileName = IOUtils.PathCombine(
+                    ConfigHelper.GetConfigHelper.DownloadDirectory,
+                    article.DownloadDirectoryName,
+                    article.ArticleFileName,
+                    ConfigHelper.GetConfigHelper.Extension
+                    );
+
+                if (IOUtils.FileExists(ArticleFileName))
+                {
+                    //TODO: 使用 explorer.exe 浏览此文章导出的文件
+                }
+                else
+                {
+                    //TODO: 使用 explorer.exe 浏览此文章下载目录（由IOUtils提供方法）
+                }
             }
         }
 
@@ -73,7 +88,7 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_DeleteClick(object sender, EventArgs e)
         {
-
+            //TODO: 点击卡片删除按钮
         }
 
         /// <summary>

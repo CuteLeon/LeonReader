@@ -30,41 +30,41 @@ namespace LeonReader.Client.DirectUI.Container
             /// </summary>
             New = 0,
             /// <summary>
+            /// 正在取消
+            /// </summary>
+            Cancelling = 1,
+            /// <summary>
             /// 正在分析
             /// </summary>
-            Analyzing = 1,
+            Analyzing = 2,
             /// <summary>
             /// 分析完毕
             /// </summary>
-            Analyzed = 2,
+            Analyzed = 3,
             /// <summary>
             /// 正在下载
             /// </summary>
-            Downloading = 3,
+            Downloading = 4,
             /// <summary>
             /// 下载完成
             /// </summary>
-            Downloaded = 4,
+            Downloaded = 5,
             /// <summary>
             /// 正在导出
             /// </summary>
-            Exporting = 5,
+            Exporting = 6,
             /// <summary>
             /// 导出完成
             /// </summary>
-            Exported = 6,
+            Exported = 7,
             /// <summary>
             /// 正在阅读
             /// </summary>
-            Reading = 7,
+            Reading = 8,
             /// <summary>
             /// 已读
             /// </summary>
-            Readed = 8,
-            /// <summary>
-            /// 正在取消
-            /// </summary>
-            Cancelling = 9,
+            Readed = 9,
         }
 
         private ArticleStates _articleState;
