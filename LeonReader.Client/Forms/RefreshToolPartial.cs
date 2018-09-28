@@ -31,15 +31,15 @@ namespace LeonReader.Client
         {
             LogUtils.Info("刷新目录列表...");
 
-            this.ClearCatalog();
+            this.ClearCatalogControl();
 
             this.ScanCatalog(Application.StartupPath);
         }
 
         /// <summary>
-        /// 清空目录
+        /// 清空目录控件
         /// </summary>
-        private void ClearCatalog()
+        private void ClearCatalogControl()
         {
             foreach (var flowPanel in this.PanelInTabPage.Values)
             {

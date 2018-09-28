@@ -67,7 +67,7 @@ namespace GamerSkySADE
                 if (this.ProcessWorker.CancellationPending) break;
             }
 
-            //全部下载后保存文章内容数据
+            e.Result = $"{this.ContentCount} 个成功, {this.FailedCount} 个失败";
             LogUtils.Info($"文章下载完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
         }
 

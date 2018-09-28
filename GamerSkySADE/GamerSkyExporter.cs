@@ -53,6 +53,8 @@ namespace GamerSkySADE
                 LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{this.ASDESource}");
                 throw;
             }
+
+            e.Result = this.ExportPath;
         }
 
         /// <summary>

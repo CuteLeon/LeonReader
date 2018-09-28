@@ -5,7 +5,9 @@ using System.Windows.Forms;
 
 using LeonDirectUI.Container;
 using LeonDirectUI.DUIControl;
+
 using LeonReader.AbstractSADE;
+using LeonReader.Common;
 using LeonReader.Model;
 
 namespace LeonReader.Client.DirectUI.Container
@@ -59,38 +61,187 @@ namespace LeonReader.Client.DirectUI.Container
             /// 已读
             /// </summary>
             Readed = 8,
+            /// <summary>
+            /// 正在取消
+            /// </summary>
+            Cancelling = 9,
         }
 
-        private ArticleStates _articleState = ArticleStates.New;
+        private ArticleStates _articleState;
         /// <summary>
         /// 文章状态
         /// </summary>
         public ArticleStates ArticleState
         {
             get => this._articleState;
-            set
+            protected set
             {
                 if (this._articleState != value)
                 {
                     this._articleState = value;
-                    ArticleStateChanged?.Invoke(this, value);
+
+                    this.SwitchState(value);
+                    this.ArticleStateChanged?.Invoke(this, value);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 切换文章状态
+        /// </summary>
+        /// <param name="articleState"></param>
+        protected virtual void SwitchState(ArticleStates articleState)
+        {
+            switch (articleState)
+            {
+                case ArticleStates.New:
+                    {
+                        this.DUIMainButton.Text = "分析";
+                        break;
+                    }
+                case ArticleStates.Analyzing:
+                    {
+                        this.DUIMainButton.Text = "取消";
+                        break;
+                    }
+                case ArticleStates.Analyzed:
+                    {
+                        this.DUIMainButton.Text = "下载";
+                        break;
+                    }
+                case ArticleStates.Downloading:
+                    {
+                        this.DUIMainButton.Text = "取消";
+                        break;
+                    }
+                case ArticleStates.Downloaded:
+                    {
+                        this.DUIMainButton.Text = "导出";
+                        break;
+                    }
+                case ArticleStates.Exporting:
+                    {
+                        this.DUIMainButton.Text = "取消";
+                        break;
+                    }
+                case ArticleStates.Exported:
+                    {
+                        this.DUIMainButton.Text = "阅读";
+                        break;
+                    }
+                case ArticleStates.Reading:
+                    {
+                        this.DUIMainButton.Text = "正在阅读";
+                        break;
+                    }
+                case ArticleStates.Readed:
+                    {
+                        this.DUIMainButton.Text = "阅读";
+                        break;
+                    }
+                default:
+                    {
+                        LogUtils.Warn($"CardContainer 切换到未支持的文章状态：{articleState}");
+                        break;
+                    }
             }
         }
 
         #endregion
 
-        #region 关联对象
+        #region 关联对象 [代理模式]
 
         /// <summary>
         /// 文章对象
         /// </summary>
         public Article Article { get; set; }
 
+        private Analyzer _analyzer;
         /// <summary>
-        /// 处理器对象
+        /// 关联分析器
         /// </summary>
-        public SingleArticleProcesser Processer { get; set; }
+        public Analyzer Analyzer
+        {
+            get => this._analyzer;
+            set
+            {
+                if (this._analyzer == value) return;
+
+                if (this._analyzer != null)
+                {
+                    this._analyzer.ProcessCompleted -= this.Analyzer_ProcessCompleted;
+                    this._analyzer.ProcessReport -= this.Analyzer_ProcessReport;
+                    this._analyzer.ProcessStarted -= this.Analyzer_ProcessStarted;
+                }
+
+                this._analyzer = value;
+
+                if (this._analyzer != null)
+                {
+                    this._analyzer.ProcessCompleted += this.Analyzer_ProcessCompleted;
+                    this._analyzer.ProcessReport += this.Analyzer_ProcessReport;
+                    this._analyzer.ProcessStarted += this.Analyzer_ProcessStarted;
+                }
+            }
+        }
+
+        private Downloader _downloader;
+        /// <summary>
+        /// 关联下载器
+        /// </summary>
+        public Downloader Downloader
+        {
+            get => this._downloader;
+            set
+            {
+                if (this._downloader == value) return;
+
+                if (this._downloader != null)
+                {
+                    this._downloader.ProcessCompleted -= this.Downloader_ProcessCompleted;
+                    this._downloader.ProcessReport -= this.Downloader_ProcessReport;
+                    this._downloader.ProcessStarted -= this.Downloader_ProcessStarted;
+                }
+
+                this._downloader = value;
+
+                if (this._downloader != null)
+                {
+                    this._downloader.ProcessCompleted += this.Downloader_ProcessCompleted;
+                    this._downloader.ProcessReport += this.Downloader_ProcessReport;
+                    this._downloader.ProcessStarted += this.Downloader_ProcessStarted;
+                }
+            }
+        }
+
+        private Exporter _exporter;
+        /// <summary>
+        /// 关联导出器
+        /// </summary>
+        public Exporter Exporter
+        {
+            get => this._exporter;
+            set
+            {
+                if (this._exporter == value) return;
+
+                if (this._exporter != null)
+                {
+                    this._exporter.ProcessCompleted -= this.Exporter_ProcessCompleted;
+                    this._exporter.ProcessReport -= this.Exporter_ProcessReport;
+                    this._exporter.ProcessStarted -= this.Exporter_ProcessStarted;
+                }
+
+                this._exporter = value;
+
+                if (this._exporter != null)
+                {
+                    this._exporter.ProcessCompleted += this.Exporter_ProcessCompleted;
+                    this._exporter.ProcessReport += this.Exporter_ProcessReport;
+                    this._exporter.ProcessStarted += this.Exporter_ProcessStarted;
+                }
+            }
+        }
 
         #endregion
 
@@ -235,7 +386,7 @@ namespace LeonReader.Client.DirectUI.Container
 
         #endregion
 
-        #region 样式布局
+        #region 切换布局样式
 
         /// <summary>
         /// 卡片样式
@@ -294,12 +445,13 @@ namespace LeonReader.Client.DirectUI.Container
             this.MouseEnter += (s, e) => { this.DUISpliteLine.BackColor = Color.Red; };
             this.MouseLeave += (s, e) => { this.DUISpliteLine.BackColor = Color.DeepSkyBlue; };
 
+            this.ArticleState = ArticleStates.New;
             this.Style = CardStyles.Normal;
             this.Relayout = this.NormalLayout;
             this.Relayout?.Invoke(this.Width, this.Height);
         }
 
-        #region 布局
+        #region 布局逻辑
 
         /// <summary>
         /// 初始化卡片控件容器布局
@@ -451,7 +603,11 @@ namespace LeonReader.Client.DirectUI.Container
             this.DUIMainButton.BackgroundImage = UnityResource.Button_0;
             this.DUIMainButton.BackgroundImageLayout = ImageLayout.Stretch;
             this.DUIMainButton.Padding = new Padding(6, 0, 6, 0);
-            this.DUIMainButton.Click += (s, e) => MainButtonClick?.Invoke(this, EventArgs.Empty);
+            this.DUIMainButton.Click += (s, e) => 
+            {
+                this.SwitchProcesser();
+                MainButtonClick?.Invoke(this, EventArgs.Empty);
+            };
             this.DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_1; };
             this.DUIMainButton.MouseLeave += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_0; };
             this.DUIMainButton.MouseDown += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_2; };
@@ -659,5 +815,293 @@ namespace LeonReader.Client.DirectUI.Container
 
         #endregion
 
+        #region 分析器事件
+
+        /// <summary>
+        /// 开始分析文章
+        /// </summary>
+        public void OnAnalyze()
+        {
+            if (this._analyzer == null) return;
+            if (this.ArticleState == ArticleStates.Cancelling) return;
+
+            this.ArticleState = ArticleStates.Analyzing;
+            this._analyzer.Process();
+        }
+
+        /// <summary>
+        /// 取消分析
+        /// </summary>
+        public void OnCancelAnalyze()
+        {
+            if (this._analyzer == null) return;
+            if (this.ArticleState == ArticleStates.Cancelling) return;
+
+            this.ArticleState = ArticleStates.Cancelling;
+            this._analyzer.Cancle();
+        }
+
+        /// <summary>
+        /// 分析器开始事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Analyzer_ProcessStarted(object sender, DoWorkEventArgs e)
+        {
+            if (this.InvokeRequired)
+                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始分析文章..."));
+            else
+                this.DUIStateLabel.Text = "开始分析文章...";
+        }
+
+        /// <summary>
+        /// 分析器报告进度事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Analyzer_ProcessReport(object sender, ProgressChangedEventArgs e)
+        {
+            this.DUIStateLabel.Text = $"分析进度：{e.ProgressPercentage} 页 {e.UserState} 图";
+        }
+
+        /// <summary>
+        /// 分析器完成事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Analyzer_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                this.DUIStateLabel.Text = $"用户取消了分析";
+                this.ArticleState = ArticleStates.New;
+            }
+            else if (e.Error != null)
+            {
+                this.DUIStateLabel.Text = $"分析遇到错误：{e.Error.Message}";
+                this.ArticleState = ArticleStates.New;
+            }
+            else
+            {
+                this.DUIStateLabel.Text = $"文章分析完成：{e.Result}";
+                this.ArticleState = ArticleStates.Analyzed;
+            }
+        }
+
+        #endregion
+
+        #region 下载器事件
+
+        /// <summary>
+        /// 开始下载文章
+        /// </summary>
+        public void OnDownload()
+        {
+            if (this._downloader == null) return;
+            if (this.ArticleState == ArticleStates.Cancelling) return;
+
+            this.ArticleState = ArticleStates.Downloading;
+            this._downloader.Process();
+        }
+
+        /// <summary>
+        /// 取消下载
+        /// </summary>
+        public void OnCancelDownload()
+        {
+            if (this._downloader == null) return;
+            if (this.ArticleState == ArticleStates.Cancelling) return;
+
+            this.ArticleState = ArticleStates.Cancelling;
+            this._downloader.Cancle();
+        }
+
+        /// <summary>
+        /// 下载器开始事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Downloader_ProcessStarted(object sender, DoWorkEventArgs e)
+        {
+            if (this.InvokeRequired)
+                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始下载文章..."));
+            else
+                this.DUIStateLabel.Text = "开始下载文章...";
+        }
+
+        /// <summary>
+        /// 下载器报告进度事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Downloader_ProcessReport(object sender, ProgressChangedEventArgs e)
+        {
+            this.DUIStateLabel.Text = $"下载进度：{e.ProgressPercentage} 个成功, {e.UserState} 个失败";
+        }
+
+        /// <summary>
+        /// 下载器报告进度事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Downloader_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                this.DUIStateLabel.Text = $"用户取消了下载";
+                this.ArticleState = ArticleStates.Analyzed;
+            }
+            else if (e.Error != null)
+            {
+                this.DUIStateLabel.Text = $"下载遇到错误：{e.Error.Message}";
+                this.ArticleState = ArticleStates.Analyzed;
+            }
+            else
+            {
+                this.DUIStateLabel.Text = $"文章下载完成：{e.Result}";
+                this.ArticleState = ArticleStates.Downloaded;
+            }
+        }
+
+        #endregion
+
+        #region 导出器事件
+
+        /// <summary>
+        /// 开始导出文章
+        /// </summary>
+        public void OnExport()
+        {
+            if (this._exporter == null) return;
+            if (this.ArticleState == ArticleStates.Cancelling) return;
+
+            this.ArticleState = ArticleStates.Exporting;
+            this._exporter.Process();
+        }
+
+        /// <summary>
+        /// 取消导出
+        /// </summary>
+        public void OnCancelExport()
+        {
+            if (this._exporter == null) return;
+            if (this.ArticleState == ArticleStates.Cancelling) return;
+
+            this.ArticleState = ArticleStates.Cancelling;
+            this._exporter.Cancle();
+        }
+
+        /// <summary>
+        /// 导出器开始事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exporter_ProcessStarted(object sender, DoWorkEventArgs e)
+        {
+            if (this.InvokeRequired)
+                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始导出文章..."));
+            else
+                this.DUIStateLabel.Text = "开始导出文章...";
+        }
+
+        /// <summary>
+        /// 导出器报告进度事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exporter_ProcessReport(object sender, ProgressChangedEventArgs e)
+        {
+            this.DUIStateLabel.Text = $"导出进度：{e.ProgressPercentage}";
+        }
+
+        /// <summary>
+        /// 导出器完成事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exporter_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                this.DUIStateLabel.Text = $"用户取消了导出";
+                this.ArticleState = ArticleStates.Downloaded;
+            }
+            else if (e.Error != null)
+            {
+                this.DUIStateLabel.Text = $"导出遇到错误：{e.Error.Message}";
+                this.ArticleState = ArticleStates.Downloaded;
+            }
+            else
+            {
+                this.DUIStateLabel.Text = $"文章导出完成：{e.Result}";
+                this.ArticleState = ArticleStates.Exported;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 切换处理器 (业务流程)
+        /// </summary>
+        protected virtual void SwitchProcesser()
+        {
+            switch (this.ArticleState)
+            {
+                case ArticleStates.New:
+                    {
+                        this.OnAnalyze();
+                        break;
+                    }
+                case ArticleStates.Analyzing:
+                    {
+                        this.OnCancelAnalyze();
+                        break;
+                    }
+                case ArticleStates.Analyzed:
+                    {
+                        this.OnDownload();
+                        break;
+                    }
+                case ArticleStates.Downloading:
+                    {
+                        this.OnCancelDownload();
+                        break;
+                    }
+                case ArticleStates.Downloaded:
+                    {
+                        this.OnExport();
+                        break;
+                    }
+                case ArticleStates.Exporting:
+                    {
+                        this.OnCancelExport();
+                        break;
+                    }
+                case ArticleStates.Exported:
+                    {
+                        MessageBox.Show("阅读");
+                        break;
+                    }
+                case ArticleStates.Reading:
+                    {
+                        MessageBox.Show("正在阅读");
+                        break;
+                    }
+                case ArticleStates.Readed:
+                    {
+                        MessageBox.Show("阅读完成");
+                        break;
+                    }
+                case ArticleStates.Cancelling:
+                    {
+                        MessageBox.Show("正在取消");
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
     }
 }

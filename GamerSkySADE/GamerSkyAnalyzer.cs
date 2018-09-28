@@ -54,6 +54,8 @@ namespace GamerSkySADE
                 if (this.ProcessWorker.CancellationPending) break;
             }
 
+            //记录内容总数
+            e.Result = this.ContentCount;
             LogUtils.Info($"文章分析完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
         }
 

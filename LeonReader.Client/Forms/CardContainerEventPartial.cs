@@ -41,7 +41,6 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_MainButtonClick(object sender, EventArgs e)
         {
-
         }
 
         /// <summary>
