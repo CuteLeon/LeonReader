@@ -14,9 +14,16 @@ namespace LeonReader.ArticleContentManager
     {
 
         /// <summary>
+        /// 数据库交互对象
+        /// </summary>
+        readonly UnityDBContext TargetDBContext = new UnityDBContext();
+
+        #region 增加文章
+
+        /// <summary>
         /// 新增文章
         /// </summary>
-        /// <param name="article"></param>
+        /// <param name="article">文章</param>
         public void AddArticle(Article article)
         {
             if (article == null) throw new ArgumentNullException(nameof(article));
@@ -28,19 +35,24 @@ namespace LeonReader.ArticleContentManager
         /// <summary>
         /// 新增文章
         /// </summary>
-        /// <param name="articles"></param>
+        /// <param name="articles">文章</param>
         public void AddArticles(IEnumerable<Article> articles)
         {
             if (articles == null) throw new ArgumentNullException(nameof(articles));
+            if (articles.Count() == 0) return;
 
             this.TargetDBContext.Articles.AddRange(articles);
             this.TargetDBContext.SaveChanges();
         }
 
+        #endregion
+
+        #region 移除文章
+
         /// <summary>
         /// 移除文章
         /// </summary>
-        /// <param name="article"></param>
+        /// <param name="article">文章</param>
         public void RemoveArticle(Article article)
         {
             if (article == null) throw new ArgumentNullException(nameof(article));
@@ -52,24 +64,24 @@ namespace LeonReader.ArticleContentManager
         /// <summary>
         /// 移除文章
         /// </summary>
-        /// <param name="articles"></param>
+        /// <param name="articles">文章</param>
         public void RemoveArticles(IEnumerable<Article> articles)
         {
             if (articles == null) throw new ArgumentNullException(nameof(articles));
+            if (articles.Count() == 0) return;
 
             this.TargetDBContext.Articles.RemoveRange(articles);
             this.TargetDBContext.SaveChanges();
         }
 
-        /// <summary>
-        /// 数据库交互对象
-        /// </summary>
-        readonly UnityDBContext TargetDBContext = new UnityDBContext();
+        #endregion
+
+        #region 查询文章
 
         /// <summary>
-        /// 获取文章
+        /// 获取指定处理源的所有文章
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">处理源</param>
         /// <returns></returns>
         public IQueryable<Article> GetArticles(string source)
         {
@@ -82,9 +94,9 @@ namespace LeonReader.ArticleContentManager
         }
 
         /// <summary>
-        /// 获取新文章
+        /// 获取指定处理源的新文章
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">处理源</param>
         /// <returns></returns>
         public IQueryable<Article> GetNewArticles(string source)
         {
@@ -93,66 +105,52 @@ namespace LeonReader.ArticleContentManager
                 in this.TargetDBContext.Articles
                 where
                     article.ASDESource == source &&
-                    article.IsNew
-                select article;
-        }
-
-        /// <summary>
-        /// 获取扫描过但未下载的文章
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public IQueryable<Article> GetScanedArticle(string source)
-        {
-            return
-                from article
-                in this.TargetDBContext.Articles
-                where
-                    article.ASDESource == source &&
-                    !article.IsNew &&
+                    article.IsNew &&
                     article.ExportTime == null
                 select article;
         }
 
         /// <summary>
-        /// 获取扫描过并下载过的文章
+        /// 获取指定处理源导出完成但未读的文章
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">处理源</param>
         /// <returns></returns>
-        public IQueryable<Article> GetDownloadedArticles(string source)
+        public IQueryable<Article> GetDownloadedArticle(string source)
         {
             return
                 from article
                 in this.TargetDBContext.Articles
                 where
                     article.ASDESource == source &&
-                    !article.IsNew &&
+                    article.IsNew &&
                     article.ExportTime != null
                 select article;
         }
 
         /// <summary>
-        /// 将文章置为已读
+        /// 获取指定处理源已读的文章
         /// </summary>
-        /// <param name="article"></param>
+        /// <param name="source">处理源</param>
         /// <returns></returns>
-        public void SetArticleReaded(Article article)
+        public IQueryable<Article> GetReadedArticles(string source)
         {
-            if (article == null) return;
-
-            article.IsNew = false;
-            article.ExportTime = DateTime.Now;
-            this.TargetDBContext.SaveChanges();
+            return
+                from article
+                in this.TargetDBContext.Articles
+                where
+                    article.ASDESource == source &&
+                    !article.IsNew
+                select article;
         }
 
         /// <summary>
         /// 检查文章是否已经存在
         /// </summary>
-        /// <param name="article">文章实体</param>
+        /// <param name="article">文章</param>
         /// <returns></returns>
         public bool CheckArticleExist(Article article)
         {
-            if (article == null) return false;
+            if (article == null) throw new ArgumentNullException(nameof(article));
 
             Article tempArticle = this.TargetDBContext.Articles
                 .FirstOrDefault(
@@ -164,10 +162,10 @@ namespace LeonReader.ArticleContentManager
         }
 
         /// <summary>
-        /// 获取链接关联的文章实体
+        /// 获取指定处理源内与链接关联的文章
         /// </summary>
-        /// <param name="link"></param>
-        /// <param name="asdeSource"></param>
+        /// <param name="link">链接</param>
+        /// <param name="asdeSource">处理源</param>
         /// <returns></returns>
         public Article GetArticle(string link, string asdeSource)
         {
@@ -182,25 +180,28 @@ namespace LeonReader.ArticleContentManager
             return article;
         }
 
-        /// <summary>
-        /// 清除文章的内容
-        /// </summary>
-        /// <param name="article"></param>
-        /// <returns>影响记录数</returns>
-        public int ClearContents(Article article)
-        {
-            if (article == null) return 0;
+        #endregion
 
-            int count = article.Contents.RemoveAll((x) => true);
+        #region 文章状态操作
+
+        /// <summary>
+        /// 将文章置为已读
+        /// </summary>
+        /// <param name="article">文章</param>
+        /// <returns></returns>
+        public void SetArticleReaded(Article article)
+        {
+            if (article == null) return;
+
+            article.IsNew = false;
             this.TargetDBContext.SaveChanges();
-            return count;
         }
 
         /// <summary>
         /// 设置文章的分析时间
         /// </summary>
-        /// <param name="article"></param>
-        /// <param name="dateTime"></param>
+        /// <param name="article">文章</param>
+        /// <param name="dateTime">分析时间</param>
         public void SetAnalyzeTime(Article article, DateTime dateTime)
         {
             if (article == null) return;
@@ -212,8 +213,8 @@ namespace LeonReader.ArticleContentManager
         /// <summary>
         /// 设置文章的下载时间
         /// </summary>
-        /// <param name="article"></param>
-        /// <param name="dateTime"></param>
+        /// <param name="article">文章</param>
+        /// <param name="dateTime">下载时间</param>
         public void SetDownloadTime(Article article, DateTime dateTime)
         {
             if (article == null) return;
@@ -225,8 +226,8 @@ namespace LeonReader.ArticleContentManager
         /// <summary>
         /// 设置文章的导出时间
         /// </summary>
-        /// <param name="article"></param>
-        /// <param name="dateTime"></param>
+        /// <param name="article">文章</param>
+        /// <param name="dateTime">导出时间</param>
         public void SetExportTime(Article article, DateTime dateTime)
         {
             if (article == null) return;
@@ -235,31 +236,7 @@ namespace LeonReader.ArticleContentManager
             this.TargetDBContext.SaveChanges();
         }
 
-        /// <summary>
-        /// 文章增加内容
-        /// </summary>
-        /// <param name="article"></param>
-        /// <param name="content"></param>
-        public void AddContent(Article article, ContentItem content)
-        {
-            if (article == null || content == null) return;
-
-            article.Contents.Add(content);
-            this.TargetDBContext.SaveChanges();
-        }
-
-        /// <summary>
-        /// 文章增加内容
-        /// </summary>
-        /// <param name="article"></param>
-        /// <param name="contents"></param>
-        public void AddContents(Article article, IEnumerable<ContentItem> contents)
-        {
-            if (article == null || contents == null || contents.Count() == 0) return;
-
-            article.Contents.AddRange(contents);
-            this.TargetDBContext.SaveChanges();
-        }
+        #endregion
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用

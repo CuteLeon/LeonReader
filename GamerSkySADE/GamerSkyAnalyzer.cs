@@ -37,7 +37,7 @@ namespace GamerSkySADE
 
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
             if (article.Contents != null && article.Contents.Count > 0)
-                this.TargetArticleManager.ClearContents(article);
+                this.TargetContentManager.ClearContents(article);
             this.TargetArticleManager.SetAnalyzeTime(article, DateTime.Now);
 
             //开始任务
@@ -45,7 +45,7 @@ namespace GamerSkySADE
             {
                 LogUtils.Info($"接收到文章 ({article.ArticleID}) 内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
 
-                this.TargetArticleManager.AddContent(article, content);
+                this.TargetContentManager.AddContent(article, content);
                 
                 //触发事件更新已分析的页面数和图像数 
                 this.OnProcessReport(this.PageCount, this.ContentCount);

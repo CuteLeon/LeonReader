@@ -156,7 +156,7 @@ namespace LeonReader.Client
                 this.AddCardContainer(flowPanel, cardContainer);
             }
 
-            foreach (var article in this.articleManager.GetScanedArticle(source))
+            foreach (var article in this.articleManager.GetDownloadedArticle(source))
             {
                 if (article == null) continue;
 
@@ -164,7 +164,7 @@ namespace LeonReader.Client
                 this.AddCardContainer(flowPanel, cardContainer);
             }
 
-            foreach (var article in this.articleManager.GetDownloadedArticles(source))
+            foreach (var article in this.articleManager.GetReadedArticles(source))
             {
                 if (article == null) continue;
 

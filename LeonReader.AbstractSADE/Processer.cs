@@ -6,7 +6,6 @@ using LeonReader.Common;
 
 namespace LeonReader.AbstractSADE
 {
-    //TODO: SADE 只允许使用数据实体，不允许访问 DBContext，与数据库的交互通过 Biz.Manager 实现；
 
     /// <summary>
     /// 抽象处理类
@@ -92,13 +91,6 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         /// <param name="uri">文章地址</param>
         public void SetTargetURI(string uri) => this.TargetURI = new Uri(uri);
-
-        public void Dispose()
-        {
-            this.TargetArticleManager.Dispose();
-            this.Cancle();
-            this.ProcessWorker.Dispose();
-        }
 
         /// <summary>
         /// 开始处理
@@ -194,6 +186,33 @@ namespace LeonReader.AbstractSADE
         /// 处理完成
         /// </summary>
         protected virtual void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e) { }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 要检测冗余调用
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.Cancle();
+                    this.ProcessWorker.Dispose();
+
+                    this.TargetArticleManager.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
+        }
+        
+        // 添加此代码以正确实现可处置模式。
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
 
     }
 }

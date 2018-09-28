@@ -1,5 +1,6 @@
 ﻿using System;
 
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -11,7 +12,15 @@ namespace LeonReader.AbstractSADE
     public abstract class SingleArticleProcesser : Processer
     {
 
-        //TODO: 创建只读文章内容管理对象（注意创建和释放），参照 Processer()
+        /// <summary>
+        /// 目标文章内容管理对象
+        /// </summary>
+        public ContentManager TargetContentManager { get; protected set; }
+
+        public SingleArticleProcesser() : base()
+        {
+            this.TargetContentManager = new ContentManager();
+        }
 
         public override void Process()
         {
@@ -43,5 +52,14 @@ namespace LeonReader.AbstractSADE
         /// <param name="article">链接关联的文章实体</param>
         protected virtual void PreConfigProcess(Article article) { }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                this.TargetContentManager.Dispose();
+            }
+        }
     }
 }
