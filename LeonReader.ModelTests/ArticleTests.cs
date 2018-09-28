@@ -23,7 +23,7 @@ namespace LeonReader.Model.Tests
                     Description = "单元测试文章",
                     IsNew = true,
                     PublishTime = DateTime.Now.ToString(),
-                    ASDESource = "DataSeed",
+                    SADESource = "DataSeed",
                     Contents = new ContentItem[] {
                         new ContentItem(){ ImageDescription = "种子文章" },
                         new ContentItem(){ ImageDescription = "欢迎使用 Leon Reader."},

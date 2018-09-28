@@ -25,7 +25,7 @@ namespace GamerSkySADE
         /// <summary>
         /// 文章处理源
         /// </summary>
-        public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
+        public override string SADESource { get; protected set; } = "GamerSky-趣闻";
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
@@ -56,7 +56,7 @@ namespace GamerSkySADE
 
             //记录内容总数
             e.Result = this.ContentCount;
-            LogUtils.Info($"文章分析完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+            LogUtils.Info($"文章分析完成：{this.TargetURI.AbsoluteUri} (From：{this.SADESource})");
         }
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace GamerSkySADE
         {
             if (string.IsNullOrEmpty(PageAddress))
             {
-                LogUtils.Error($"分析文章遇到错误，页面地址为空：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-                throw new Exception($"分析文章遇到错误，页面地址为空：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"分析文章遇到错误，页面地址为空：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
+                throw new Exception($"分析文章遇到错误，页面地址为空：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
             }
 
             //页面链接队列（由递归改为循环）
@@ -90,21 +90,21 @@ namespace GamerSkySADE
                 }
                 catch (Exception ex)
                 {
-                    LogUtils.Error($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，{ex.Message}，From：{this.ASDESource}");
+                    LogUtils.Error($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，{ex.Message}，From：{this.SADESource}");
                     throw;
                 }
 
                 if (string.IsNullOrEmpty(ArticleContent))
                 {
-                    LogUtils.Error($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，From：{this.ASDESource}");
-                    throw new Exception($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，From：{this.ASDESource}");
+                    LogUtils.Error($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
+                    throw new Exception($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
                 }
 
                 //获取文章主体内容
                 ArticleContent = this.GetArticleContent(ArticleContent);
                 if (ArticleContent == string.Empty)
                 {
-                    LogUtils.Error($"页面主体部分匹配失败（第 {this.PageCount} 页）：{PageLink}From：{this.ASDESource}");
+                    LogUtils.Error($"页面主体部分匹配失败（第 {this.PageCount} 页）：{PageLink}From：{this.SADESource}");
                     yield break;
                 }
 
@@ -116,13 +116,13 @@ namespace GamerSkySADE
                 }
                 catch (Exception ex)
                 {
-                    LogUtils.Warn($"分割内容和分页失败（第 {this.PageCount} 页）：{PageLink}，异常：{ex.Message}，From：{this.ASDESource}");
+                    LogUtils.Warn($"分割内容和分页失败（第 {this.PageCount} 页）：{PageLink}，异常：{ex.Message}，From：{this.SADESource}");
                 }
 
                 //分析页面内容
                 if (ArticleContent == string.Empty)
                 {
-                    LogUtils.Warn($"文章内容区域匹配为空（第 {this.PageCount} 页）：{PageLink}，From：{this.ASDESource}");
+                    LogUtils.Warn($"文章内容区域匹配为空（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
                 }
                 else
                 {
@@ -135,7 +135,7 @@ namespace GamerSkySADE
                         ContentItem contentItem = this.ConvertToContentItem(content);
                         if (contentItem == null)
                         {
-                            LogUtils.Warn($"转换为内容实体失败（第 {this.PageCount} 页）：{PageLink}，From：{this.ASDESource}，内容：\n< ——————————\n{content}\n—————————— >");
+                            LogUtils.Warn($"转换为内容实体失败（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}，内容：\n< ——————————\n{content}\n—————————— >");
                         }
                         else
                         {
@@ -148,7 +148,7 @@ namespace GamerSkySADE
                 //分析分页内容
                 if (PaginationString == string.Empty)
                 {
-                    LogUtils.Error($"文章分页区域匹配为空，无法继续。（第 {this.PageCount} 页）：{PageLink}，From：{this.ASDESource}");
+                    LogUtils.Error($"文章分页区域匹配为空，无法继续。（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
                     yield break;
                 }
                 else
@@ -158,11 +158,11 @@ namespace GamerSkySADE
                     string NextLink = this.GetNextLink(PaginationString);
                     if (string.IsNullOrEmpty(NextLink))
                     {
-                        LogUtils.Info($"文章下一页链接为空，分析结束。（共 {this.PageCount} 页）：{PageLink}，From：{this.ASDESource}");
+                        LogUtils.Info($"文章下一页链接为空，分析结束。（共 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
                     }
                     else
                     {
-                        LogUtils.Info($"发现下一页链接：{NextLink}，From：{this.ASDESource}");
+                        LogUtils.Info($"发现下一页链接：{NextLink}，From：{this.SADESource}");
                         //发现新页，将新页链接入队
                         PageLinkQueue.Enqueue(NextLink);
                     }
@@ -234,7 +234,7 @@ namespace GamerSkySADE
             Regex ContentRegex = new Regex(ContentPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             Match ContentMatch = ContentRegex.Match(ContentWithoutNL);
 
-            LogUtils.Debug($"尝试第一种匹配策略...    From：{this.ASDESource}");
+            LogUtils.Debug($"尝试第一种匹配策略...    From：{this.SADESource}");
             if (ContentMatch.Success)
             {
                 //匹配成功
@@ -242,7 +242,7 @@ namespace GamerSkySADE
             }
             else
             {
-                LogUtils.Debug($"尝试第二种匹配策略...    From：{this.ASDESource}");
+                LogUtils.Debug($"尝试第二种匹配策略...    From：{this.SADESource}");
                 //匹配失败，切换策略获取图像路径
                 ContentPattern = "<img.*?src=\"(?<ImageLink>.+?)\"";
                 ContentRegex = new Regex(ContentPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -254,7 +254,7 @@ namespace GamerSkySADE
                 }
                 else
                 {
-                    LogUtils.Warn($"无法匹配内容数据（第 {this.PageCount} 页），From：{this.ASDESource}，内容：\n< ——————————\n{contentItem}\n—————————— >");
+                    LogUtils.Warn($"无法匹配内容数据（第 {this.PageCount} 页），From：{this.SADESource}，内容：\n< ——————————\n{contentItem}\n—————————— >");
                     //再次匹配失败，自暴自弃~
                     return null;
                 }
@@ -264,7 +264,7 @@ namespace GamerSkySADE
             Description = TempDescription.Length > 1 ? TempDescription.Last() : "";
 
             //返回对象
-            LogUtils.Debug($"返回内容数据：{Link}，From：{this.ASDESource}");
+            LogUtils.Debug($"返回内容数据：{Link}，From：{this.SADESource}");
             ContentItem content = new ContentItem(Description, Link, IOUtils.GetFileName(Link));
             return content;
         }

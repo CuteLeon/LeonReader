@@ -89,7 +89,7 @@ namespace LeonReader.ArticleContentManager
                 from article
                 in this.TargetDBContext.Articles
                 where
-                    article.ASDESource == source
+                    article.SADESource == source
                 select article;
         }
 
@@ -104,7 +104,7 @@ namespace LeonReader.ArticleContentManager
                 from article
                 in this.TargetDBContext.Articles
                 where
-                    article.ASDESource == source &&
+                    article.SADESource == source &&
                     article.IsNew &&
                     article.ExportTime == null
                 select article;
@@ -121,7 +121,7 @@ namespace LeonReader.ArticleContentManager
                 from article
                 in this.TargetDBContext.Articles
                 where
-                    article.ASDESource == source &&
+                    article.SADESource == source &&
                     article.IsNew &&
                     article.ExportTime != null
                 select article;
@@ -138,7 +138,7 @@ namespace LeonReader.ArticleContentManager
                 from article
                 in this.TargetDBContext.Articles
                 where
-                    article.ASDESource == source &&
+                    article.SADESource == source &&
                     !article.IsNew
                 select article;
         }
@@ -156,7 +156,7 @@ namespace LeonReader.ArticleContentManager
                 .FirstOrDefault(
                     art =>
                     art.ArticleID == article.ArticleID &&
-                    art.ASDESource == article.ASDESource
+                    art.SADESource == article.SADESource
                 );
             return (tempArticle != null);
         }
@@ -175,7 +175,7 @@ namespace LeonReader.ArticleContentManager
                 .FirstOrDefault(
                     art =>
                     art.ArticleLink == link &&
-                    art.ASDESource == asdeSource
+                    art.SADESource == asdeSource
                 );
             return article;
         }

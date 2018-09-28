@@ -32,7 +32,7 @@ namespace LeonReader.DataAccess
                     Description = "种子文章",
                     IsNew = true,
                     PublishTime = DateTime.Now.ToString(),
-                    ASDESource = "DataSeed",
+                    SADESource = "DataSeed",
                     ScanTime = DateTime.Now,
                     Contents = new ContentItem[] {
                         new ContentItem("种子文章"),

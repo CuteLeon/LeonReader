@@ -28,7 +28,7 @@ namespace LeonReader.Model
         [Key, Column(Order = 2)]
         [Required]
         [DisplayName("文章处理源"), DataType(DataType.Text)]
-        public string ASDESource { get; set; }
+        public string SADESource { get; set; }
 
         /// <summary>
         /// 标题

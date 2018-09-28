@@ -18,7 +18,7 @@ namespace LeonReader.AbstractSADE.Tests
         /// </summary>
         public int Index { get; private set; } = 0;
 
-        public override string ASDESource { get; protected set; } = "单元测试-ASDE";
+        public override string SADESource { get; protected set; } = "单元测试-SADE";
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {

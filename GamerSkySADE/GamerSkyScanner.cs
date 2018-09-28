@@ -15,7 +15,7 @@ namespace GamerSkySADE
         /// <summary>
         /// 文章处理源
         /// </summary>
-        public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
+        public override string SADESource { get; protected set; } = "GamerSky-趣闻";
 
         /// <summary>
         /// 目标地址
@@ -29,11 +29,11 @@ namespace GamerSkySADE
         {
             if (this.TargetURI == null)
             {
-                LogUtils.Error($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
-                throw new Exception($"扫描器使用了空的 TargetURI。From：{this.ASDESource}");
+                LogUtils.Error($"扫描器使用了空的 TargetURI。From：{this.SADESource}");
+                throw new Exception($"扫描器使用了空的 TargetURI。From：{this.SADESource}");
             }
 
-            LogUtils.Info($"开始扫描文章目录：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"开始扫描文章目录：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             string CatalogContent = string.Empty;
             try
             {
@@ -41,17 +41,17 @@ namespace GamerSkySADE
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，{ex.Message}，From：{this.ASDESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，{ex.Message}，From：{this.SADESource}");
                 throw;
             }
 
             if (string.IsNullOrEmpty(CatalogContent))
             {
-                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-                throw new Exception($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
+                throw new Exception($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
             }
 
-            LogUtils.Info($"开始分析目录... ，From：{this.ASDESource}");
+            LogUtils.Info($"开始分析目录... ，From：{this.SADESource}");
             int ArticleCount = 0;
             //扫描目录
             foreach (var article in this.ScanArticles(CatalogContent))
@@ -59,11 +59,11 @@ namespace GamerSkySADE
                 ArticleCount++;
                 if (this.TargetArticleManager.CheckArticleExist(article))
                 {
-                    LogUtils.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
+                    LogUtils.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.SADESource}");
                 }
                 else
                 {
-                    LogUtils.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
+                    LogUtils.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.SADESource}");
                     this.TargetArticleManager.AddArticle(article);
                 }
 
@@ -95,16 +95,16 @@ namespace GamerSkySADE
             string CatalogContentCore = this.GetCatalogContent(catalogContent);
             if (CatalogContentCore == string.Empty)
             {
-                LogUtils.Error($"目录主体内容匹配为空，From：{this.ASDESource}");
-                throw new Exception($"目录主体内容匹配为空，From：{this.ASDESource}");
+                LogUtils.Error($"目录主体内容匹配为空，From：{this.SADESource}");
+                throw new Exception($"目录主体内容匹配为空，From：{this.SADESource}");
             }
 
             //分割目录
             string[] CatalogList = this.GetCatalogList(CatalogContentCore);
             if (CatalogList.Length == 0)
             {
-                LogUtils.Error($"分割目录项目失败，From：{this.ASDESource}");
-                throw new Exception($"分割目录项目失败，From：{this.ASDESource}");
+                LogUtils.Error($"分割目录项目失败，From：{this.SADESource}");
+                throw new Exception($"分割目录项目失败，From：{this.SADESource}");
             }
 
             //遍历目录项
@@ -155,7 +155,7 @@ namespace GamerSkySADE
                     PublishTime = PublishTime,
                     ImageFileName = ImageFileName,
                     ArticleID = ArticleID,
-                    ASDESource = ASDESource,
+                    SADESource = SADESource,
                     ScanTime = DateTime.Now,
                     IsNew = true,
                     DownloadDirectoryName = IOUtils.GetSafeDirectoryName(ArticleID),
@@ -164,7 +164,7 @@ namespace GamerSkySADE
             }
             else
             {
-                LogUtils.Warn($"转换为文章实体失败，From：{this.ASDESource}，内容：\n< ——————————\n{catalogItem}\n—————————— >");
+                LogUtils.Warn($"转换为文章实体失败，From：{this.SADESource}，内容：\n< ——————————\n{catalogItem}\n—————————— >");
             }
             return article;
         }

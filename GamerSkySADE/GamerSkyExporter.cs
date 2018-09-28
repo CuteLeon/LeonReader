@@ -20,7 +20,7 @@ namespace GamerSkySADE
         /// <summary>
         /// 文章处理源
         /// </summary>
-        public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
+        public override string SADESource { get; protected set; } = "GamerSky-趣闻";
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
@@ -33,7 +33,7 @@ namespace GamerSkySADE
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"检查文章导出目录失败：{ex.Message}，From：{this.ASDESource}");
+                LogUtils.Error($"检查文章导出目录失败：{ex.Message}，From：{this.SADESource}");
                 throw;
             }
 
@@ -46,11 +46,11 @@ namespace GamerSkySADE
             {
                 this.ExportArticle(article);
                 //全部导出后保存文章内容数据
-                LogUtils.Info($"文章导出完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+                LogUtils.Info($"文章导出完成：{this.TargetURI.AbsoluteUri} (From：{this.SADESource})");
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{this.ASDESource}");
+                LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{this.SADESource}");
                 throw;
             }
 

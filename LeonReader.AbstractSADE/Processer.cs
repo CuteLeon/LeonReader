@@ -59,7 +59,7 @@ namespace LeonReader.AbstractSADE
         /// <summary>
         /// 文章处理源
         /// </summary>
-        public abstract string ASDESource { get; protected set; }
+        public abstract string SADESource { get; protected set; }
 
         /// <summary>
         /// 目标地址
@@ -125,14 +125,14 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessStarted(object sender, DoWorkEventArgs e)
         {
-            LogUtils.Info($"处理开始：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"处理开始：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             //这个事件会在异步线程触发
             ProcessStarted?.Invoke(this, e);
             //允许用户在接收处理开始事件时即取消处理
             if (e.Cancel) return;
             if (this.ProcessWorker.CancellationPending) return;
-            //调用子类ASDE类的方法
-            LogUtils.Debug($"开始处理子ASDE类的 [处理开始] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            //调用子类SADE类的方法
+            LogUtils.Debug($"开始处理子SADE类的 [处理开始] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             this.OnProcessStarted(this.ProcessWorker, e);
         }
 
@@ -164,18 +164,18 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LogUtils.Info($"处理完成：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"处理完成：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             if (e.Cancelled)
             {
-                LogUtils.Error($"由用户手动取消处理：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"由用户手动取消处理：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             }
             if (e.Error != null)
             {
-                LogUtils.Error($"处理时遇到异常：{e.Error.Message}，{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"处理时遇到异常：{e.Error.Message}，{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             }
 
-            //调用子类ASDE类的方法
-            LogUtils.Debug($"开始处理子ASDE类的 [处理完成] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            //调用子类SADE类的方法
+            LogUtils.Debug($"开始处理子SADE类的 [处理完成] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             this.OnProcessCompleted(this.ProcessWorker, e);
 
             //优先内部处理完完成事件再通知外部

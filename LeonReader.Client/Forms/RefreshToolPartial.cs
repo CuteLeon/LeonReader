@@ -72,18 +72,23 @@ namespace LeonReader.Client
                 path => path.ToUpper().EndsWith("SADE.DLL")))
             {
                 if (assembly == null) continue;
+                //TODO: 筛选此程序集内与 Scanner.SADESource 相同的 分析器、下载器、导出器 类型，并由新创建的 CardContainer 容器代理ADE处理器对象
 
                 //遍历程序集内的扫描器
                 foreach (var scanner in this.sadeFactory.CreateScanners(assembly))
                 {
                     if (scanner == null) continue;
 
-                    LogUtils.Info($"发现扫描器：{scanner.ASDESource} in {assembly.FullName}");
+                    LogUtils.Info($"发现扫描器：{scanner.SADESource} in {assembly.FullName}");
 
-                    TabPage tabPage = this.CreateCatalogContainer(scanner.ASDESource);
+                    TabPage tabPage = this.CreateCatalogContainer(scanner.SADESource);
                     try
                     {
-                        scanner.ProcessReport += (s, e) => { tabPage.Text = $"{scanner.ASDESource}-发现：{e.ProgressPercentage}"; Application.DoEvents(); };
+                        scanner.ProcessReport += (s, e) => 
+                        {
+                            tabPage.Text = $"{scanner.SADESource}-发现：{e.ProgressPercentage}";
+                            Application.DoEvents();
+                        };
                         scanner.ProcessCompleted += this.Scanner_ProcessCompleted;
                         scanner.Process(tabPage);
                     }
@@ -129,13 +134,13 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void Scanner_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LogUtils.Info($"扫描器处理完成：{(sender as Scanner).ASDESource} {(e.Cancelled ? "(手动取消)" : "")}");
+            LogUtils.Info($"扫描器处理完成：{(sender as Scanner).SADESource} {(e.Cancelled ? "(手动取消)" : "")}");
 
             Scanner scanner = sender as Scanner;
             TabPage tabPage = scanner.Argument as TabPage;
 
-            this.LoadCatalog(this.PanelInTabPage[tabPage], scanner.ASDESource);
-            tabPage.Text = scanner.ASDESource;
+            this.LoadCatalog(this.PanelInTabPage[tabPage], scanner.SADESource);
+            tabPage.Text = scanner.SADESource;
 
             //扫描完成释放扫描器
             scanner.Dispose();

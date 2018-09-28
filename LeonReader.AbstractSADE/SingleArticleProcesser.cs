@@ -24,22 +24,22 @@ namespace LeonReader.AbstractSADE
 
         public override void Process()
         {
-            //把链接转换为文章实体再传入处理方法，方便子ASDE类
+            //把链接转换为文章实体再传入处理方法，方便子SADE类
             if (this.ProcessWorker.IsBusy) return;
 
             if (this.TargetURI == null)
             {
-                LogUtils.Error($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
-                throw new Exception($"分析器使用了空的 TargetURI，From：{this.ASDESource}");
+                LogUtils.Error($"分析器使用了空的 TargetURI，From：{this.SADESource}");
+                throw new Exception($"分析器使用了空的 TargetURI，From：{this.SADESource}");
             }
 
-            LogUtils.Info($"开始分析文章链接：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
+            LogUtils.Info($"开始分析文章链接：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
             //获取链接关联的文章对象
-            Article article = this.TargetArticleManager.GetArticle(this.TargetURI.AbsoluteUri, this.ASDESource);
+            Article article = this.TargetArticleManager.GetArticle(this.TargetURI.AbsoluteUri, this.SADESource);
             if (article == null)
             {
-                LogUtils.Error($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
-                throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
+                LogUtils.Error($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
+                throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
             }
             LogUtils.Debug($"匹配到链接关联的文章实体：{article.Title} ({article.ArticleID}) => {article.ArticleLink}");
             this.PreConfigProcess(article);

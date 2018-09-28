@@ -1040,6 +1040,15 @@ namespace LeonReader.Client.DirectUI.Container
 
         #endregion
 
+        protected override void Dispose(bool disposing)
+        {
+            this.Analyzer?.Dispose();
+            this.Downloader?.Dispose();
+            this.Exporter?.Dispose();
+
+            base.Dispose(disposing);
+        }
+
         /// <summary>
         /// 切换处理器 (业务流程)
         /// </summary>

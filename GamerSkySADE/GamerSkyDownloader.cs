@@ -22,7 +22,7 @@ namespace GamerSkySADE
         /// <summary>
         /// 文章处理源
         /// </summary>
-        public override string ASDESource { get; protected set; } = "GamerSky-趣闻";
+        public override string SADESource { get; protected set; } = "GamerSky-趣闻";
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
@@ -35,7 +35,7 @@ namespace GamerSkySADE
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"检查文章下载目录失败：{ex.Message}，From：{this.ASDESource}");
+                LogUtils.Error($"检查文章下载目录失败：{ex.Message}，From：{this.SADESource}");
                 throw;
             }
 
@@ -57,7 +57,7 @@ namespace GamerSkySADE
                 catch (Exception ex)
                 {
                     this.FailedCount++;
-                    LogUtils.Error($"文章内容下载失败：{ex.Message}，From：{this.ASDESource}");
+                    LogUtils.Error($"文章内容下载失败：{ex.Message}，From：{this.SADESource}");
                 }
 
                 //触发事件更新已下载的图像计数
@@ -68,7 +68,7 @@ namespace GamerSkySADE
             }
 
             e.Result = $"{this.ContentCount} 个成功, {this.FailedCount} 个失败";
-            LogUtils.Info($"文章下载完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
+            LogUtils.Info($"文章下载完成：{this.TargetURI.AbsoluteUri} (From：{this.SADESource})");
         }
 
         /// <summary>
@@ -103,9 +103,9 @@ namespace GamerSkySADE
 
             return;
              */
-            if (content == null) throw new Exception($"空的文章内容对象，From：{this.ASDESource}");
+            if (content == null) throw new Exception($"空的文章内容对象，From：{this.SADESource}");
             if (string.IsNullOrEmpty(content.ImageFileName) || string.IsNullOrEmpty(content.ImageLink))
-                throw new Exception($"文章内容的图像路径或链接为空，From：{this.ASDESource}");
+                throw new Exception($"文章内容的图像路径或链接为空，From：{this.SADESource}");
 
             string ContentPath = IOUtils.PathCombine(directory, content.ImageFileName);
             string ContentLink = content.ImageLink;
@@ -127,11 +127,11 @@ namespace GamerSkySADE
             try
             {
                 NetUtils.DownloadWebFile(ContentLink, ContentPath);
-                LogUtils.Error($"文章内容下载成功：{ContentLink}，{ContentPath}，From：{this.ASDESource}");
+                LogUtils.Error($"文章内容下载成功：{ContentLink}，{ContentPath}，From：{this.SADESource}");
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"文章内容下载失败：{ex.Message}，{ContentLink}，{ContentPath}，From：{this.ASDESource}");
+                LogUtils.Error($"文章内容下载失败：{ex.Message}，{ContentLink}，{ContentPath}，From：{this.SADESource}");
             }
         }
 
