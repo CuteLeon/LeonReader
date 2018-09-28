@@ -21,26 +21,6 @@ namespace LeonReader.AbstractSADE
         public Scanner() : base() { }
 
         /// <summary>
-        /// 检查文章是否已经存在
-        /// </summary>
-        /// <param name="article">文章实体</param>
-        /// <returns></returns>
-        protected virtual bool CheckArticleExist(Article article)
-        {
-            //TODO: 需要 BIZ 实现
-            /*
-            Article tempArticle = this.TargetArticleManager.Articles
-                .FirstOrDefault(
-                    art =>
-                    art.ArticleID == article.ArticleID &&
-                    art.ASDESource == article.ASDESource
-                );
-            return (tempArticle != null);
-             */
-            return true;
-        }
-
-        /// <summary>
         /// 下载文章预览图像
         /// </summary>
         /// <param name="TupleOfLinkAndPath">图像链接和路径元组</param>

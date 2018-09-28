@@ -30,23 +30,23 @@ namespace GamerSkySADE
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
             if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}");
-            //TODO: 需要 BIZ 实现
-            /*
+
             //初始化
             this.PageCount = 0;
             this.ContentCount = 0;
+
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
-            if(article.Contents!=null && article.Contents.Count>0)
-                this.TargetArticleManager.Contents.RemoveRange(article.Contents);
-            article.AnalyzeTime = DateTime.Now;
-            this.TargetArticleManager.SaveChanges();
+            if (article.Contents != null && article.Contents.Count > 0)
+                this.TargetArticleManager.ClearContents(article);
+            this.TargetArticleManager.SetAnalyzeTime(article, DateTime.Now);
 
             //开始任务
             foreach (var content in this.AnalyseArticle(article.ArticleLink))
             {
                 LogUtils.Info($"接收到文章 ({article.ArticleID}) 内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
-                article.Contents.Add(content);
 
+                this.TargetArticleManager.AddContent(article, content);
+                
                 //触发事件更新已分析的页面数和图像数 
                 this.OnProcessReport(this.PageCount, this.ContentCount);
 
@@ -54,10 +54,7 @@ namespace GamerSkySADE
                 if (this.ProcessWorker.CancellationPending) break;
             }
 
-            //全部分析后保存文章内容数据
-            this.TargetArticleManager.SaveChanges();
             LogUtils.Info($"文章分析完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
-             */
         }
 
         /// <summary>

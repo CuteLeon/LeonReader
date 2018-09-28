@@ -39,13 +39,10 @@ namespace GamerSkySADE
                 throw;
             }
 
-            //TODO: 需要 BIZ 实现
-            /*
             //初始化
             this.ContentCount = 0;
             this.FailedCount = 0;
-            article.DownloadTime = DateTime.Now;
-            this.TargetArticleManager.SaveChanges();
+            this.TargetArticleManager.SetDownloadTime(article, DateTime.Now);
 
             //开始任务
             foreach (var content in article.Contents)
@@ -53,6 +50,7 @@ namespace GamerSkySADE
                 //下载文章内容
                 try
                 {
+                    //TODO: 使用异步等待，等待一张图下载完成后再下载下一张
                     this.DownloadContent(content, this.DownloadDirectory);
                     this.ContentCount++;
                 }
@@ -71,7 +69,6 @@ namespace GamerSkySADE
 
             //全部下载后保存文章内容数据
             LogUtils.Info($"文章下载完成：{this.TargetURI.AbsoluteUri} (From：{this.ASDESource})");
-             */
         }
 
         /// <summary>

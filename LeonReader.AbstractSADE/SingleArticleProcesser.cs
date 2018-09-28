@@ -26,7 +26,7 @@ namespace LeonReader.AbstractSADE
 
             LogUtils.Info($"开始分析文章链接：{this.TargetURI?.AbsoluteUri}，From：{this.ASDESource}");
             //获取链接关联的文章对象
-            Article article = this.GetArticle(this.TargetURI.AbsoluteUri, this.ASDESource);
+            Article article = this.TargetArticleManager.GetArticle(this.TargetURI.AbsoluteUri, this.ASDESource);
             if (article == null)
             {
                 LogUtils.Error($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}，From：{this.ASDESource}");
@@ -42,30 +42,6 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         /// <param name="article">链接关联的文章实体</param>
         protected virtual void PreConfigProcess(Article article) { }
-
-        /// <summary>
-        /// 获取关联的文章实体
-        /// </summary>
-        /// <param name="link"></param>
-        /// <param name="asdeSource"></param>
-        /// <returns></returns>
-        private Article GetArticle(string link, string asdeSource)
-        {
-            LogUtils.Debug($"获取链接关联的文章ID：{link}，Form：{asdeSource}");
-            if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
-
-            //TODO: 需要 BIZ 实现
-            /*
-            Article article = this.TargetArticleManager.Articles
-                .FirstOrDefault(
-                    art =>
-                    art.ArticleLink == link &&
-                    art.ASDESource == asdeSource
-                );
-            return article;
-             */
-            return default(Article);
-        }
 
     }
 }

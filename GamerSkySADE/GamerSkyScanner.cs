@@ -57,18 +57,14 @@ namespace GamerSkySADE
             foreach (var article in this.ScanArticles(CatalogContent))
             {
                 ArticleCount++;
-                if (this.CheckArticleExist(article))
+                if (this.TargetArticleManager.CheckArticleExist(article))
                 {
                     LogUtils.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
                 }
                 else
                 {
-                    //TODO: 需要 BIZ 实现
-                    /*
                     LogUtils.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.ASDESource}");
-                    this.TargetArticleManager.Articles.Add(article);
-                    this.TargetArticleManager.SaveChanges();
-                     */
+                    this.TargetArticleManager.AddArticle(article);
                 }
 
                 //下载文章预览图像

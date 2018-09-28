@@ -70,34 +70,6 @@ namespace GamerSkySADE.Tests
         }
 
         [TestMethod()]
-        public void CheckArticleExistTest()
-        {
-            GamerSkyScanner scanner = new GamerSkyScanner();
-            MethodInfo methodInfo = typeof(GamerSkyScanner).GetMethod(
-                "CheckArticleExist",
-                BindingFlags.NonPublic | BindingFlags.Instance
-            );
-            if (methodInfo == null)
-            {
-                Console.WriteLine("反射获取方法失败");
-                Assert.Fail();
-            }
-
-            Article article = new Article() { ArticleID = "10000", Title = "种子文章", ASDESource = "DataSeed", DownloadDirectoryName="下载目录", ArticleFileName="文章文件" };
-
-            //TODO: 需要 BIZ 实现
-            /*
-            scanner.TargetArticleManager.Articles.RemoveRange(scanner.TargetArticleManager.Articles.ToArray());
-            scanner.TargetArticleManager.SaveChanges();
-            Assert.IsFalse((bool)methodInfo.Invoke(scanner, new object[] { article }));
-
-            scanner.TargetArticleManager.Articles.Add(article);
-            scanner.TargetArticleManager.SaveChanges();
-            Assert.IsTrue((bool)methodInfo.Invoke(scanner, new object[] { article }));
-             */
-        }
-
-        [TestMethod()]
         public void ConvertToArticleTest()
         {
             GamerSkyScanner scanner = new GamerSkyScanner();

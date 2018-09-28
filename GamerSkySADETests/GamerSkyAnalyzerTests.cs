@@ -27,10 +27,8 @@ namespace GamerSkySADE.Tests
             LogUtils.LogLevel = LogUtils.LogTypes.FATAL;
             analyzer.ProcessReport += (s, e) => { LogUtils.Fatal($"分析进度：{e.ProgressPercentage} 页，{(int)e.UserState}图"); };
 
-            //TODO: 需要 BIZ 实现
-            /*
-            analyzer.TargetArticleManager.Articles.RemoveRange(analyzer.TargetArticleManager.Articles.ToArray());
-            analyzer.TargetArticleManager.Articles.Add(
+            analyzer.TargetArticleManager.RemoveArticles(analyzer.TargetArticleManager.GetArticles(analyzer.ASDESource).ToArray());
+            analyzer.TargetArticleManager.AddArticle(
                 new Article()
                 {
                     ArticleID = "10001",
@@ -50,8 +48,6 @@ namespace GamerSkySADE.Tests
                     ArticleFileName="单元测试文章名称",
                 }
             );
-            analyzer.TargetArticleManager.SaveChanges();
-             */
 
             analyzer.Process();
             
