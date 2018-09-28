@@ -16,6 +16,70 @@ namespace LeonReader.Client.DirectUI.Container
     public class CardContainer : ContainerBase
     {
 
+        #region 状态
+
+        /// <summary>
+        /// 文章状态枚举
+        /// </summary>
+        public enum ArticleStates
+        {
+            /// <summary>
+            /// 新文章
+            /// </summary>
+            New = 0,
+            /// <summary>
+            /// 正在分析
+            /// </summary>
+            Analyzing = 1,
+            /// <summary>
+            /// 分析完毕
+            /// </summary>
+            Analyzed = 2,
+            /// <summary>
+            /// 正在下载
+            /// </summary>
+            Downloading = 3,
+            /// <summary>
+            /// 下载完成
+            /// </summary>
+            Downloaded = 4,
+            /// <summary>
+            /// 正在导出
+            /// </summary>
+            Exporting = 5,
+            /// <summary>
+            /// 导出完成
+            /// </summary>
+            Exported = 6,
+            /// <summary>
+            /// 正在阅读
+            /// </summary>
+            Reading = 7,
+            /// <summary>
+            /// 已读
+            /// </summary>
+            Readed = 8,
+        }
+
+        private ArticleStates _articleState = ArticleStates.New;
+        /// <summary>
+        /// 文章状态
+        /// </summary>
+        public ArticleStates ArticleState
+        {
+            get => this._articleState;
+            set
+            {
+                if (this._articleState != value)
+                {
+                    this._articleState = value;
+                    ArticleStateChanged?.Invoke(this, value);
+                }
+            }
+        }
+
+        #endregion
+
         #region 关联对象
 
         /// <summary>
@@ -32,11 +96,39 @@ namespace LeonReader.Client.DirectUI.Container
 
         #region 自定义事件
 
+        /// <summary>
+        /// 文章状态变化
+        /// </summary>
+        public event EventHandler<ArticleStates> ArticleStateChanged;
+
+        /// <summary>
+        /// 点击标题
+        /// </summary>
         public event EventHandler TitleClick;
+
+        /// <summary>
+        /// 点击位置按钮
+        /// </summary>
         public event EventHandler LocationClick;
+
+        /// <summary>
+        /// 点击已读按钮
+        /// </summary>
         public event EventHandler ReadedClick;
+
+        /// <summary>
+        /// 点击浏览按钮
+        /// </summary>
         public event EventHandler BrowserClick;
+
+        /// <summary>
+        /// 点击删除按钮
+        /// </summary>
         public event EventHandler DeleteClick;
+
+        /// <summary>
+        /// 点击主按钮
+        /// </summary>
         public event EventHandler MainButtonClick;
 
         #endregion

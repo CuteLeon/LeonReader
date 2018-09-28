@@ -96,6 +96,13 @@ namespace GamerSkySADE
         /// <param name="directory">下载目录</param>
         private void DownloadContent(ContentItem content, string directory)
         {
+            /* TODO: 测试
+            Console.WriteLine($"开始下载：{content.ImageLink}");
+            System.Threading.Thread.Sleep(5000);
+            Console.WriteLine($"下载完成：{content.ImageLink}");
+
+            return;
+             */
             if (content == null) throw new Exception($"空的文章内容对象，From：{this.ASDESource}");
             if (string.IsNullOrEmpty(content.ImageFileName) || string.IsNullOrEmpty(content.ImageLink))
                 throw new Exception($"文章内容的图像路径或链接为空，From：{this.ASDESource}");
