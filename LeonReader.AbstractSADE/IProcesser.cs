@@ -21,12 +21,7 @@ namespace LeonReader.AbstractSADE
         /// 处理完成事件
         /// </summary>
         event RunWorkerCompletedEventHandler ProcessCompleted;
-
-        /// <summary>
-        /// 开始处理
-        /// </summary>
-        void Process();
-
+        
         /// <summary>
         /// 取消处理
         /// </summary>

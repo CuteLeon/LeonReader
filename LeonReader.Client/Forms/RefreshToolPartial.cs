@@ -95,7 +95,7 @@ namespace LeonReader.Client
                             Application.DoEvents();
                         };
                         scanner.ProcessCompleted += this.Scanner_ProcessCompleted;
-                        scanner.Process(tabPage);
+                        scanner.Process();
                     }
                     catch (Exception ex)
                     {

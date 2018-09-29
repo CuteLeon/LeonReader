@@ -11,6 +11,32 @@ namespace LeonReader.AbstractSADE
     public abstract class Scanner : Processer
     {
         /// <summary>
+        /// 目录地址链接
+        /// </summary>
+        public virtual Uri TargetCatalogURI { get; protected set; }
+
+        /// <summary>
+        /// 注入文章地址
+        /// </summary>
+        /// <param name="uri">文章地址</param>
+        public void SetCatalogURI(Uri uri) => this.TargetCatalogURI = uri;
+
+        /// <summary>
+        /// 注入文章地址
+        /// </summary>
+        /// <param name="uri">文章地址</param>
+        public void SetCatalogURI(string uri) => this.TargetCatalogURI = new Uri(uri);
+
+        /// <summary>
+        /// 开始处理
+        /// </summary>
+        public virtual void Process()
+        {
+            if (this.ProcessWorker.IsBusy) return;
+            this.ProcessWorker.RunWorkerAsync();
+        }
+
+        /// <summary>
         /// 扫描目录
         /// </summary>
         public string ScanDirectory { get; private set; }

@@ -14,7 +14,7 @@ namespace LeonReader.Common.Tests
             Assert.AreEqual("https://www.cuteleon.com/welcome", NetUtils.LinkCombine("https://www.cuteleon.com/", "welcome"));
             Assert.AreEqual("https://www.cuteleon.com/welcome", NetUtils.LinkCombine("https://www.cuteleon.com", "/welcome"));
             Assert.AreEqual("https://www.cuteleon.com/welcome", NetUtils.LinkCombine("https://www.cuteleon.com/", "/welcome"));
-            Assert.ThrowsException<Exception>(new Action(() => NetUtils.LinkCombine("", "https://www.cuteleon.com/welcome")));
+            Assert.ThrowsException<ArgumentException>(new Action(() => NetUtils.LinkCombine("", "https://www.cuteleon.com/welcome")));
         }
 
         [TestMethod()]

@@ -62,7 +62,7 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static long GetFileSize(string path)
         {
-            if (string.IsNullOrEmpty(path)) throw new Exception("获取空文件路径的文件大小");
+            if (string.IsNullOrEmpty(path)) throw new ArgumentException("获取空文件路径的文件大小");
             if (!File.Exists(path)) throw new Exception("无法获取不存在的路径的文件大小");
             else
             {

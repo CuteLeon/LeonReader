@@ -17,7 +17,7 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static string LinkCombine(string WebSite, string Router)
         {
-            if (string.IsNullOrEmpty(WebSite)) throw new Exception("合并链接时遇到错误，网站地址为空字符串");
+            if (string.IsNullOrEmpty(WebSite)) throw new ArgumentException("合并链接时遇到错误，网站地址为空字符串");
             if (string.IsNullOrEmpty(Router)) return WebSite;
 
             if (WebSite.EndsWith("/"))
@@ -34,7 +34,7 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static string LinkCombine(Uri WebSite, string Router)
         {
-            if (WebSite == null) throw new Exception("合并链接时遇到错误，网站地址为空对象");
+            if (WebSite == null) throw new ArgumentException("合并链接时遇到错误，网站地址为空对象");
             if (!WebSite.IsAbsoluteUri) throw new Exception("合并链接时遇到错误，网站地址不是绝对地址");
 
             return $"{WebSite.GetLeftPart(UriPartial.Authority)}{(Router.StartsWith("/") ? "" : "/")}{Router}";

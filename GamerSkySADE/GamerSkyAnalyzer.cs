@@ -29,7 +29,8 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}");
+            if (!(e.Argument is Article article)) throw new ArgumentNullException($"GS分析器文章参数为空");
+            if (string.IsNullOrEmpty(article.ArticleLink)) throw new ArgumentNullException($"GS分析器文章链接为空");
 
             //初始化
             this.PageCount = 0;
@@ -56,7 +57,7 @@ namespace GamerSkySADE
 
             //记录内容总数
             e.Result = this.ContentCount;
-            LogUtils.Info($"文章分析完成：{this.TargetURI.AbsoluteUri} (From：{this.SADESource})");
+            LogUtils.Info($"文章分析完成：{article.ArticleLink} (From：{this.SADESource})");
         }
 
         /// <summary>
@@ -66,8 +67,8 @@ namespace GamerSkySADE
         {
             if (string.IsNullOrEmpty(PageAddress))
             {
-                LogUtils.Error($"分析文章遇到错误，页面地址为空：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
-                throw new Exception($"分析文章遇到错误，页面地址为空：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
+                LogUtils.Error($"分析文章遇到错误，页面地址为空：{PageAddress}，From：{this.SADESource}");
+                throw new ArgumentException($"分析文章遇到错误，页面地址为空：{PageAddress}，From：{this.SADESource}");
             }
 
             //页面链接队列（由递归改为循环）
@@ -97,7 +98,7 @@ namespace GamerSkySADE
                 if (string.IsNullOrEmpty(ArticleContent))
                 {
                     LogUtils.Error($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
-                    throw new Exception($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
+                    throw new ArgumentException($"获取页面内容遇到错误（第 {this.PageCount} 页）：{PageLink}，From：{this.SADESource}");
                 }
 
                 //获取文章主体内容

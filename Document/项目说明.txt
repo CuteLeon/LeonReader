@@ -40,7 +40,7 @@
 			button1.Invoke(new Action(()=> { button1.Text = "任务开始咯"; }));
 	9. 分析器、下载器、导出器不同于扫描器，前三者会单一对应一篇文章，所以继承自 SingleArticleProcesser，由 SingleArticleProcesser 在 Process() 方法中使用文章链接匹配到对应的文章实体，
 		并将文章实体传入子类实现的 OnProcessStarted() 方法的 e.Argument 处，可通过模式匹配检查空引用和定义变量：
-			if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体");
+			if (!(e.Argument is Article article)) throw new ArgumentException($"未找到链接关联的文章实体");
 		子类可以覆写 SingleArticleProcesser.PreConfigProcess(Article) 方法以在处理正式开始前有权利根据文章实体配置处理相关参数，例如设置工作目录；
 	10. 处理器回传数据：
 		分析器报告进度：this.OnProcessReport(页总数, 内容总数);
@@ -51,7 +51,7 @@
 		分析器处理完成：e.Result = 导出路径;
 	11. 向SADE处理器传入数据：
 		扫描器：通过 TargetURI 设置目录页面地址即可；
-		分析器：
+		分析器、下载器、导出器：使用 Process(Article) 传入文章对象；
 8. Card 控件使用 LeonDirectUI 框架实现，并设计三种显示模式。具体框架使用相关问题访问：https://github.com/CuteLeon/LeonDirectUI；
 9. UI 与 DAL 之间增加 Manager 层，UI 层可直接访问 DAL 层的数据模型，但是不要直接调用 DBContext 对象，具体业务逻辑由 Manager 封装；
 10. 新增的 SADE 库的动态链接库放置于程序根目录即可，文件名称以 "SADE.DLL" 结尾，可忽略大小写，否则程序无法识别此 SADE 组件；

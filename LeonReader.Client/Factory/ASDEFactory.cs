@@ -20,7 +20,7 @@ namespace LeonReader.Client.Factory
         /// <returns></returns>
         public IEnumerable<Scanner> CreateScanners(Assembly assembly)
         {
-            if (assembly == null) throw new Exception("生产扫描器时使用空的程序集");
+            if (assembly == null) throw new ArgumentException("生产扫描器时使用空的程序集");
 
             LogUtils.Info($"在程序集 {assembly.FullName} 内创建所有扫描器...");
             foreach (var type in assembly.GetSubTypes(typeof(Scanner)))

@@ -55,12 +55,7 @@ namespace LeonReader.AbstractSADE
         /// 文章处理源
         /// </summary>
         public abstract string SADESource { get; protected set; }
-
-        /// <summary>
-        /// 目标地址
-        /// </summary>
-        public virtual Uri TargetURI { get; protected set; }
-
+        
         /// <summary>
         /// 目标文章管理对象
         /// </summary>
@@ -73,36 +68,6 @@ namespace LeonReader.AbstractSADE
             this.ProcessWorker.RunWorkerCompleted += this.PreProcessCompleted;
 
             this.TargetArticleManager = new ArticleManager();
-        }
-
-        /// <summary>
-        /// 注入文章地址
-        /// </summary>
-        /// <param name="uri">文章地址</param>
-        public void SetTargetURI(Uri uri) => this.TargetURI = uri;
-
-        /// <summary>
-        /// 注入文章地址
-        /// </summary>
-        /// <param name="uri">文章地址</param>
-        public void SetTargetURI(string uri) => this.TargetURI = new Uri(uri);
-
-        /// <summary>
-        /// 开始处理
-        /// </summary>
-        public virtual void Process()
-        {
-            if (this.ProcessWorker.IsBusy) return;
-            this.ProcessWorker.RunWorkerAsync();
-        }
-
-        /// <summary>
-        /// 开始处理
-        /// </summary>
-        public virtual void Process(object argument)
-        {
-            if (this.ProcessWorker.IsBusy) return;
-            this.ProcessWorker.RunWorkerAsync(argument);
         }
 
         /// <summary>
@@ -119,14 +84,14 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessStarted(object sender, DoWorkEventArgs e)
         {
-            LogUtils.Info($"处理开始：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
+            LogUtils.Info($"处理开始：From：{this.SADESource}");
             //这个事件会在异步线程触发
             ProcessStarted?.Invoke(this, e);
             //允许用户在接收处理开始事件时即取消处理
             if (e.Cancel) return;
             if (this.ProcessWorker.CancellationPending) return;
             //调用子类SADE类的方法
-            LogUtils.Debug($"开始处理子SADE类的 [处理开始] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
+            LogUtils.Debug($"开始处理子SADE类的 [处理开始] 方法：From：{this.SADESource}");
             this.OnProcessStarted(this.ProcessWorker, e);
         }
 
@@ -158,18 +123,18 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         private void PreProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LogUtils.Info($"处理完成：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
+            LogUtils.Info($"处理完成：From：{this.SADESource}");
             if (e.Cancelled)
             {
-                LogUtils.Error($"由用户手动取消处理：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
+                LogUtils.Error($"由用户手动取消处理：From：{this.SADESource}");
             }
             if (e.Error != null)
             {
-                LogUtils.Error($"处理时遇到异常：{e.Error.Message}，{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
+                LogUtils.Error($"处理时遇到异常：{e.Error.Message}，From：{this.SADESource}");
             }
 
             //调用子类SADE类的方法
-            LogUtils.Debug($"开始处理子SADE类的 [处理完成] 方法：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
+            LogUtils.Debug($"开始处理子SADE类的 [处理完成] 方法：From：{this.SADESource}");
             this.OnProcessCompleted(this.ProcessWorker, e);
 
             //优先内部处理完完成事件再通知外部

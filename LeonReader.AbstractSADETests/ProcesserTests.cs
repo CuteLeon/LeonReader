@@ -19,24 +19,30 @@ namespace LeonReader.AbstractSADE.Tests
         public int Index { get; private set; } = 0;
 
         public override string SADESource { get; protected set; } = "单元测试-SADE";
+        
+        public virtual void Process()
+        {
+            if (this.ProcessWorker.IsBusy) return;
+            this.ProcessWorker.RunWorkerAsync();
+        }
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            Index = 0;
-            LogUtils.Debug($"内循环开始，Index = {Index}");
-            while (Index++ < 10)
+            this.Index = 0;
+            LogUtils.Debug($"内循环开始，Index = {this.Index}");
+            while (this.Index++ < 10)
             {
-                LogUtils.Debug($"内循环：Index = {Index}");
-                OnProcessReport(Index, null);
+                LogUtils.Debug($"内循环：Index = {this.Index}");
+                this.OnProcessReport(this.Index, null);
                 Thread.Sleep(500);
-                if (ProcessWorker.CancellationPending)
+                if (this.ProcessWorker.CancellationPending)
                 {
                     e.Cancel = true;
                     LogUtils.Debug("内循环：用户取消了处理");
                     break;
                 }
             }
-            LogUtils.Debug($"内循环结束，当前 Index = {Index}");
+            LogUtils.Debug($"内循环结束，当前 Index = {this.Index}");
         }
     }
 
@@ -51,9 +57,9 @@ namespace LeonReader.AbstractSADE.Tests
             LogUtils.Debug("<———— 开始 Process 单元测试（自动结束） ————>");
             TestProcesser processer = new TestProcesser();
 
-            processer.ProcessStarted += ProcesseStarted;
-            processer.ProcessReport += ProcessReport;
-            processer.ProcessCompleted += ProcesseCompleted;
+            processer.ProcessStarted += this.ProcesseStarted;
+            processer.ProcessReport += this.ProcessReport;
+            processer.ProcessCompleted += this.ProcesseCompleted;
             processer.Process();
             Thread.Sleep(6000);
         }
@@ -64,9 +70,9 @@ namespace LeonReader.AbstractSADE.Tests
             LogUtils.Debug("<———— 开始 Process 单元测试（立即拦截） ————>");
             TestProcesser processer = new TestProcesser();
 
-            processer.ProcessStarted += ProcesseStartedButCancelImmediately;
-            processer.ProcessReport += ProcessReport;
-            processer.ProcessCompleted += ProcesseCompleted;
+            processer.ProcessStarted += this.ProcesseStartedButCancelImmediately;
+            processer.ProcessReport += this.ProcessReport;
+            processer.ProcessCompleted += this.ProcesseCompleted;
             processer.Process();
         }
 
@@ -76,9 +82,9 @@ namespace LeonReader.AbstractSADE.Tests
             LogUtils.Debug("<———— 开始 Process 单元测试（自动取消） ————>");
             TestProcesser processer = new TestProcesser();
 
-            processer.ProcessStarted += ProcesseStarted;
-            processer.ProcessReport += ProcessReportAndCancel;
-            processer.ProcessCompleted += ProcesseCompleted;
+            processer.ProcessStarted += this.ProcesseStarted;
+            processer.ProcessReport += this.ProcessReportAndCancel;
+            processer.ProcessCompleted += this.ProcesseCompleted;
             processer.Process();
             Thread.Sleep(3000);
         }

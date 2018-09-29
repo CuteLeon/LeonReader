@@ -606,7 +606,7 @@ namespace LeonReader.Client.DirectUI.Container
             this.DUIMainButton.Padding = new Padding(6, 0, 6, 0);
             this.DUIMainButton.Click += (s, e) => 
             {
-                this.SwitchProcesser();
+
                 MainButtonClick?.Invoke(this, EventArgs.Empty);
             };
             this.DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_1; };
@@ -830,7 +830,7 @@ namespace LeonReader.Client.DirectUI.Container
 
             //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Analyzing;
-            this._analyzer.Process();
+            this._analyzer.Process(this.Article);
         }
 
         /// <summary>
@@ -908,7 +908,7 @@ namespace LeonReader.Client.DirectUI.Container
 
             //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Downloading;
-            this._downloader.Process();
+            this._downloader.Process(this.Article);
         }
 
         /// <summary>
@@ -986,7 +986,7 @@ namespace LeonReader.Client.DirectUI.Container
             
             //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Exporting;
-            this._exporter.Process();
+            this._exporter.Process(this.Article);
         }
 
         /// <summary>

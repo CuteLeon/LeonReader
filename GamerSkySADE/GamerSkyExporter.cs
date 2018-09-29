@@ -24,7 +24,10 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}");
+            if (!(e.Argument is Article article)) throw new ArgumentException($"GS导出器文章参数为空");
+            if (article.Contents == null) throw new ArgumentNullException($"GS导出器文章链接为空");
+            if (string.IsNullOrEmpty(article.DownloadDirectoryName) || string.IsNullOrEmpty(article.ArticleFileName))
+                throw new ArgumentNullException($"GS导出器导出目录或文件名为空");
 
             //检查文章导出目录
             try
@@ -46,11 +49,11 @@ namespace GamerSkySADE
             {
                 this.ExportArticle(article);
                 //全部导出后保存文章内容数据
-                LogUtils.Info($"文章导出完成：{this.TargetURI.AbsoluteUri} (From：{this.SADESource})");
+                LogUtils.Info($"文章导出完成：{this.ExportPath} (From：{this.SADESource})");
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"文章导出失败：{ex.Message}，From：{article.ArticleLink}，From：{this.SADESource}");
+                LogUtils.Error($"文章导出失败：{ex.Message}，{this.ExportPath}，From：{this.SADESource}");
                 throw;
             }
 
@@ -67,7 +70,7 @@ namespace GamerSkySADE
                 article.Contents == null ||
                 string.IsNullOrEmpty(article.DownloadDirectoryName) ||
                 string.IsNullOrEmpty(article.ArticleFileName))
-                throw new Exception("导出文章传入的参数为空");
+                throw new ArgumentException("导出文章传入的参数为空");
 
             using (StreamWriter ArticleStream = new StreamWriter(this.ExportPath, false, Encoding.UTF8))
             {

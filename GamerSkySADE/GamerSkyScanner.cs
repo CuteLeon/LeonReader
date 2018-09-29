@@ -20,35 +20,35 @@ namespace GamerSkySADE
         /// <summary>
         /// 目标地址
         /// </summary>
-        public new Uri TargetURI { get; protected set; } = new Uri(@"https://www.gamersky.com/ent/qw/");
+        public override Uri TargetCatalogURI { get; protected set; } = new Uri(@"https://www.gamersky.com/ent/qw/");
 
         /// <summary>
         /// 扫描 GamerSky 文章
         /// </summary>
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (this.TargetURI == null)
+            if (this.TargetCatalogURI == null)
             {
-                LogUtils.Error($"扫描器使用了空的 TargetURI。From：{this.SADESource}");
-                throw new Exception($"扫描器使用了空的 TargetURI。From：{this.SADESource}");
+                LogUtils.Error($"GS扫描器使用了空的 TargetURI。From：{this.SADESource}");
+                throw new ArgumentException($"GS扫描器使用了空的 TargetURI。From：{this.SADESource}");
             }
 
-            LogUtils.Info($"开始扫描文章目录：{this.TargetURI?.AbsoluteUri}，From：{this.SADESource}");
+            LogUtils.Info($"开始扫描文章目录：{this.TargetCatalogURI?.AbsoluteUri}，From：{this.SADESource}");
             string CatalogContent = string.Empty;
             try
             {
-                CatalogContent = NetUtils.GetWebPage(this.TargetURI);
+                CatalogContent = NetUtils.GetWebPage(this.TargetCatalogURI);
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，{ex.Message}，From：{this.SADESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{this.TargetCatalogURI.AbsoluteUri}，{ex.Message}，From：{this.SADESource}");
                 throw;
             }
 
             if (string.IsNullOrEmpty(CatalogContent))
             {
-                LogUtils.Error($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
-                throw new Exception($"获取页面内容遇到错误：{this.TargetURI.AbsoluteUri}，From：{this.SADESource}");
+                LogUtils.Error($"获取页面内容遇到错误：{this.TargetCatalogURI.AbsoluteUri}，From：{this.SADESource}");
+                throw new ArgumentException($"获取页面内容遇到错误：{this.TargetCatalogURI.AbsoluteUri}，From：{this.SADESource}");
             }
 
             LogUtils.Info($"开始分析目录... ，From：{this.SADESource}");
@@ -96,7 +96,7 @@ namespace GamerSkySADE
             if (CatalogContentCore == string.Empty)
             {
                 LogUtils.Error($"目录主体内容匹配为空，From：{this.SADESource}");
-                throw new Exception($"目录主体内容匹配为空，From：{this.SADESource}");
+                throw new ArgumentException($"目录主体内容匹配为空，From：{this.SADESource}");
             }
 
             //分割目录
@@ -141,7 +141,7 @@ namespace GamerSkySADE
                 string ImageFileName = IOUtils.GetFileName(CatalogMatch.Groups["ImageLink"].Value);
 
                 //预处理
-                if (ArticleLink.StartsWith("/")) ArticleLink = NetUtils.LinkCombine(this.TargetURI, ArticleLink);
+                if (ArticleLink.StartsWith("/")) ArticleLink = NetUtils.LinkCombine(this.TargetCatalogURI, ArticleLink);
                 Title = Title.Replace("'", "");
                 Description = Description.Replace("'", "");
 

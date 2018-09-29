@@ -26,7 +26,8 @@ namespace GamerSkySADE
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {
-            if (!(e.Argument is Article article)) throw new Exception($"未找到链接关联的文章实体：{this.TargetURI.AbsoluteUri}");
+            if (!(e.Argument is Article article)) throw new ArgumentException($"GS下载器文章参数为空");
+            if (article.Contents == null) throw new ArgumentNullException($"GS分析器文章链接为空");
 
             //检查文章下载目录
             try
@@ -67,8 +68,8 @@ namespace GamerSkySADE
                 if (this.ProcessWorker.CancellationPending) break;
             }
 
+            LogUtils.Info($"文章下载完成：{this.DownloadDirectory} (From：{this.SADESource})");
             e.Result = $"{this.ContentCount} 个成功, {this.FailedCount} 个失败";
-            LogUtils.Info($"文章下载完成：{this.TargetURI.AbsoluteUri} (From：{this.SADESource})");
         }
 
         /// <summary>
@@ -103,9 +104,9 @@ namespace GamerSkySADE
 
             return;
              */
-            if (content == null) throw new Exception($"空的文章内容对象，From：{this.SADESource}");
+            if (content == null) throw new ArgumentException($"空的文章内容对象，From：{this.SADESource}");
             if (string.IsNullOrEmpty(content.ImageFileName) || string.IsNullOrEmpty(content.ImageLink))
-                throw new Exception($"文章内容的图像路径或链接为空，From：{this.SADESource}");
+                throw new ArgumentException($"文章内容的图像路径或链接为空，From：{this.SADESource}");
 
             string ContentPath = IOUtils.PathCombine(directory, content.ImageFileName);
             string ContentLink = content.ImageLink;

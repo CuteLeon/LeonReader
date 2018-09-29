@@ -50,7 +50,7 @@ namespace GamerSkySADE.Tests
             foreach (var article in
                 (IEnumerable<Article>)methodInfo.Invoke(
                     scanner,
-                    new object[] { NetUtils.GetWebPage(scanner.TargetURI) }
+                    new object[] { NetUtils.GetWebPage(scanner.TargetCatalogURI) }
                 )
             )
             {
@@ -130,7 +130,7 @@ namespace GamerSkySADE.Tests
             Assert.IsTrue(catalogListOffLine.Length > 0);
 
             //在线资源测试
-            string catalogListOnLine = (string)methodInfo.Invoke(scanner, new object[] { NetUtils.GetWebPage(scanner.TargetURI) });
+            string catalogListOnLine = (string)methodInfo.Invoke(scanner, new object[] { NetUtils.GetWebPage(scanner.TargetCatalogURI) });
             Assert.IsTrue(catalogListOnLine.Length > 0);
         }
     }
