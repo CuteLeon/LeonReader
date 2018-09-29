@@ -20,9 +20,9 @@ namespace LeonReader.Common
         public string DownloadDirectory { get; } = IOUtils.PathCombine(Environment.CurrentDirectory, "Articles");
 
         /// <summary>
-        /// 导出文件扩展名
+        /// 导出文件扩展名 (不需要加点)
         /// </summary>
-        public string Extension { get; } = ".html";
+        public string Extension { get; } = "html";
 
     }
 }

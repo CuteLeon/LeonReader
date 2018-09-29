@@ -29,8 +29,7 @@ namespace LeonReader.AbstractSADE
             this.ExportPath = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 article.DownloadDirectoryName,
-                article.ArticleFileName,
-                ConfigHelper.GetConfigHelper.Extension
+                string.Format("{0}.{1}", article.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
                 );
         }
     }
