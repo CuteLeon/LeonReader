@@ -41,7 +41,6 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_MainButtonClick(object sender, EventArgs e)
         {
-            //TODO: 点击卡片主按钮
         }
 
         /// <summary>
@@ -52,32 +51,27 @@ namespace LeonReader.Client
         private void CardContainer_LocationClick(object sender, EventArgs e)
         {
             CardContainer cardContainer = sender as CardContainer ?? throw new ArgumentNullException(nameof(sender));
-            if (cardContainer.ArticleState < CardContainer.ArticleStates.Downloading) return;
 
             Article article = cardContainer.Article;
             if (article == null) return;
 
-            if (cardContainer.ArticleState < CardContainer.ArticleStates.Exporting)
+            string ArticleFilePath = IOUtils.PathCombine(
+                ConfigHelper.GetConfigHelper.DownloadDirectory,
+                article.DownloadDirectoryName,
+                string.Format("{0}.{1}", article.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
+                );
+
+            if (IOUtils.FileExists(ArticleFilePath))
             {
-                //TODO: 使用 explorer.exe 浏览此文章下载目录（由IOUtils提供方法）
+                IOUtils.SelectFile(ArticleFilePath);
             }
             else
             {
-                string ArticleFileName = IOUtils.PathCombine(
+                string ArticleDirectory = IOUtils.PathCombine(
                     ConfigHelper.GetConfigHelper.DownloadDirectory,
-                    article.DownloadDirectoryName,
-                    article.ArticleFileName,
-                    ConfigHelper.GetConfigHelper.Extension
+                    article.DownloadDirectoryName
                     );
-
-                if (IOUtils.FileExists(ArticleFileName))
-                {
-                    //TODO: 使用 explorer.exe 浏览此文章导出的文件
-                }
-                else
-                {
-                    //TODO: 使用 explorer.exe 浏览此文章下载目录（由IOUtils提供方法）
-                }
+                IOUtils.SelectDirectory(ArticleDirectory);
             }
         }
 

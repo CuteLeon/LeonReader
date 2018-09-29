@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -100,6 +101,26 @@ namespace LeonReader.Common
                 LogUtils.Error($"IO助手创建目录失败：{path}，{ex.Message}");
                 throw;
             }
+        }
+
+        /// <summary>
+        /// 定位目录
+        /// </summary>
+        /// <param name="directory"></param>
+        public static void SelectDirectory(string directory)
+        {
+            if (DirectoryExists(directory))
+                Process.Start(directory);
+        }
+
+        /// <summary>
+        /// 定位文件
+        /// </summary>
+        /// <param name="path"></param>
+        public static void SelectFile(string path)
+        {
+            if (FileExists(path))
+                Process.Start("explorer.exe", string.Format("/select,{0}", path));
         }
 
         /// <summary>

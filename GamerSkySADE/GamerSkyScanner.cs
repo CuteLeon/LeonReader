@@ -99,7 +99,11 @@ namespace GamerSkySADE
                 this.OnProcessReport(ArticleCount, article);
 
                 //允许用户取消处理
-                if (this.ProcessWorker.CancellationPending) break;
+                if (this.ProcessWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
             }
         }
 

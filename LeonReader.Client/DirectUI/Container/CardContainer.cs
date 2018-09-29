@@ -80,7 +80,7 @@ namespace LeonReader.Client.DirectUI.Container
                 {
                     this._articleState = value;
 
-                    this.SwitchState(value);
+                    this.SwitchUI(value);
                     this.ArticleStateChanged?.Invoke(this, value);
                 }
             }
@@ -90,7 +90,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// 切换文章状态
         /// </summary>
         /// <param name="articleState"></param>
-        protected virtual void SwitchState(ArticleStates articleState)
+        protected virtual void SwitchUI(ArticleStates articleState)
         {
             //TODO: 状态改变切换界面显示的代码放在这里（DUIStateLabel由Processer控制，在这里排除）
             switch (articleState)
@@ -151,6 +151,8 @@ namespace LeonReader.Client.DirectUI.Container
         #endregion
 
         #region 关联对象 [代理模式]
+
+        //TODO: 注入文章依赖对象后根据文章状态修改此控件状态并相应界面（显示下载进度）
 
         /// <summary>
         /// 文章对象
@@ -518,6 +520,7 @@ namespace LeonReader.Client.DirectUI.Container
             this.DUIStateLabel.Name = "状态栏标签";
             this.DUIStateLabel.Text = "爸爸，点击右边的按钮开始下载";
             this.DUIStateLabel.ForeColor = Color.Gray;
+            this.DUIStateLabel.BackColor = Color.White;
             this.DUIStateLabel.Image = UnityResource.DownloadIcon;
             this.DUIStateLabel.ImageAlign = ContentAlignment.MiddleLeft;
             this.DUIStateLabel.ShowEllipsis = false;

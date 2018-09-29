@@ -51,6 +51,11 @@ namespace GamerSkySADE
                 //全部导出后保存文章内容数据
                 LogUtils.Info($"文章导出完成：{this.ExportPath} (From：{this.SADESource})");
             }
+            catch (OperationCanceledException)
+            {
+                e.Cancel = true;
+                return;
+            }
             catch (Exception ex)
             {
                 LogUtils.Error($"文章导出失败：{ex.Message}，{this.ExportPath}，From：{this.SADESource}");
@@ -86,7 +91,10 @@ namespace GamerSkySADE
                         this.OnProcessReport(this.ContentCount, article.Contents.Count);
 
                         //允许用户取消处理，用户取消后仍会写入后续的结束标记和JS
-                        if (this.ProcessWorker.CancellationPending) break;
+                        if (this.ProcessWorker.CancellationPending)
+                        {
+                            throw new OperationCanceledException("用户取消了文章导出操作");
+                        }
                     }
                     ArticleStream.Write("<<<< 文章结束 >>>></center>\n{0}\n</body></html>", GSResource.LazyLoadJS);
                     LogUtils.Debug("文章组装完成：{0}", article.ArticleLink);

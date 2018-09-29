@@ -51,7 +51,6 @@ namespace GamerSkySADE
                 //下载文章内容
                 try
                 {
-                    //TODO: 使用异步等待，等待一张图下载完成后再下载下一张
                     this.DownloadContent(content, this.DownloadDirectory);
                     this.ContentCount++;
                 }
@@ -65,7 +64,11 @@ namespace GamerSkySADE
                 this.OnProcessReport(this.ContentCount, this.FailedCount);
 
                 //允许用户取消处理
-                if (this.ProcessWorker.CancellationPending) break;
+                if (this.ProcessWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
             }
 
             LogUtils.Info($"文章下载完成：{this.DownloadDirectory} (From：{this.SADESource})");
@@ -97,13 +100,6 @@ namespace GamerSkySADE
         /// <param name="directory">下载目录</param>
         private void DownloadContent(ContentItem content, string directory)
         {
-            /* TODO: 测试
-            Console.WriteLine($"开始下载：{content.ImageLink}");
-            System.Threading.Thread.Sleep(5000);
-            Console.WriteLine($"下载完成：{content.ImageLink}");
-
-            return;
-             */
             if (content == null) throw new ArgumentException($"空的文章内容对象，From：{this.SADESource}");
             if (string.IsNullOrEmpty(content.ImageFileName) || string.IsNullOrEmpty(content.ImageLink))
                 throw new ArgumentException($"文章内容的图像路径或链接为空，From：{this.SADESource}");

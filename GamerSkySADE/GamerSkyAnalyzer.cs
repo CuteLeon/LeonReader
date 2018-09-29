@@ -52,7 +52,11 @@ namespace GamerSkySADE
                 this.OnProcessReport(this.PageCount, this.ContentCount);
 
                 //允许用户取消处理
-                if (this.ProcessWorker.CancellationPending) break;
+                if (this.ProcessWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
             }
 
             //记录内容总数
