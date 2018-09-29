@@ -77,7 +77,6 @@ namespace LeonReader.Client
                 path => path.ToUpper().EndsWith("SADE.DLL")))
             {
                 if (assembly == null) continue;
-                //TODO: 筛选此程序集内与 Scanner.SADESource 相同的 分析器、下载器、导出器 类型，并由新创建的 CardContainer 容器代理ADE处理器对象
 
                 //遍历程序集内的扫描器
                 foreach (var scanner in this.sadeFactory.CreateScanners(assembly))
@@ -166,7 +165,8 @@ namespace LeonReader.Client
             if (scanner == null) throw new ArgumentNullException("scanner");
 
             List<CardContainer> cardContainers = new List<CardContainer>();
-
+            
+            //创建卡片控件
             foreach (var article in this.articleManager.GetNewArticles(source))
             {
                 if (article == null) continue;
@@ -174,7 +174,6 @@ namespace LeonReader.Client
                 CardContainer cardContainer = this.cardFactory.CreateLargeCard(article);
                 cardContainers.Add(cardContainer);
             }
-
             foreach (var article in this.articleManager.GetDownloadedArticle(source))
             {
                 if (article == null) continue;
@@ -182,7 +181,6 @@ namespace LeonReader.Client
                 CardContainer cardContainer = this.cardFactory.CreateNormalCard(article);
                 cardContainers.Add(cardContainer);
             }
-
             foreach (var article in this.articleManager.GetReadedArticles(source))
             {
                 if (article == null) continue;
@@ -191,13 +189,24 @@ namespace LeonReader.Client
                 cardContainers.Add(cardContainer);
             }
 
+            //创建卡片关联处理器
             if (scanner.AnalyzerType != null)
             {
-                //TODO: 记录程序集对象  创建ADE
                 foreach (var cardContainer in cardContainers)
-                    ;// cardContainer.Analyzer=scanner.
+                    cardContainer.Analyzer = scanner.GetType().Assembly.CreateInstance(scanner.AnalyzerType) as Analyzer;
+            }
+            if (scanner.DownloaderType != null)
+            {
+                foreach (var cardContainer in cardContainers)
+                    cardContainer.Downloader = scanner.GetType().Assembly.CreateInstance(scanner.DownloaderType) as Downloader;
+            }
+            if (scanner.ExportedType != null)
+            {
+                foreach (var cardContainer in cardContainers)
+                    cardContainer.Exporter = scanner.GetType().Assembly.CreateInstance(scanner.ExportedType) as Exporter;
             }
 
+            //显示控件
             foreach (var cardContainer in cardContainers)
             {
                 this.AddCardContainer(flowPanel, cardContainer);

@@ -56,7 +56,7 @@ namespace LeonReader.Client.Factory
             CardContainer cardContainer = this.CreateCardContainer(article);
             cardContainer.Size = new Size(675, 118);
             cardContainer.Style = CardContainer.CardStyles.Normal;
-
+            cardContainer.StateText = $"已缓存文章内容：{article.Contents.Count}";
             return cardContainer;
         }
 

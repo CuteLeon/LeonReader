@@ -324,7 +324,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 状态文本
         /// </summary>
-        public string StateText { get => this.DUIStateLabel.Text; protected set => this.DUIStateLabel.Text = value; }
+        public string StateText { get => this.DUIStateLabel.Text; set => this.DUIStateLabel.Text = value; }
 
         #endregion
 
@@ -601,12 +601,23 @@ namespace LeonReader.Client.DirectUI.Container
 
             this.DUIMainButton.Name = "主按钮";
             this.DUIMainButton.Mouseable = true;
+            this.DUIMainButton.TextAlign = ContentAlignment.MiddleCenter;
+            this.DUIMainButton.ForeColor = Color.OrangeRed;
+            this.DUIMainButton.ShowEllipsis = false;
+            this.DUIMainButton.Text = "爆发吧";
             this.DUIMainButton.BackgroundImage = UnityResource.Button_0;
             this.DUIMainButton.BackgroundImageLayout = ImageLayout.Stretch;
-            this.DUIMainButton.Padding = new Padding(6, 0, 6, 0);
+            this.DUIMainButton.Padding = new Padding(0, 0, 0, 0);
             this.DUIMainButton.Click += (s, e) => 
             {
-
+                try
+                {
+                    this.SwitchProcesser();
+                }
+                catch (Exception ex)
+                {
+                    this.DUIStateLabel.Text = ex.Message;
+                }
                 MainButtonClick?.Invoke(this, EventArgs.Empty);
             };
             this.DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_1; };
