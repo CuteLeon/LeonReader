@@ -1,7 +1,6 @@
 ﻿using System;
 
 using LeonReader.Common;
-using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
@@ -11,7 +10,6 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class Scanner : Processer
     {
-
         /// <summary>
         /// 扫描目录
         /// </summary>

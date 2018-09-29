@@ -43,7 +43,7 @@ namespace LeonReader.Client
         /// </summary>
         private void ClearCatalogControl()
         {
-            foreach (var flowPanel in this.PanelInTabPage.Values)
+            foreach (var flowPanel in this.TabPage_Panel_Rel.Values)
             {
                 if (flowPanel != null)
                 {
@@ -54,11 +54,12 @@ namespace LeonReader.Client
                     flowPanel.Dispose();
                 }
             }
-            foreach (var tabPage in this.PanelInTabPage.Keys)
+            foreach (var tabPage in this.TabPage_Panel_Rel.Keys)
             {
                 tabPage.Dispose();
             }
-            this.PanelInTabPage.Clear();
+            this.TabPage_Panel_Rel.Clear();
+            this.Scanner_TabPage_Rel.Clear();
         }
 
         /// <summary>
@@ -86,6 +87,8 @@ namespace LeonReader.Client
                     TabPage tabPage = this.CreateCatalogContainer(scanner.SADESource);
                     try
                     {
+                        //记录扫描器关联的容器控件
+                        this.Scanner_TabPage_Rel.Add(scanner, tabPage);
                         scanner.ProcessReport += (s, e) => 
                         {
                             tabPage.Text = $"{scanner.SADESource}-发现：{e.ProgressPercentage}";
@@ -125,7 +128,7 @@ namespace LeonReader.Client
             tabPage.Controls.Add(flowPanel);
             flowPanel.Dock = DockStyle.Fill;
 
-            this.PanelInTabPage.Add(tabPage, flowPanel);
+            this.TabPage_Panel_Rel.Add(tabPage, flowPanel);
             return tabPage;
         }
 
@@ -139,12 +142,13 @@ namespace LeonReader.Client
             LogUtils.Info($"扫描器处理完成：{(sender as Scanner).SADESource} {(e.Cancelled ? "(手动取消)" : "")}");
 
             Scanner scanner = sender as Scanner;
-            TabPage tabPage = scanner.Argument as TabPage;
+            TabPage tabPage = this.Scanner_TabPage_Rel[scanner] as TabPage;
 
-            this.LoadCatalog(this.PanelInTabPage[tabPage], scanner.SADESource);
+            this.LoadCatalog(this.TabPage_Panel_Rel[tabPage], scanner.SADESource);
             tabPage.Text = scanner.SADESource;
 
             //扫描完成释放扫描器
+            this.Scanner_TabPage_Rel.Remove(scanner);
             scanner.Dispose();
         }
 

@@ -50,12 +50,7 @@ namespace LeonReader.AbstractSADE
         public bool IsBusy { get => this.ProcessWorker.IsBusy; }
 
         #endregion
-
-        /// <summary>
-        /// 附加参数对象
-        /// </summary>
-        public object Argument { get; protected set; }
-
+        
         /// <summary>
         /// 文章处理源
         /// </summary>
@@ -107,7 +102,6 @@ namespace LeonReader.AbstractSADE
         public virtual void Process(object argument)
         {
             if (this.ProcessWorker.IsBusy) return;
-            this.Argument = argument;
             this.ProcessWorker.RunWorkerAsync(argument);
         }
 

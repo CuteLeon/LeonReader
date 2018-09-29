@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+using LeonReader.AbstractSADE;
 using LeonReader.ArticleContentManager;
 using LeonReader.Client.Factory;
 using LeonReader.Common;
@@ -36,7 +37,12 @@ namespace LeonReader.Client
         /// <summary>
         /// 目录Tab容器与内流式布局容器对应关系
         /// </summary>
-        Dictionary<TabPage, FlowLayoutPanel> PanelInTabPage = new Dictionary<TabPage, FlowLayoutPanel>();
+        Dictionary<TabPage, FlowLayoutPanel> TabPage_Panel_Rel = new Dictionary<TabPage, FlowLayoutPanel>();
+
+        /// <summary>
+        /// 扫描器和TabPage关联字典
+        /// </summary>
+        Dictionary<Scanner, TabPage> Scanner_TabPage_Rel = new Dictionary<Scanner, TabPage>();
 
         #endregion
 
