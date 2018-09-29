@@ -2,8 +2,10 @@
 using System.Diagnostics;
 
 using LeonReader.Client.DirectUI.Container;
+using LeonReader.Client.Factory;
 using LeonReader.Common;
 using LeonReader.Model;
+using MetroFramework.Forms;
 
 namespace LeonReader.Client
 {
@@ -19,7 +21,19 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_TitleClick(object sender, EventArgs e)
         {
-            //TODO: 判断文章状态，并阅读文章
+            CardContainer cardContainer = sender as CardContainer ?? throw new ArgumentNullException(nameof(sender));
+            Article article = cardContainer.Article;
+            if (article == null) return;
+
+            string ArticleFilePath = IOUtils.PathCombine(
+                ConfigHelper.GetConfigHelper.DownloadDirectory,
+                article.DownloadDirectoryName,
+                string.Format("{0}.{1}", article.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
+                );
+
+            MetroForm readerForm = ReaderFormFactory.CreateReaderForm(ArticleFilePath);
+            readerForm.FormClosed += (s, v) => { cardContainer.ArticleState = CardContainer.ArticleStates.Exported; };
+            readerForm.Show(this);
         }
 
         /// <summary>

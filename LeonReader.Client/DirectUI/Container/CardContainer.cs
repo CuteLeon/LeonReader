@@ -74,7 +74,7 @@ namespace LeonReader.Client.DirectUI.Container
         public ArticleStates ArticleState
         {
             get => this._articleState;
-            protected set
+            set
             {
                 if (this._articleState != value)
                 {
@@ -611,7 +611,7 @@ namespace LeonReader.Client.DirectUI.Container
             this.DUIMainButton.BackgroundImage = UnityResource.Button_0;
             this.DUIMainButton.BackgroundImageLayout = ImageLayout.Stretch;
             this.DUIMainButton.Padding = new Padding(0, 0, 0, 0);
-            this.DUIMainButton.Click += (s, e) => 
+            this.DUIMainButton.Click += (s, e) =>
             {
                 try
                 {
@@ -995,7 +995,7 @@ namespace LeonReader.Client.DirectUI.Container
             if (this.Article == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
             if (this._exporter == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
-            
+
             this.ArticleState = ArticleStates.Exporting;
             this._exporter.Process(this.Article);
         }
@@ -1109,22 +1109,20 @@ namespace LeonReader.Client.DirectUI.Container
                     }
                 case ArticleStates.Exported:
                     {
-                        MessageBox.Show("阅读");
+                        this.TitleClick?.Invoke(this, EventArgs.Empty);
+                        this.ArticleState = ArticleStates.Reading;
                         break;
                     }
                 case ArticleStates.Reading:
                     {
-                        MessageBox.Show("正在阅读");
                         break;
                     }
                 case ArticleStates.Readed:
                     {
-                        MessageBox.Show("阅读完成");
                         break;
                     }
                 case ArticleStates.Cancelling:
                     {
-                        MessageBox.Show("正在取消");
                         break;
                     }
                 default:
