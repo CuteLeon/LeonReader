@@ -19,6 +19,8 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void UnityToolContainer_RefreshClick(object sender, EventArgs e)
         {
+            CardContainer cardContainer = new CardContainer();
+
             this.RefreshCatalogList();
         }
 

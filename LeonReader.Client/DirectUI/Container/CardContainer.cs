@@ -92,6 +92,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// <param name="articleState"></param>
         protected virtual void SwitchState(ArticleStates articleState)
         {
+            //TODO: 状态改变切换界面显示的代码放在这里（DUIStateLabel由Processer控制，在这里排除）
             switch (articleState)
             {
                 case ArticleStates.New:
@@ -822,9 +823,12 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         public void OnAnalyze()
         {
-            if (this._analyzer == null) return;
+            if (this.ArticleState < ArticleStates.New) throw new Exception("文章状态需要至少为 New 才允许分析");
+            if (this.Article == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
+            if (this._analyzer == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
 
+            //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Analyzing;
             this._analyzer.Process();
         }
@@ -897,9 +901,12 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         public void OnDownload()
         {
-            if (this._downloader == null) return;
+            if (this.ArticleState < ArticleStates.Analyzed) throw new Exception("文章状态需要至少为 Analyzed 才允许分析");
+            if (this.Article == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
+            if (this._downloader == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
 
+            //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Downloading;
             this._downloader.Process();
         }
@@ -972,9 +979,12 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         public void OnExport()
         {
-            if (this._exporter == null) return;
+            if (this.ArticleState < ArticleStates.Downloaded) throw new Exception("文章状态需要至少为 Downloaded 才允许分析");
+            if (this.Article == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
+            if (this._exporter == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
-
+            
+            //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Exporting;
             this._exporter.Process();
         }

@@ -49,7 +49,11 @@
 		下载器处理完成：e.Result = $"{成功个数} 个成功, {失败个数} 个失败";
 		分析器报告进度：null
 		分析器处理完成：e.Result = 导出路径;
+	11. 向SADE处理器传入数据：
+		扫描器：通过 TargetURI 设置目录页面地址即可；
+		分析器：
 8. Card 控件使用 LeonDirectUI 框架实现，并设计三种显示模式。具体框架使用相关问题访问：https://github.com/CuteLeon/LeonDirectUI；
 9. UI 与 DAL 之间增加 Manager 层，UI 层可直接访问 DAL 层的数据模型，但是不要直接调用 DBContext 对象，具体业务逻辑由 Manager 封装；
 10. 新增的 SADE 库的动态链接库放置于程序根目录即可，文件名称以 "SADE.DLL" 结尾，可忽略大小写，否则程序无法识别此 SADE 组件；
 11. 代码规范： VS> 工具> 选项> 文本编辑器> C#> 代码样式> 常规> "this."首选项=> 首选"this."，防止静态类或方法污染代码；
+12. CardContainer 内含 ArticleState 属性展示当前文章处理状态（对外部只读），用户可以通过 OnAnalyze()、OnDownload、OnExport、OnCancelXXX() 方法依次处理文章；
