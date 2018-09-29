@@ -828,7 +828,6 @@ namespace LeonReader.Client.DirectUI.Container
             if (this._analyzer == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
 
-            //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Analyzing;
             this._analyzer.Process(this.Article);
         }
@@ -906,7 +905,6 @@ namespace LeonReader.Client.DirectUI.Container
             if (this._downloader == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
 
-            //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Downloading;
             this._downloader.Process(this.Article);
         }
@@ -984,7 +982,6 @@ namespace LeonReader.Client.DirectUI.Container
             if (this._exporter == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
             
-            //TODO: 传入文章信息参数
             this.ArticleState = ArticleStates.Exporting;
             this._exporter.Process(this.Article);
         }

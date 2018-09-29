@@ -10,6 +10,25 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class Scanner : Processer
     {
+        #region 关联ADE类型
+
+        /// <summary>
+        /// 关联的分析器类型
+        /// </summary>
+        public abstract Type AnalyzerType { get; protected set; }
+
+        /// <summary>
+        /// 关联的下载器类型
+        /// </summary>
+        public abstract Type DownloaderType { get; protected set; }
+
+        /// <summary>
+        /// 关联的导出器类型
+        /// </summary>
+        public abstract Type ExportedType { get; protected set; }
+
+        #endregion
+
         /// <summary>
         /// 目录地址链接
         /// </summary>

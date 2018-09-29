@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -6,6 +7,7 @@ using System.Windows.Forms;
 using LeonReader.AbstractSADE;
 using LeonReader.Client.DirectUI.Container;
 using LeonReader.Common;
+using LeonReader.Model;
 
 namespace LeonReader.Client
 {
@@ -89,7 +91,7 @@ namespace LeonReader.Client
                     {
                         //记录扫描器关联的容器控件
                         this.Scanner_TabPage_Rel.Add(scanner, tabPage);
-                        scanner.ProcessReport += (s, e) => 
+                        scanner.ProcessReport += (s, e) =>
                         {
                             tabPage.Text = $"{scanner.SADESource}-发现：{e.ProgressPercentage}";
                             Application.DoEvents();
@@ -144,7 +146,7 @@ namespace LeonReader.Client
             Scanner scanner = sender as Scanner;
             TabPage tabPage = this.Scanner_TabPage_Rel[scanner] as TabPage;
 
-            this.LoadCatalog(this.TabPage_Panel_Rel[tabPage], scanner.SADESource);
+            this.LoadCatalog(this.TabPage_Panel_Rel[tabPage], scanner.SADESource, scanner);
             tabPage.Text = scanner.SADESource;
 
             //扫描完成释放扫描器
@@ -155,16 +157,22 @@ namespace LeonReader.Client
         /// <summary>
         /// 加载目录
         /// </summary>
-        private void LoadCatalog(FlowLayoutPanel flowPanel, string source)
+        /// <param name="flowPanel"></param>
+        /// <param name="source"></param>
+        /// <param name="scanner"></param>
+        private void LoadCatalog(FlowLayoutPanel flowPanel, string source, Scanner scanner)
         {
             if (flowPanel == null) throw new ArgumentNullException("flowPanel");
+            if (scanner == null) throw new ArgumentNullException("scanner");
+
+            List<CardContainer> cardContainers = new List<CardContainer>();
 
             foreach (var article in this.articleManager.GetNewArticles(source))
             {
                 if (article == null) continue;
 
                 CardContainer cardContainer = this.cardFactory.CreateLargeCard(article);
-                this.AddCardContainer(flowPanel, cardContainer);
+                cardContainers.Add(cardContainer);
             }
 
             foreach (var article in this.articleManager.GetDownloadedArticle(source))
@@ -172,7 +180,7 @@ namespace LeonReader.Client
                 if (article == null) continue;
 
                 CardContainer cardContainer = this.cardFactory.CreateNormalCard(article);
-                this.AddCardContainer(flowPanel, cardContainer);
+                cardContainers.Add(cardContainer);
             }
 
             foreach (var article in this.articleManager.GetReadedArticles(source))
@@ -180,6 +188,18 @@ namespace LeonReader.Client
                 if (article == null) continue;
 
                 CardContainer cardContainer = this.cardFactory.CreateSmallCard(article);
+                cardContainers.Add(cardContainer);
+            }
+
+            if (scanner.AnalyzerType != null)
+            {
+                //TODO: 记录程序集对象  创建ADE
+                foreach (var cardContainer in cardContainers)
+                    ;// cardContainer.Analyzer=scanner.
+            }
+
+            foreach (var cardContainer in cardContainers)
+            {
                 this.AddCardContainer(flowPanel, cardContainer);
             }
         }
@@ -188,6 +208,7 @@ namespace LeonReader.Client
         /// 添加卡片控件
         /// </summary>
         /// <param name="flowPanel"></param>
+        /// <param name="cardContainer"></param>
         private void AddCardContainer(FlowLayoutPanel flowPanel, CardContainer cardContainer)
         {
             if (flowPanel == null)

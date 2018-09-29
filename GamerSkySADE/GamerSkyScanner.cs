@@ -22,6 +22,25 @@ namespace GamerSkySADE
         /// </summary>
         public override Uri TargetCatalogURI { get; protected set; } = new Uri(@"https://www.gamersky.com/ent/qw/");
 
+        #region 关联的ADE类型
+
+        /// <summary>
+        /// 关联的分析器类型
+        /// </summary>
+        public override Type AnalyzerType { get; protected set; } = typeof(GamerSkyAnalyzer);
+
+        /// <summary>
+        /// 关联的下载器类型
+        /// </summary>
+        public override Type DownloaderType { get; protected set; } = typeof(GamerSkyDownloader);
+
+        /// <summary>
+        /// 关联的导出器类型
+        /// </summary>
+        public override Type ExportedType { get; protected set; } = typeof(GamerSkyExporter);
+
+        #endregion
+
         /// <summary>
         /// 扫描 GamerSky 文章
         /// </summary>
