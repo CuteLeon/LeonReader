@@ -92,6 +92,7 @@ namespace LeonReader.Client
                         this.Scanner_TabPage_Rel.Add(scanner, tabPage);
                         scanner.ProcessReport += (s, e) =>
                         {
+                            //e.UserState 即为文章实体对象，但如果此时加入界面因为预览图像尚未下载成功而导致无法显示预览图的可能性更大，而且无法对新文章、缓存文章、已读文章分组显示
                             tabPage.Text = $"{scanner.SADESource}-发现：{e.ProgressPercentage}";
                             Application.DoEvents();
                         };
