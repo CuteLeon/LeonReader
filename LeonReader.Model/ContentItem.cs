@@ -11,6 +11,29 @@ namespace LeonReader.Model
     [Table("Contents")]
     public class ContentItem
     {
+        #region 内容状态
+
+        /// <summary>
+        /// 内容状态
+        /// </summary>
+        public enum ContentStates
+        {
+            /// <summary>
+            /// 新内容
+            /// </summary>
+            New = 0,
+            /// <summary>
+            /// 正在下载
+            /// </summary>
+            Downloading = 1,
+            /// <summary>
+            /// 已下载
+            /// </summary>
+            Downloaded = 2,
+        }
+
+        #endregion
+
         #region 数据库字段
 
         /// <summary>
@@ -39,6 +62,19 @@ namespace LeonReader.Model
         [DisplayName("图像文件名称"), DataType(DataType.Text)]
         public string ImageFileName { get; set; }
 
+        /// <summary>
+        /// 页面链接地址
+        /// </summary>
+        [DisplayName("页面链接地址"), DataType(DataType.Url)]
+        public string PageLink { get; set; }
+
+        /// <summary>
+        /// 内容状态
+        /// </summary>
+        [Required]
+        [DisplayName("内容状态")]
+        public ContentStates State { get; set; } = ContentStates.New;
+
         #endregion
 
         public ContentItem() { }
@@ -51,12 +87,10 @@ namespace LeonReader.Model
         public ContentItem(string description, string link) : this(description)
         {
             this.ImageLink = link;
-            //ImageFileName = IOUtils.GetFileName(link);
         }
 
-        public ContentItem(string description, string link, string filename) : this(description)
+        public ContentItem(string description, string link, string filename) : this(description, link)
         {
-            this.ImageLink = link;
             this.ImageFileName = filename;
         }
 

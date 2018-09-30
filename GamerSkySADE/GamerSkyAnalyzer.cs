@@ -12,7 +12,6 @@ namespace GamerSkySADE
 {
     public class GamerSkyAnalyzer : Analyzer
     {
-        //TODO: 内容实体类增加所在页面地址字段（用于分析器续作）和下载状态字段（用于下载器续作）
         //TODO: GS ADE 根据数据库记录的文章状态跳过步骤
         //TODO: GS 下载器跳过已经下载过的文章内容
 
@@ -43,7 +42,7 @@ namespace GamerSkySADE
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
             if (article.Contents != null && article.Contents.Count > 0)
                 this.TargetContentManager.ClearContents(article);
-
+            
             //开始任务
             foreach (var content in this.AnalyseArticle(article.ArticleLink))
             {
