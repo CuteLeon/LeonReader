@@ -92,7 +92,7 @@ namespace LeonReader.AbstractSADE
             if (this.ProcessWorker.CancellationPending) return;
             //调用子类SADE类的方法
             LogUtils.Debug($"开始处理子SADE类的 [处理开始] 方法：From：{this.SADESource}");
-            this.OnProcessStarted(this.ProcessWorker, e);
+            this.OnProcessStarted(this, e);
         }
 
         /// <summary>
@@ -135,8 +135,8 @@ namespace LeonReader.AbstractSADE
 
             //调用子类SADE类的方法
             LogUtils.Debug($"开始处理子SADE类的 [处理完成] 方法：From：{this.SADESource}");
-            this.OnProcessCompleted(this.ProcessWorker, e);
-
+            this.OnProcessCompleted(this, e);
+            
             //优先内部处理完完成事件再通知外部
             ProcessCompleted?.Invoke(this, e);
         }

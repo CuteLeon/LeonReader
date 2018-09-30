@@ -39,7 +39,6 @@ namespace GamerSkySADE
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
             if (article.Contents != null && article.Contents.Count > 0)
                 this.TargetContentManager.ClearContents(article);
-            this.TargetArticleManager.SetAnalyzeTime(article, DateTime.Now);
 
             //开始任务
             foreach (var content in this.AnalyseArticle(article.ArticleLink))

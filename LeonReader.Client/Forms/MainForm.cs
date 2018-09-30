@@ -114,7 +114,7 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void UnityToolContainer_LogClick(object sender, EventArgs e)
         {
-            //TODO: 点击日志按钮
+            System.Diagnostics.Process.Start(LogUtils.LogFilePath);
         }
 
         /// <summary>

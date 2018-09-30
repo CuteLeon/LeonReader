@@ -92,7 +92,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// <param name="articleState"></param>
         protected virtual void SwitchUI(ArticleStates articleState)
         {
-            //TODO: 状态改变切换界面显示的代码放在这里（DUIStateLabel由Processer控制，在这里排除）
+            //TODO: [提醒] 状态改变切换界面显示的代码放在这里（DUIStateLabel由Processer控制，在这里排除）
             switch (articleState)
             {
                 case ArticleStates.New:
@@ -152,7 +152,7 @@ namespace LeonReader.Client.DirectUI.Container
 
         #region 关联对象 [代理模式]
 
-        //TODO: 注入文章依赖对象后根据文章状态修改此控件状态并相应界面（显示下载进度）
+        //TODO: 注入文章依赖对象后根据文章状态修改此控件状态并相应界面（显示进度）
 
         /// <summary>
         /// 文章对象

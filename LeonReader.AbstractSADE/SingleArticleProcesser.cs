@@ -11,6 +11,10 @@ namespace LeonReader.AbstractSADE
     /// </summary>
     public abstract class SingleArticleProcesser : Processer
     {
+        /// <summary>
+        /// 关联的文章对象
+        /// </summary>
+        public Article Article { get; protected set; }
 
         /// <summary>
         /// 目标文章内容管理对象
@@ -32,6 +36,7 @@ namespace LeonReader.AbstractSADE
 
             LogUtils.Info($"开始分析文章链接：{argument.ArticleLink}，From：{this.SADESource}");
 
+            this.Article = argument;
             this.PreConfigProcess(argument);
             this.ProcessWorker.RunWorkerAsync(argument);
         }
