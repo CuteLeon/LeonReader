@@ -17,6 +17,7 @@ namespace LeonReader.Client.Factory
         {
             MetroForm readerForm = new MetroForm()
             {
+                Icon = UnityResource.LeonReader,
                 Width = 800,
                 Height = 600
             };
