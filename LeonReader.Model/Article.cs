@@ -155,7 +155,7 @@ namespace LeonReader.Model
         /// </summary>
         //[NotMapped]
         [Required]
-        [DisplayName("文章文件名称（相对）")]
+        [DisplayName("文章文件名称（相对）"), DataType(DataType.Text)]
         public string ArticleFileName { get; set; }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace LeonReader.Model
         /// </summary>
         //[NotMapped]
         [Required]
-        [DisplayName("下载目录名称（相对）")]
+        [DisplayName("下载目录名称（相对）"), DataType(DataType.Text)]
         public string DownloadDirectoryName { get; set; }
 
         /// <summary>

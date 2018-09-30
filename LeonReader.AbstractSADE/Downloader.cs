@@ -20,19 +20,19 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcesser()
         {
-            this.TargetArticleManager.SetDownloadTime(this.TargetArticle, DateTime.Now);
+            this.TargetACManager.SetDownloadTime(this.TargetArticle, DateTime.Now);
 
             this.DownloadDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 this.TargetArticle.DownloadDirectoryName
                 );
 
-            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloading);
+            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloading);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloaded);
+            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloaded);
         }
 
     }

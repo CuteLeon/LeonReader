@@ -12,8 +12,6 @@ namespace LeonReader.Client
 {
     public partial class MainForm
     {
-        //TODO: 卡片的事件不要由 Form 处理了，将卡片关联的Manager、文章、处理器解耦，由关联对象的管理器处理卡片的事件
-
         #region 卡片控件事件
 
         /// <summary>
@@ -46,7 +44,7 @@ namespace LeonReader.Client
         private void CardContainer_ReadedClick(object sender, EventArgs e)
         {
             CardContainer cardContainer = sender as CardContainer;
-            this.TargetArticleManager.SetArticleState(cardContainer.TargetArticle, Article.ArticleStates.Readed);
+            this.TargetACManager.SetArticleState(cardContainer.TargetArticle, Article.ArticleStates.Readed);
             cardContainer.Style = CardContainer.CardStyles.Small;
         }
 

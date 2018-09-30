@@ -15,13 +15,13 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcesser()
         {
-            this.TargetArticleManager.SetAnalyzeTime(this.TargetArticle, DateTime.Now);
-            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzing);
+            this.TargetACManager.SetAnalyzeTime(this.TargetArticle, DateTime.Now);
+            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzing);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzed);
+            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzed);
         }
 
     }

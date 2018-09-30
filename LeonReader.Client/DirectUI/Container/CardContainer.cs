@@ -6,262 +6,233 @@ using System.Windows.Forms;
 using LeonDirectUI.Container;
 using LeonDirectUI.DUIControl;
 
-using LeonReader.AbstractSADE;
-using LeonReader.Common;
-using LeonReader.Model;
-
 namespace LeonReader.Client.DirectUI.Container
 {
+
+    //TODO: 检查各状态下 StateText 能否显示全，调整状态文本或控件大小
+
     /// <summary>
     /// 卡片控件基础容器
     /// </summary>
     public class CardContainer : ContainerBase
     {
-
-        #region 状态
+        #region 切换界面状态
 
         /// <summary>
-        /// 文章状态枚举
+        /// 新建
         /// </summary>
-        public enum ArticleStates
+        public void OnNewState()
         {
-            /// <summary>
-            /// 新文章
-            /// </summary>
-            New = 0,
-            /// <summary>
-            /// 正在取消
-            /// </summary>
-            Cancelling = 1,
-            /// <summary>
-            /// 正在分析
-            /// </summary>
-            Analyzing = 2,
-            /// <summary>
-            /// 分析完毕
-            /// </summary>
-            Analyzed = 3,
-            /// <summary>
-            /// 正在下载
-            /// </summary>
-            Downloading = 4,
-            /// <summary>
-            /// 下载完成
-            /// </summary>
-            Downloaded = 5,
-            /// <summary>
-            /// 正在导出
-            /// </summary>
-            Exporting = 6,
-            /// <summary>
-            /// 导出完成
-            /// </summary>
-            Exported = 7,
-            /// <summary>
-            /// 正在阅读
-            /// </summary>
-            Reading = 8,
-            /// <summary>
-            /// 已读
-            /// </summary>
-            Readed = 9,
-            /// <summary>
-            /// 正在删除
-            /// </summary>
-            Deleting = 10,
-            /// <summary>
-            /// 已经删除
-            /// </summary>
-            Deleted = 11,
+            this.DUIMainButton.Text = "分析";
         }
 
-        private ArticleStates _articleState;
-        /// <summary>
-        /// 文章状态
-        /// </summary>
-        public ArticleStates ArticleState
-        {
-            get => this._articleState;
-            set
-            {
-                if (this._articleState != value)
-                {
-                    this._articleState = value;
+        #region 分析
 
-                    this.SwitchUI(value);
-                    this.ArticleStateChanged?.Invoke(this, value);
-                }
+        /// <summary>
+        /// 开始分析
+        /// </summary>
+        public void OnAnalyze()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始分析文章..."));
+                this.DUIMainButton.Text = "取消";
+            }
+            else
+            {
+                this.DUIStateLabel.Text = "开始分析文章...";
+                this.DUIMainButton.Text = "取消";
             }
         }
 
         /// <summary>
-        /// 切换文章状态
+        /// 报告分析进度
         /// </summary>
-        /// <param name="articleState"></param>
-        protected virtual void SwitchUI(ArticleStates articleState)
+        /// <param name="pageCount">页数</param>
+        /// <param name="imageCount">图数</param>
+        public void OnAnalyzeReport(int pageCount, int imageCount)
         {
-            //TODO: [提醒] 状态改变切换界面显示的代码放在这里（DUIStateLabel由Processer控制，在这里排除）
-            switch (articleState)
-            {
-                case ArticleStates.New:
-                    {
-                        this.DUIMainButton.Text = "分析";
-                        break;
-                    }
-                case ArticleStates.Analyzing:
-                    {
-                        this.DUIMainButton.Text = "取消";
-                        break;
-                    }
-                case ArticleStates.Analyzed:
-                    {
-                        this.DUIMainButton.Text = "下载";
-                        break;
-                    }
-                case ArticleStates.Downloading:
-                    {
-                        this.DUIMainButton.Text = "取消";
-                        break;
-                    }
-                case ArticleStates.Downloaded:
-                    {
-                        this.DUIMainButton.Text = "导出";
-                        break;
-                    }
-                case ArticleStates.Exporting:
-                    {
-                        this.DUIMainButton.Text = "取消";
-                        break;
-                    }
-                case ArticleStates.Exported:
-                    {
-                        this.DUIMainButton.Text = "阅读";
-                        break;
-                    }
-                case ArticleStates.Reading:
-                    {
-                        this.DUIMainButton.Text = "正在阅读";
-                        break;
-                    }
-                case ArticleStates.Readed:
-                    {
-                        this.DUIMainButton.Text = "阅读";
-                        break;
-                    }
-                default:
-                    {
-                        LogUtils.Warn($"CardContainer 切换到未支持的文章状态：{articleState}");
-                        break;
-                    }
-            }
+            this.DUIStateLabel.Text = $"分析进度：{pageCount} 页 {imageCount} 图";
+        }
+
+        /// <summary>
+        /// 取消了分析任务
+        /// </summary>
+        public void OnAnalyzeCanceled()
+        {
+            this.DUIStateLabel.Text = "用户取消了分析...";
+            this.DUIMainButton.Text = "分析";
+        }
+
+        /// <summary>
+        /// 分析遇到错误
+        /// </summary>
+        /// <param name="ex"></param>
+        public void OnAnalyzeError(Exception ex)
+        {
+            this.DUIStateLabel.Text = $"分析异常: {ex.Message}";
+            this.DUIMainButton.Text = "重新分析";
+        }
+
+        /// <summary>
+        /// 分析完成
+        /// </summary>
+        /// <param name="contentCount">内容总数</param>
+        public void OnAnalyzed(int contentCount)
+        {
+            this.DUIStateLabel.Text = $"分析完成：{contentCount} 个内容";
+            this.DUIMainButton.Text = "下载";
         }
 
         #endregion
 
-        #region 关联对象 [代理模式]
-
-        //TODO: 注入文章依赖对象后根据文章状态修改此控件状态并相应界面（显示进度）
+        #region 下载
 
         /// <summary>
-        /// 文章对象
+        /// 开始下载
         /// </summary>
-        public Article TargetArticle { get; set; }
-
-        private Analyzer _analyzer;
-        /// <summary>
-        /// 关联分析器
-        /// </summary>
-        public Analyzer Analyzer
+        public void OnDownload()
         {
-            get => this._analyzer;
-            set
+            if (this.InvokeRequired)
             {
-                if (this._analyzer == value) return;
-
-                if (this._analyzer != null)
-                {
-                    this._analyzer.ProcessCompleted -= this.Analyzer_ProcessCompleted;
-                    this._analyzer.ProcessReport -= this.Analyzer_ProcessReport;
-                    this._analyzer.ProcessStarted -= this.Analyzer_ProcessStarted;
-                }
-
-                this._analyzer = value;
-
-                if (this._analyzer != null)
-                {
-                    this._analyzer.ProcessCompleted += this.Analyzer_ProcessCompleted;
-                    this._analyzer.ProcessReport += this.Analyzer_ProcessReport;
-                    this._analyzer.ProcessStarted += this.Analyzer_ProcessStarted;
-                }
+                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始下载文章..."));
+                this.DUIMainButton.Text = "取消";
+            }
+            else
+            {
+                this.DUIStateLabel.Text = "开始下载文章...";
+                this.DUIMainButton.Text = "取消";
             }
         }
 
-        private Downloader _downloader;
         /// <summary>
-        /// 关联下载器
+        /// 报告下载进度
         /// </summary>
-        public Downloader Downloader
+        /// <param name="successCount">成功个数</param>
+        /// <param name="failedCount">失败个数</param>
+        public void OnDownloadReport(int successCount, int failedCount)
         {
-            get => this._downloader;
-            set
+            this.DUIStateLabel.Text = $"下载中，成功: {successCount}, 失败: {failedCount}";
+        }
+
+        /// <summary>
+        /// 取消了下载任务
+        /// </summary>
+        public void OnDownloadCanceled()
+        {
+            this.DUIStateLabel.Text = "用户取消了下载...";
+            this.DUIMainButton.Text = "下载";
+        }
+
+        /// <summary>
+        /// 下载遇到错误
+        /// </summary>
+        /// <param name="ex"></param>
+        public void OnDownloadError(Exception ex)
+        {
+            this.DUIStateLabel.Text = $"下载异常: {ex.Message}";
+            this.DUIMainButton.Text = "重新下载";
+        }
+
+        /// <summary>
+        /// 下载完成
+        /// </summary>
+        /// <param name="result">[成功总数, 失败总数]</param>
+        public void OnDownloaded(Tuple<int, int> result)
+        {
+            this.DUIStateLabel.Text = $"下载完成，成功: {result.Item1}, 失败: {result.Item2}";
+            this.DUIMainButton.Text = "导出";
+        }
+
+        #endregion
+
+        #region 导出
+
+        /// <summary>
+        /// 开始导出
+        /// </summary>
+        public void OnExport()
+        {
+            if (this.InvokeRequired)
             {
-                if (this._downloader == value) return;
-
-                if (this._downloader != null)
-                {
-                    this._downloader.ProcessCompleted -= this.Downloader_ProcessCompleted;
-                    this._downloader.ProcessReport -= this.Downloader_ProcessReport;
-                    this._downloader.ProcessStarted -= this.Downloader_ProcessStarted;
-                }
-
-                this._downloader = value;
-
-                if (this._downloader != null)
-                {
-                    this._downloader.ProcessCompleted += this.Downloader_ProcessCompleted;
-                    this._downloader.ProcessReport += this.Downloader_ProcessReport;
-                    this._downloader.ProcessStarted += this.Downloader_ProcessStarted;
-                }
+                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始导出文章..."));
+                this.DUIMainButton.Text = "取消";
+            }
+            else
+            {
+                this.DUIStateLabel.Text = "开始导出文章...";
+                this.DUIMainButton.Text = "取消";
             }
         }
 
-        private Exporter _exporter;
         /// <summary>
-        /// 关联导出器
+        /// 报告导出进度
         /// </summary>
-        public Exporter Exporter
+        /// <param name="progress"></param>
+        /// <param name="userstate"></param>
+        public void OnExportReport(int progress, object userstate)
         {
-            get => this._exporter;
-            set
-            {
-                if (this._exporter == value) return;
+            this.DUIStateLabel.Text = $"导出中，进度: {progress}, 状态: {userstate}";
+        }
 
-                if (this._exporter != null)
-                {
-                    this._exporter.ProcessCompleted -= this.Exporter_ProcessCompleted;
-                    this._exporter.ProcessReport -= this.Exporter_ProcessReport;
-                    this._exporter.ProcessStarted -= this.Exporter_ProcessStarted;
-                }
+        /// <summary>
+        /// 取消了导出任务
+        /// </summary>
+        public void OnExportCanceled()
+        {
+            this.DUIStateLabel.Text = "用户取消了导出...";
+            this.DUIMainButton.Text = "导出";
+        }
 
-                this._exporter = value;
+        /// <summary>
+        /// 导出遇到错误
+        /// </summary>
+        /// <param name="ex"></param>
+        public void OnExportError(Exception ex)
+        {
+            this.DUIStateLabel.Text = $"导出异常: {ex.Message}";
+            this.DUIMainButton.Text = "重新导出";
+        }
 
-                if (this._exporter != null)
-                {
-                    this._exporter.ProcessCompleted += this.Exporter_ProcessCompleted;
-                    this._exporter.ProcessReport += this.Exporter_ProcessReport;
-                    this._exporter.ProcessStarted += this.Exporter_ProcessStarted;
-                }
-            }
+        /// <summary>
+        /// 导出完成
+        /// </summary>
+        /// <param name="path">导出路径</param>
+        public void OnExported(string path)
+        {
+            this.DUIStateLabel.Text = $"导出完成: {path}";
+            this.DUIMainButton.Text = "阅读";
+        }
+
+        #endregion
+        
+        /// <summary>
+        /// 开始取消
+        /// </summary>
+        public void OnCancle()
+        {
+            this.DUIMainButton.Text = "正在取消";
+        }
+
+        /// <summary>
+        /// 开始阅读
+        /// </summary>
+        public void OnReading()
+        {
+            this.DUIMainButton.Text = "正在阅读";
+        }
+
+        /// <summary>
+        /// 阅读完成
+        /// </summary>
+        public void OnReaded()
+        {
+            this.DUIMainButton.Text = "重新阅读";
         }
 
         #endregion
 
         #region 自定义事件
-
-        /// <summary>
-        /// 文章状态变化
-        /// </summary>
-        public event EventHandler<ArticleStates> ArticleStateChanged;
 
         /// <summary>
         /// 点击标题
@@ -456,7 +427,6 @@ namespace LeonReader.Client.DirectUI.Container
             this.MouseEnter += (s, e) => { this.DUISpliteLine.BackColor = Color.Red; };
             this.MouseLeave += (s, e) => { this.DUISpliteLine.BackColor = Color.DeepSkyBlue; };
 
-            this.ArticleState = ArticleStates.New;
             this.Style = CardStyles.Normal;
             this.Relayout = this.NormalLayout;
             this.Relayout?.Invoke(this.Width, this.Height);
@@ -619,18 +589,7 @@ namespace LeonReader.Client.DirectUI.Container
             this.DUIMainButton.BackgroundImage = UnityResource.Button_0;
             this.DUIMainButton.BackgroundImageLayout = ImageLayout.Stretch;
             this.DUIMainButton.Padding = new Padding(0, 0, 0, 0);
-            this.DUIMainButton.Click += (s, e) =>
-            {
-                try
-                {
-                    this.SwitchProcesser();
-                }
-                catch (Exception ex)
-                {
-                    this.DUIStateLabel.Text = ex.Message;
-                }
-                MainButtonClick?.Invoke(this, EventArgs.Empty);
-            };
+            this.DUIMainButton.Click += (s, e) => { MainButtonClick?.Invoke(this, EventArgs.Empty); };
             this.DUIMainButton.MouseEnter += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_1; };
             this.DUIMainButton.MouseLeave += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_0; };
             this.DUIMainButton.MouseDown += (s, e) => { this.Invalidate(this.DUIMainButton.Rectangle); this.DUIMainButton.BackgroundImage = UnityResource.Button_2; };
@@ -838,309 +797,5 @@ namespace LeonReader.Client.DirectUI.Container
 
         #endregion
 
-        #region 分析器事件
-
-        /// <summary>
-        /// 开始分析文章
-        /// </summary>
-        public void OnAnalyze()
-        {
-            if (this.ArticleState < ArticleStates.New) throw new Exception("文章状态需要至少为 New 才允许分析");
-            if (this.TargetArticle == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
-            if (this._analyzer == null) throw new ArgumentNullException($"当前文章({this.TargetArticle.Title})关联的分析器为空");
-            if (this.ArticleState == ArticleStates.Cancelling) return;
-
-            this.ArticleState = ArticleStates.Analyzing;
-            this._analyzer.TargetArticle = this.TargetArticle;
-            this._analyzer.Process();
-        }
-
-        /// <summary>
-        /// 取消分析
-        /// </summary>
-        public void OnCancelAnalyze()
-        {
-            if (this._analyzer == null) return;
-            if (this.ArticleState == ArticleStates.Cancelling) return;
-
-            this.ArticleState = ArticleStates.Cancelling;
-            this._analyzer.Cancle();
-        }
-
-        /// <summary>
-        /// 分析器开始事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Analyzer_ProcessStarted(object sender, DoWorkEventArgs e)
-        {
-            if (this.InvokeRequired)
-                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始分析文章..."));
-            else
-                this.DUIStateLabel.Text = "开始分析文章...";
-        }
-
-        /// <summary>
-        /// 分析器报告进度事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Analyzer_ProcessReport(object sender, ProgressChangedEventArgs e)
-        {
-            this.DUIStateLabel.Text = $"分析进度：{e.ProgressPercentage} 页 {e.UserState} 图";
-        }
-
-        /// <summary>
-        /// 分析器完成事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Analyzer_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-            {
-                this.DUIStateLabel.Text = $"用户取消了分析";
-                this.ArticleState = ArticleStates.New;
-            }
-            else if (e.Error != null)
-            {
-                this.DUIStateLabel.Text = $"分析遇到错误：{e.Error.Message}";
-                this.ArticleState = ArticleStates.New;
-            }
-            else
-            {
-                this.DUIStateLabel.Text = $"文章分析完成：{e.Result}";
-                this.ArticleState = ArticleStates.Analyzed;
-            }
-        }
-
-        #endregion
-
-        #region 下载器事件
-
-        /// <summary>
-        /// 开始下载文章
-        /// </summary>
-        public void OnDownload()
-        {
-            if (this.ArticleState < ArticleStates.Analyzed) throw new Exception("文章状态需要至少为 Analyzed 才允许分析");
-            if (this.TargetArticle == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
-            if (this._downloader == null) throw new ArgumentNullException($"当前文章({this.TargetArticle.Title})关联的分析器为空");
-            if (this.ArticleState == ArticleStates.Cancelling) return;
-
-            this.ArticleState = ArticleStates.Downloading;
-            this._downloader.TargetArticle = this.TargetArticle;
-            this._downloader.Process();
-        }
-
-        /// <summary>
-        /// 取消下载
-        /// </summary>
-        public void OnCancelDownload()
-        {
-            if (this._downloader == null) return;
-            if (this.ArticleState == ArticleStates.Cancelling) return;
-
-            this.ArticleState = ArticleStates.Cancelling;
-            this._downloader.Cancle();
-        }
-
-        /// <summary>
-        /// 下载器开始事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Downloader_ProcessStarted(object sender, DoWorkEventArgs e)
-        {
-            if (this.InvokeRequired)
-                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始下载文章..."));
-            else
-                this.DUIStateLabel.Text = "开始下载文章...";
-        }
-
-        /// <summary>
-        /// 下载器报告进度事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Downloader_ProcessReport(object sender, ProgressChangedEventArgs e)
-        {
-            this.DUIStateLabel.Text = $"下载进度：{e.ProgressPercentage} 个成功, {e.UserState} 个失败";
-        }
-
-        /// <summary>
-        /// 下载器报告进度事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Downloader_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-            {
-                this.DUIStateLabel.Text = $"用户取消了下载";
-                this.ArticleState = ArticleStates.Analyzed;
-            }
-            else if (e.Error != null)
-            {
-                this.DUIStateLabel.Text = $"下载遇到错误：{e.Error.Message}";
-                this.ArticleState = ArticleStates.Analyzed;
-            }
-            else
-            {
-                this.DUIStateLabel.Text = $"文章下载完成：{e.Result}";
-                this.ArticleState = ArticleStates.Downloaded;
-            }
-        }
-
-        #endregion
-
-        #region 导出器事件
-
-        /// <summary>
-        /// 开始导出文章
-        /// </summary>
-        public void OnExport()
-        {
-            if (this.ArticleState < ArticleStates.Downloaded) throw new Exception("文章状态需要至少为 Downloaded 才允许分析");
-            if (this.TargetArticle == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
-            if (this._exporter == null) throw new ArgumentNullException($"当前文章({this.TargetArticle.Title})关联的分析器为空");
-            if (this.ArticleState == ArticleStates.Cancelling) return;
-
-            this.ArticleState = ArticleStates.Exporting;
-            this._exporter.TargetArticle = this.TargetArticle;
-            this._exporter.Process();
-        }
-
-        /// <summary>
-        /// 取消导出
-        /// </summary>
-        public void OnCancelExport()
-        {
-            if (this._exporter == null) return;
-            if (this.ArticleState == ArticleStates.Cancelling) return;
-
-            this.ArticleState = ArticleStates.Cancelling;
-            this._exporter.Cancle();
-        }
-
-        /// <summary>
-        /// 导出器开始事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Exporter_ProcessStarted(object sender, DoWorkEventArgs e)
-        {
-            if (this.InvokeRequired)
-                this.Invoke(new Action(() => this.DUIStateLabel.Text = "开始导出文章..."));
-            else
-                this.DUIStateLabel.Text = "开始导出文章...";
-        }
-
-        /// <summary>
-        /// 导出器报告进度事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Exporter_ProcessReport(object sender, ProgressChangedEventArgs e)
-        {
-            this.DUIStateLabel.Text = $"导出进度：{e.ProgressPercentage}";
-        }
-
-        /// <summary>
-        /// 导出器完成事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Exporter_ProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-            {
-                this.DUIStateLabel.Text = $"用户取消了导出";
-                this.ArticleState = ArticleStates.Downloaded;
-            }
-            else if (e.Error != null)
-            {
-                this.DUIStateLabel.Text = $"导出遇到错误：{e.Error.Message}";
-                this.ArticleState = ArticleStates.Downloaded;
-            }
-            else
-            {
-                this.DUIStateLabel.Text = $"文章导出完成：{e.Result}";
-                this.ArticleState = ArticleStates.Exported;
-            }
-        }
-
-        #endregion
-
-        protected override void Dispose(bool disposing)
-        {
-            this.Analyzer?.Dispose();
-            this.Downloader?.Dispose();
-            this.Exporter?.Dispose();
-
-            base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// 切换处理器 (业务流程)
-        /// </summary>
-        protected virtual void SwitchProcesser()
-        {
-            switch (this.ArticleState)
-            {
-                case ArticleStates.New:
-                    {
-                        this.OnAnalyze();
-                        break;
-                    }
-                case ArticleStates.Analyzing:
-                    {
-                        this.OnCancelAnalyze();
-                        break;
-                    }
-                case ArticleStates.Analyzed:
-                    {
-                        this.OnDownload();
-                        break;
-                    }
-                case ArticleStates.Downloading:
-                    {
-                        this.OnCancelDownload();
-                        break;
-                    }
-                case ArticleStates.Downloaded:
-                    {
-                        this.OnExport();
-                        break;
-                    }
-                case ArticleStates.Exporting:
-                    {
-                        this.OnCancelExport();
-                        break;
-                    }
-                case ArticleStates.Exported:
-                    {
-                        this.TitleClick?.Invoke(this, EventArgs.Empty);
-                        this.ArticleState = ArticleStates.Reading;
-                        break;
-                    }
-                case ArticleStates.Reading:
-                    {
-                        break;
-                    }
-                case ArticleStates.Readed:
-                    {
-                        break;
-                    }
-                case ArticleStates.Cancelling:
-                    {
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
     }
 }

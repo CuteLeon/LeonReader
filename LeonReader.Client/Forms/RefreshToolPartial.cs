@@ -168,21 +168,21 @@ namespace LeonReader.Client
             List<CardContainer> cardContainers = new List<CardContainer>();
             
             //创建卡片控件
-            foreach (var article in this.TargetArticleManager.GetNewArticles(source))
+            foreach (var article in this.TargetACManager.GetNewArticles(source))
             {
                 if (article == null) continue;
 
                 CardContainer cardContainer = this.cardFactory.CreateLargeCard(article);
                 cardContainers.Add(cardContainer);
             }
-            foreach (var article in this.TargetArticleManager.GetCachedArticle(source))
+            foreach (var article in this.TargetACManager.GetCachedArticle(source))
             {
                 if (article == null) continue;
 
                 CardContainer cardContainer = this.cardFactory.CreateNormalCard(article);
                 cardContainers.Add(cardContainer);
             }
-            foreach (var article in this.TargetArticleManager.GetReadedArticles(source))
+            foreach (var article in this.TargetACManager.GetReadedArticles(source))
             {
                 if (article == null) continue;
 

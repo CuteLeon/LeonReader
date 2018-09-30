@@ -10,9 +10,9 @@ namespace GamerSkySADE
     public class GamerSkyDownloader : Downloader
     {
         /// <summary>
-        /// 内容计数
+        /// 下载成功计数
         /// </summary>
-        private int ContentCount = 0;
+        private int SuccessCount = 0;
 
         /// <summary>
         /// 下载失败计数
@@ -41,17 +41,20 @@ namespace GamerSkySADE
             }
 
             //初始化
-            this.ContentCount = 0;
+            this.SuccessCount = 0;
             this.FailedCount = 0;
 
+            //TODO: 下载器根据内容记录的状态，从上次下载的记录续作
             //开始任务
-            foreach (var content in article.Contents)
+            foreach (var content in article.Contents.FindAll(
+                content => content.State == ContentItem.ContentStates.New
+                ))
             {
                 //下载文章内容
                 try
                 {
                     this.DownloadContent(content, this.DownloadDirectory);
-                    this.ContentCount++;
+                    this.SuccessCount++;
                 }
                 catch (Exception ex)
                 {
@@ -60,7 +63,7 @@ namespace GamerSkySADE
                 }
 
                 //触发事件更新已下载的图像计数
-                this.OnProcessReport(this.ContentCount, this.FailedCount);
+                this.OnProcessReport(this.SuccessCount, this.FailedCount);
 
                 //允许用户取消处理
                 if (this.ProcessWorker.CancellationPending)
@@ -71,7 +74,7 @@ namespace GamerSkySADE
             }
 
             LogUtils.Info($"文章下载完成：{this.DownloadDirectory} (From：{this.SADESource})");
-            e.Result = $"{this.ContentCount} 个成功, {this.FailedCount} 个失败";
+            e.Result = new Tuple<int, int>(this.SuccessCount, this.FailedCount);
         }
 
         /// <summary>

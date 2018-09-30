@@ -56,18 +56,27 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public abstract string SADESource { get; protected set; }
 
+        private ACManager _targetACManager = null;
         /// <summary>
-        /// 目标文章管理对象
+        /// 目标文章&内容管理对象
         /// </summary>
-        public ArticleManager TargetArticleManager { get; protected set; }
+        public ACManager TargetACManager
+        {
+            get => this._targetACManager;
+            set
+            {
+                if (this._targetACManager == null)
+                    this._targetACManager = value;
+                else
+                    throw new InvalidOperationException("已经注入AC管理器，不允许修改此对象");
+            }
+        }
 
         public Processer()
         {
             this.ProcessWorker.DoWork += this.PreProcessStarted;
             this.ProcessWorker.ProgressChanged += this.PreProcessReport;
             this.ProcessWorker.RunWorkerCompleted += this.PreProcessCompleted;
-
-            this.TargetArticleManager = new ArticleManager();
         }
 
         /// <summary>
@@ -75,6 +84,8 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public virtual void Process()
         {
+            if (this.TargetACManager == null) throw new ArgumentNullException("文章处理器关联的AC管理器对象为空");
+
             if (this.ProcessWorker.IsBusy) return;
             this.ProcessWorker.RunWorkerAsync();
         }
@@ -173,8 +184,8 @@ namespace LeonReader.AbstractSADE
                 {
                     this.Cancle();
                     this.ProcessWorker.Dispose();
-
-                    this.TargetArticleManager.Dispose();
+                    //不要释放管理器对象，仅置空，因为可能有其他引用
+                    this.TargetACManager = null;
                 }
 
                 this.disposedValue = true;

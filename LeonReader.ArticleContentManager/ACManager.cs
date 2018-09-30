@@ -11,7 +11,7 @@ namespace LeonReader.ArticleContentManager
     /// <summary>
     /// 文章管理器
     /// </summary>
-    public class ArticleManager : IDisposable
+    public class ACManager : IDisposable
     {
 
         /// <summary>
@@ -163,20 +163,20 @@ namespace LeonReader.ArticleContentManager
         }
 
         /// <summary>
-        /// 获取指定处理源内与链接关联的文章
+        /// 获取指定文章
         /// </summary>
-        /// <param name="link">链接</param>
-        /// <param name="asdeSource">处理源</param>
+        /// <param name="id">文章ID</param>
+        /// <param name="source">处理源</param>
         /// <returns></returns>
-        public Article GetArticle(string link, string asdeSource)
+        public Article GetArticle(string id, string source)
         {
-            if (string.IsNullOrEmpty(link) || string.IsNullOrEmpty(asdeSource)) return default(Article);
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(source)) return default(Article);
 
             Article article = this.TargetDBContext.Articles
                 .FirstOrDefault(
                     art =>
-                    art.ArticleLink == link &&
-                    art.SADESource == asdeSource
+                    art.ArticleID == id &&
+                    art.SADESource == source
                 );
             return article;
         }
@@ -236,6 +236,75 @@ namespace LeonReader.ArticleContentManager
 
             article.ExportTime = dateTime;
             this.TargetDBContext.SaveChanges();
+        }
+
+        #endregion
+
+        #region 查询内容
+
+        /// <summary>
+        /// 获取文章内容列表里最后一个不为空的页面链接，不存在时返回空字符串
+        /// </summary>
+        /// <param name="article">文章</param>
+        /// <returns></returns>
+        public string GetLastContentPageLink(Article article)
+        {
+            if (article == null) throw new ArgumentNullException("article");
+
+            if (article.Contents == null || article.Contents.Count == 0) return string.Empty;
+            return article.Contents.LastOrDefault(
+                (content) => !string.IsNullOrEmpty(content.PageLink)
+                )?.PageLink ?? string.Empty;
+        }
+
+        #endregion
+
+        #region 操作内容
+
+        /// <summary>
+        /// 清除文章的内容集合
+        /// </summary>
+        /// <param name="article">文章</param>
+        /// <returns>影响记录数</returns>
+        public int ClearContents(Article article)
+        {
+            if (article == null) return 0;
+
+            int count = article.Contents.RemoveAll((x) => true);
+            this.TargetDBContext.SaveChanges();
+            return count;
+        }
+
+        /// <summary>
+        /// 文章增加内容
+        /// </summary>
+        /// <param name="article">文章</param>
+        /// <param name="content">内容</param>
+        public int AddContent(Article article, ContentItem content)
+        {
+            if (article == null) throw new ArgumentNullException(nameof(article));
+            if (content == null) throw new ArgumentNullException(nameof(content));
+
+            Article temp = this.TargetDBContext.Articles.FirstOrDefault(art => art.ArticleID == article.ArticleID && art.SADESource == article.SADESource);
+            if (temp == null) return 0;
+
+            temp.Contents.Add(content);
+            return this.TargetDBContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// 文章增加内容
+        /// </summary>
+        /// <param name="article">文章</param>
+        /// <param name="contents">内容</param>
+        public int AddContents(Article article, IEnumerable<ContentItem> contents)
+        {
+            if (article == null) throw new ArgumentNullException(nameof(article));
+            if (contents == null) throw new ArgumentNullException(nameof(contents));
+            if (contents.Count() == 0) return 0;
+
+            article.Contents.AddRange(contents);
+            return this.TargetDBContext.SaveChanges();
         }
 
         #endregion

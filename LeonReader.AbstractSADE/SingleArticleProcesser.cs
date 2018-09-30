@@ -12,19 +12,11 @@ namespace LeonReader.AbstractSADE
     public abstract class SingleArticleProcesser : Processer
     {
         /// <summary>
-        /// 关联的文章对象
+        /// 关联的文章对象（必须是由关联的AC管理器创建的，否则无法正常保存）
         /// </summary>
         public Article TargetArticle { get; set; }
 
-        /// <summary>
-        /// 目标文章内容管理对象
-        /// </summary>
-        public ContentManager TargetContentManager { get; protected set; }
-
-        public SingleArticleProcesser() : base()
-        {
-            this.TargetContentManager = new ContentManager();
-        }
+        public SingleArticleProcesser() : base() { }
 
         /// <summary>
         /// 开始处理
@@ -33,6 +25,7 @@ namespace LeonReader.AbstractSADE
         {
             if (this.ProcessWorker.IsBusy) return;
             if (this.TargetArticle == null) throw new ArgumentNullException("文章处理器关联的文章对象为空");
+            if (this.TargetACManager == null) throw new ArgumentNullException("文章处理器关联的AC管理器对象为空");
 
             LogUtils.Info($"开始分析文章链接：{this.TargetArticle.ArticleLink}，From：{this.SADESource}");
 
@@ -45,14 +38,5 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         protected virtual void PreConfigProcesser() { }
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (disposing)
-            {
-                this.TargetContentManager.Dispose();
-            }
-        }
     }
 }

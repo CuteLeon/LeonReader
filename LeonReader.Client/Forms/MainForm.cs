@@ -13,12 +13,7 @@ namespace LeonReader.Client
     {
 
         #region 变量
-
-        /// <summary>
-        /// 文章管理器
-        /// </summary>
-        ArticleManager TargetArticleManager = new ArticleManager();
-
+        
         /// <summary>
         /// 反射工厂
         /// </summary>

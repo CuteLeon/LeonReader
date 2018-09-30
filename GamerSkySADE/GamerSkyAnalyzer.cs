@@ -12,8 +12,6 @@ namespace GamerSkySADE
 {
     public class GamerSkyAnalyzer : Analyzer
     {
-        //TODO: GS ADE 根据数据库记录的文章状态跳过步骤
-        //TODO: GS 下载器跳过已经下载过的文章内容
 
         /// <summary>
         /// 页面计数
@@ -40,16 +38,30 @@ namespace GamerSkySADE
             this.ContentCount = 0;
 
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
+
+            /*
             if (article.Contents != null && article.Contents.Count > 0)
                 this.TargetContentManager.ClearContents(article);
+             */
+
+            //TODO: 尝试从上次分析进行到的页面链接开始分析
+            string ScanLink = this.TargetACManager.GetLastContentPageLink(article);
+            if (string.IsNullOrEmpty(ScanLink))
+            {
+                ScanLink = article.ArticleLink;
+            }
+            else
+            {
+                //TODO: 从上次分析进行到页面进行续作，需要排除此页已经存入数据库的内容记录
+            }
             
             //开始任务
-            foreach (var content in this.AnalyseArticle(article.ArticleLink))
+            foreach (var content in this.AnalyseArticle(ScanLink))
             {
                 LogUtils.Info($"接收到文章 ({article.ArticleID}) 内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
 
-                this.TargetContentManager.AddContent(article, content);
-                
+                this.TargetACManager.AddContent(article, content);
+
                 //触发事件更新已分析的页面数和图像数 
                 this.OnProcessReport(this.PageCount, this.ContentCount);
 
@@ -146,6 +158,7 @@ namespace GamerSkySADE
                         }
                         else
                         {
+                            contentItem.PageLink = PageAddress;
                             this.ContentCount++;
                             yield return contentItem;
                         }

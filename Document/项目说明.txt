@@ -46,7 +46,7 @@
 		分析器报告进度：this.OnProcessReport(页总数, 内容总数);
 		分析器处理完成：e.Result = 内容总数;
 		下载器报告进度：this.OnProcessReport(成功个数, 失败个数);
-		下载器处理完成：e.Result = $"{成功个数} 个成功, {失败个数} 个失败";
+		下载器处理完成：e.Result = new Tuple<int, int>(this.SuccessCount, this.FailedCount);
 		导出器报告进度：null（一般很快）
 		导出器处理完成：e.Result = 导出路径;
 	11. 向SADE处理器传入数据：
@@ -58,3 +58,5 @@
 10. 新增的 SADE 库的动态链接库放置于程序根目录即可，文件名称以 "SADE.DLL" 结尾，可忽略大小写，否则程序无法识别此 SADE 组件；
 11. 代码规范： VS> 工具> 选项> 文本编辑器> C#> 代码样式> 常规> "this."首选项=> 首选"this."，防止静态类或方法污染代码；
 12. CardContainer 内含 ArticleState 属性展示当前文章处理状态（对外部只读），用户可以通过 OnAnalyze()、OnDownload、OnExport、OnCancelXXX() 方法依次处理文章；
+13. 从 A_DBContext 查询的对象无法通过 B_DBContext.SaveChanges() 进行更新删除等操作；
+14. SADE 和 UI 无需直接访问 DataAccess 层，而只需要 Model 和 BIZ 层的 Manager 即可，但要注意只有创建实体对象的DBContext才可以保存实体对象的变化操作；

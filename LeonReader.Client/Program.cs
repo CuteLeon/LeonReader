@@ -9,6 +9,9 @@ namespace LeonReader.Client
 {
     static class Program
     {
+        //TODO: 基于新架构更新单元测试
+        //TODO: 使用 Metro 框架制作同风格弹窗显示错误信息
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>

@@ -95,7 +95,7 @@
       <Name>GamerSkySADE</Name>
     </ProjectReference>
     <ProjectReference Include="..\LeonReader.AbstractSADE\LeonReader.AbstractSADE.csproj">
-      <Project>{7FC2F8A9-D953-4211-B910-BAD9B580BF5F}</Project>
+      <Project>{7fc2f8a9-d953-4211-b910-bad9b580bf5f}</Project>
       <Name>LeonReader.AbstractSADE</Name>
     </ProjectReference>
     <ProjectReference Include="..\LeonReader.ArticleContentManager\LeonReader.ArticleContentManager.csproj">

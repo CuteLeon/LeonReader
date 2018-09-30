@@ -40,7 +40,7 @@ namespace GamerSkySADE.Tests
                 DownloadDirectoryName = "单元测试下载目录",
                 ArticleFileName = "单元测试文章名称",
             };
-            analyzer.TargetArticleManager.RemoveArticles(analyzer.TargetArticleManager.GetArticles(analyzer.SADESource).ToArray());
+            analyzer.TargetACManager.RemoveArticles(analyzer.TargetACManager.GetArticles(analyzer.SADESource).ToArray());
             analyzer.TargetArticle = article;
             analyzer.Process();
             
