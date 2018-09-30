@@ -1,5 +1,7 @@
-﻿using LeonReader.Common;
-using LeonReader.Model;
+﻿using System;
+using System.ComponentModel;
+
+using LeonReader.Common;
 
 namespace LeonReader.AbstractSADE
 {
@@ -20,17 +22,26 @@ namespace LeonReader.AbstractSADE
 
         public Exporter() : base() { }
 
-        protected override void PreConfigProcess(Article article)
+        protected override void PreConfigProcesser()
         {
+            this.TargetArticleManager.SetExportTime(this.TargetArticle, DateTime.Now);
+
             this.ExportDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
-                article.DownloadDirectoryName
+                this.TargetArticle.DownloadDirectoryName
                 );
             this.ExportPath = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
-                article.DownloadDirectoryName,
-                string.Format("{0}.{1}", article.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
+                this.TargetArticle.DownloadDirectoryName,
+                string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
                 );
+
+            //TODO: 设置文章状态为 正在导出
+        }
+
+        protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //TODO: 设置文章状态为 已导出
         }
     }
 }

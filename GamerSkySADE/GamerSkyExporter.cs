@@ -42,7 +42,6 @@ namespace GamerSkySADE
 
             //初始化
             this.ContentCount = 0;
-            this.TargetArticleManager.SetExportTime(article, DateTime.Now);
 
             //导出文章内容
             try

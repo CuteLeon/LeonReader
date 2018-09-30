@@ -50,12 +50,12 @@ namespace LeonReader.AbstractSADE
         public bool IsBusy { get => this.ProcessWorker.IsBusy; }
 
         #endregion
-        
+
         /// <summary>
         /// 文章处理源
         /// </summary>
         public abstract string SADESource { get; protected set; }
-        
+
         /// <summary>
         /// 目标文章管理对象
         /// </summary>
@@ -68,6 +68,15 @@ namespace LeonReader.AbstractSADE
             this.ProcessWorker.RunWorkerCompleted += this.PreProcessCompleted;
 
             this.TargetArticleManager = new ArticleManager();
+        }
+
+        /// <summary>
+        /// 开始任务
+        /// </summary>
+        public virtual void Process()
+        {
+            if (this.ProcessWorker.IsBusy) return;
+            this.ProcessWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -85,18 +94,25 @@ namespace LeonReader.AbstractSADE
         private void PreProcessStarted(object sender, DoWorkEventArgs e)
         {
             LogUtils.Info($"处理开始：From：{this.SADESource}");
+
             //这个事件会在异步线程触发
             ProcessStarted?.Invoke(this, e);
+
             //允许用户在接收处理开始事件时即取消处理
             if (e.Cancel) return;
-            if (this.ProcessWorker.CancellationPending) return;
+            if (this.ProcessWorker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
             //调用子类SADE类的方法
             LogUtils.Debug($"开始处理子SADE类的 [处理开始] 方法：From：{this.SADESource}");
             this.OnProcessStarted(this, e);
         }
 
         /// <summary>
-        /// 处理开始（e.Argument 为关联的文章实体或 null）
+        /// 处理开始（e.Argument 为关联的文章实体）
         /// </summary>
         protected abstract void OnProcessStarted(object sender, DoWorkEventArgs e);
 
@@ -136,7 +152,7 @@ namespace LeonReader.AbstractSADE
             //调用子类SADE类的方法
             LogUtils.Debug($"开始处理子SADE类的 [处理完成] 方法：From：{this.SADESource}");
             this.OnProcessCompleted(this, e);
-            
+
             //优先内部处理完完成事件再通知外部
             ProcessCompleted?.Invoke(this, e);
         }
@@ -164,13 +180,14 @@ namespace LeonReader.AbstractSADE
                 this.disposedValue = true;
             }
         }
-        
+
         // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         #endregion
 
     }

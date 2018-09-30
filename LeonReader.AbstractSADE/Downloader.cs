@@ -1,5 +1,7 @@
-﻿using LeonReader.Common;
-using LeonReader.Model;
+﻿using System;
+using System.ComponentModel;
+
+using LeonReader.Common;
 
 namespace LeonReader.AbstractSADE
 {
@@ -15,12 +17,22 @@ namespace LeonReader.AbstractSADE
 
         public Downloader() : base() { }
 
-        protected override void PreConfigProcess(Article article)
+        protected override void PreConfigProcesser()
         {
+            this.TargetArticleManager.SetDownloadTime(this.TargetArticle, DateTime.Now);
+
             this.DownloadDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
-                article.DownloadDirectoryName
+                this.TargetArticle.DownloadDirectoryName
                 );
+
+            //TODO: 设置文章状态为 正在下载
         }
+
+        protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //TODO: 设置文章状态为 已下载
+        }
+
     }
 }

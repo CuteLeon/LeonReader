@@ -19,12 +19,6 @@ namespace LeonReader.AbstractSADE.Tests
         public int Index { get; private set; } = 0;
 
         public override string SADESource { get; protected set; } = "单元测试-SADE";
-        
-        public virtual void Process()
-        {
-            if (this.ProcessWorker.IsBusy) return;
-            this.ProcessWorker.RunWorkerAsync();
-        }
 
         protected override void OnProcessStarted(object sender, DoWorkEventArgs e)
         {

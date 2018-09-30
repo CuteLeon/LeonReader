@@ -5,6 +5,7 @@ using LeonReader.Client.DirectUI.Container;
 using LeonReader.Client.Factory;
 using LeonReader.Common;
 using LeonReader.Model;
+
 using MetroFramework.Forms;
 
 namespace LeonReader.Client
@@ -22,7 +23,7 @@ namespace LeonReader.Client
         private void CardContainer_TitleClick(object sender, EventArgs e)
         {
             CardContainer cardContainer = sender as CardContainer ?? throw new ArgumentNullException(nameof(sender));
-            Article article = cardContainer.Article;
+            Article article = cardContainer.TargetArticle;
             if (article == null) return;
 
             string ArticleFilePath = IOUtils.PathCombine(
@@ -44,7 +45,7 @@ namespace LeonReader.Client
         private void CardContainer_ReadedClick(object sender, EventArgs e)
         {
             CardContainer cardContainer = sender as CardContainer;
-            this.articleManager.SetArticleReaded(cardContainer.Article);
+            this.articleManager.SetArticleReaded(cardContainer.TargetArticle);
             cardContainer.Style = CardContainer.CardStyles.Small;
         }
 
@@ -66,7 +67,7 @@ namespace LeonReader.Client
         {
             CardContainer cardContainer = sender as CardContainer ?? throw new ArgumentNullException(nameof(sender));
 
-            Article article = cardContainer.Article;
+            Article article = cardContainer.TargetArticle;
             if (article == null) return;
 
             string ArticleFilePath = IOUtils.PathCombine(
@@ -96,7 +97,7 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_DeleteClick(object sender, EventArgs e)
         {
-            //TODO: 点击卡片删除按钮
+            //TODO: 点击卡片删除按钮，文章状态置为 Deleting 和 Deleted
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace LeonReader.Client
         /// <param name="e"></param>
         private void CardContainer_BrowserClick(object sender, EventArgs e)
         {
-            Article article = (sender as CardContainer)?.Article;
+            Article article = (sender as CardContainer)?.TargetArticle;
             if (article == null) return;
 
             Process.Start(article.ArticleLink);

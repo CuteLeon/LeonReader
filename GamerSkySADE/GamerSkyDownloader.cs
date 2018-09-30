@@ -43,7 +43,6 @@ namespace GamerSkySADE
             //初始化
             this.ContentCount = 0;
             this.FailedCount = 0;
-            this.TargetArticleManager.SetDownloadTime(article, DateTime.Now);
 
             //开始任务
             foreach (var content in article.Contents)

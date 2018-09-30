@@ -65,6 +65,14 @@ namespace LeonReader.Client.DirectUI.Container
             /// 已读
             /// </summary>
             Readed = 9,
+            /// <summary>
+            /// 正在删除
+            /// </summary>
+            Deleting = 10,
+            /// <summary>
+            /// 已经删除
+            /// </summary>
+            Deleted = 11,
         }
 
         private ArticleStates _articleState;
@@ -157,7 +165,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 文章对象
         /// </summary>
-        public Article Article { get; set; }
+        public Article TargetArticle { get; set; }
 
         private Analyzer _analyzer;
         /// <summary>
@@ -838,12 +846,13 @@ namespace LeonReader.Client.DirectUI.Container
         public void OnAnalyze()
         {
             if (this.ArticleState < ArticleStates.New) throw new Exception("文章状态需要至少为 New 才允许分析");
-            if (this.Article == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
-            if (this._analyzer == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
+            if (this.TargetArticle == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
+            if (this._analyzer == null) throw new ArgumentNullException($"当前文章({this.TargetArticle.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
 
             this.ArticleState = ArticleStates.Analyzing;
-            this._analyzer.Process(this.Article);
+            this._analyzer.TargetArticle = this.TargetArticle;
+            this._analyzer.Process();
         }
 
         /// <summary>
@@ -915,12 +924,13 @@ namespace LeonReader.Client.DirectUI.Container
         public void OnDownload()
         {
             if (this.ArticleState < ArticleStates.Analyzed) throw new Exception("文章状态需要至少为 Analyzed 才允许分析");
-            if (this.Article == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
-            if (this._downloader == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
+            if (this.TargetArticle == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
+            if (this._downloader == null) throw new ArgumentNullException($"当前文章({this.TargetArticle.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
 
             this.ArticleState = ArticleStates.Downloading;
-            this._downloader.Process(this.Article);
+            this._downloader.TargetArticle = this.TargetArticle;
+            this._downloader.Process();
         }
 
         /// <summary>
@@ -992,12 +1002,13 @@ namespace LeonReader.Client.DirectUI.Container
         public void OnExport()
         {
             if (this.ArticleState < ArticleStates.Downloaded) throw new Exception("文章状态需要至少为 Downloaded 才允许分析");
-            if (this.Article == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
-            if (this._exporter == null) throw new ArgumentNullException($"当前文章({this.Article.Title})关联的分析器为空");
+            if (this.TargetArticle == null) throw new ArgumentNullException($"当前卡片控件({this.Title})关联的文章实体为空");
+            if (this._exporter == null) throw new ArgumentNullException($"当前文章({this.TargetArticle.Title})关联的分析器为空");
             if (this.ArticleState == ArticleStates.Cancelling) return;
 
             this.ArticleState = ArticleStates.Exporting;
-            this._exporter.Process(this.Article);
+            this._exporter.TargetArticle = this.TargetArticle;
+            this._exporter.Process();
         }
 
         /// <summary>

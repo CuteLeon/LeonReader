@@ -1,15 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GamerSkySADE;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LeonReader.AbstractSADE;
-using LeonReader.Model;
 using System.Reflection;
-using LeonReader.Common;
 using System.Threading;
+
+using LeonReader.AbstractSADE;
+using LeonReader.Common;
+using LeonReader.Model;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GamerSkySADE.Tests
 {
@@ -44,8 +42,8 @@ namespace GamerSkySADE.Tests
                 ArticleFileName = "单元测试文章名称",
             };
             analyzer.TargetArticleManager.RemoveArticles(analyzer.TargetArticleManager.GetArticles(analyzer.SADESource).ToArray());
-
-            analyzer.Process(article);
+            analyzer.TargetArticle = article;
+            analyzer.Process();
             
             //睡眠一段时间，否则调试线程不会等待异步任务线程而立即结束
             Thread.Sleep(10000);
