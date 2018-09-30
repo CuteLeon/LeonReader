@@ -1,16 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GamerSkySADE;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Threading;
 
 using LeonReader.AbstractSADE;
 using LeonReader.Common;
-using System.Reflection;
 using LeonReader.Model;
-using System.Threading;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GamerSkySADE.Tests
 {

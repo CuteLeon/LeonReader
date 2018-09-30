@@ -1,9 +1,11 @@
-﻿using LeonReader.AbstractSADE;
+﻿using System;
+using System.ComponentModel;
+
+using LeonReader.AbstractSADE;
 using LeonReader.ArticleContentManager;
 using LeonReader.Client.DirectUI.Container;
 using LeonReader.Model;
-using System;
-using System.ComponentModel;
+
 using static LeonReader.Model.Article;
 
 namespace LeonReader.Client.Proxy

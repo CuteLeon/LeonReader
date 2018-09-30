@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 using LeonReader.AbstractSADE;
-using LeonReader.ArticleContentManager;
 using LeonReader.Client.Factory;
 using LeonReader.Common;
 
