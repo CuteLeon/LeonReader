@@ -7,12 +7,12 @@ using System.Windows.Forms;
 using LeonReader.AbstractSADE;
 using LeonReader.Client.DirectUI.Container;
 using LeonReader.Common;
-using LeonReader.Model;
 
 namespace LeonReader.Client
 {
     public partial class MainForm
     {
+        //TODO: 这里太乱了，重构，尽量取消 Dictionary<>
 
         /// <summary>
         /// 点击工具箱刷新按钮
@@ -168,21 +168,21 @@ namespace LeonReader.Client
             List<CardContainer> cardContainers = new List<CardContainer>();
             
             //创建卡片控件
-            foreach (var article in this.articleManager.GetNewArticles(source))
+            foreach (var article in this.TargetArticleManager.GetNewArticles(source))
             {
                 if (article == null) continue;
 
                 CardContainer cardContainer = this.cardFactory.CreateLargeCard(article);
                 cardContainers.Add(cardContainer);
             }
-            foreach (var article in this.articleManager.GetDownloadedArticle(source))
+            foreach (var article in this.TargetArticleManager.GetCachedArticle(source))
             {
                 if (article == null) continue;
 
                 CardContainer cardContainer = this.cardFactory.CreateNormalCard(article);
                 cardContainers.Add(cardContainer);
             }
-            foreach (var article in this.articleManager.GetReadedArticles(source))
+            foreach (var article in this.TargetArticleManager.GetReadedArticles(source))
             {
                 if (article == null) continue;
 

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 using LeonReader.Common;
+using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
@@ -36,12 +37,12 @@ namespace LeonReader.AbstractSADE
                 string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
                 );
 
-            //TODO: 设置文章状态为 正在导出
+            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Exporting);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //TODO: 设置文章状态为 已导出
+            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Exported);
         }
     }
 }

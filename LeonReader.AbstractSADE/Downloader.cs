@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 using LeonReader.Common;
+using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
 {
@@ -26,12 +27,12 @@ namespace LeonReader.AbstractSADE
                 this.TargetArticle.DownloadDirectoryName
                 );
 
-            //TODO: 设置文章状态为 正在下载
+            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloading);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //TODO: 设置文章状态为 已下载
+            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloaded);
         }
 
     }

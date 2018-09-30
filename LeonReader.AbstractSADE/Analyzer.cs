@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 
+using LeonReader.Model;
+
 namespace LeonReader.AbstractSADE
 {
-    
+
     /// <summary>
     /// 文章内容分析器
     /// </summary>
@@ -14,12 +16,12 @@ namespace LeonReader.AbstractSADE
         protected override void PreConfigProcesser()
         {
             this.TargetArticleManager.SetAnalyzeTime(this.TargetArticle, DateTime.Now);
-            //TODO: 设置文章状态为 正在分析
+            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzing);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //TODO: 设置文章状态为 已分析
+            this.TargetArticleManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzed);
         }
 
     }

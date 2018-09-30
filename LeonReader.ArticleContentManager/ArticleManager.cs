@@ -4,6 +4,7 @@ using System.Linq;
 
 using LeonReader.DataAccess;
 using LeonReader.Model;
+using static LeonReader.Model.Article;
 
 namespace LeonReader.ArticleContentManager
 {
@@ -105,24 +106,24 @@ namespace LeonReader.ArticleContentManager
                 in this.TargetDBContext.Articles
                 where
                     article.SADESource == source &&
-                    article.IsNew &&
-                    article.ExportTime == null
+                    article.State < ArticleStates.Exported
                 select article;
         }
 
         /// <summary>
-        /// 获取指定处理源导出完成但未读的文章
+        /// 获取指定处理源缓存但未读的文章
         /// </summary>
         /// <param name="source">处理源</param>
         /// <returns></returns>
-        public IQueryable<Article> GetDownloadedArticle(string source)
+        public IQueryable<Article> GetCachedArticle(string source)
         {
             return
                 from article
                 in this.TargetDBContext.Articles
                 where
                     article.SADESource == source &&
-                    article.IsNew &&
+                    article.State >= ArticleStates.Exported &&
+                    article.State < ArticleStates.Readed &&
                     article.ExportTime != null
                 select article;
         }
@@ -139,7 +140,7 @@ namespace LeonReader.ArticleContentManager
                 in this.TargetDBContext.Articles
                 where
                     article.SADESource == source &&
-                    !article.IsNew
+                    article.State >= ArticleStates.Readed
                 select article;
         }
 
@@ -185,15 +186,16 @@ namespace LeonReader.ArticleContentManager
         #region 文章状态操作
 
         /// <summary>
-        /// 将文章置为已读
+        /// 设置文章状态
         /// </summary>
         /// <param name="article">文章</param>
+        /// <param name="state">状态</param>
         /// <returns></returns>
-        public void SetArticleReaded(Article article)
+        public void SetArticleState(Article article, ArticleStates state)
         {
             if (article == null) return;
 
-            article.IsNew = false;
+            article.State = state;
             this.TargetDBContext.SaveChanges();
         }
 

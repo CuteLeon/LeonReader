@@ -29,7 +29,6 @@ namespace GamerSkySADE.Tests
                 Title = "单元测试文章_1",
                 ArticleLink = link,
                 Description = "单元测试文章_1",
-                IsNew = true,
                 PublishTime = DateTime.Now.ToString(),
                 SADESource = analyzer.SADESource,
                 ScanTime = DateTime.Now,

@@ -12,6 +12,65 @@ namespace LeonReader.Model
     [Table("Articles")]
     public class Article
     {
+        #region 文章状态
+
+        /// <summary>
+        /// 文章状态枚举
+        /// </summary>
+        public enum ArticleStates
+        {
+            /// <summary>
+            /// 新文章
+            /// </summary>
+            New = 0,
+            /// <summary>
+            /// 正在取消
+            /// </summary>
+            Cancelling = 1,
+            /// <summary>
+            /// 正在分析
+            /// </summary>
+            Analyzing = 2,
+            /// <summary>
+            /// 分析完毕
+            /// </summary>
+            Analyzed = 3,
+            /// <summary>
+            /// 正在下载
+            /// </summary>
+            Downloading = 4,
+            /// <summary>
+            /// 下载完成
+            /// </summary>
+            Downloaded = 5,
+            /// <summary>
+            /// 正在导出
+            /// </summary>
+            Exporting = 6,
+            /// <summary>
+            /// 导出完成
+            /// </summary>
+            Exported = 7,
+            /// <summary>
+            /// 正在阅读
+            /// </summary>
+            Reading = 8,
+            /// <summary>
+            /// 已读
+            /// </summary>
+            Readed = 9,
+            /// <summary>
+            /// 正在删除
+            /// </summary>
+            Deleting = 10,
+            /// <summary>
+            /// 已经删除
+            /// </summary>
+            Deleted = 11,
+        }
+
+        #endregion
+
         #region 数据库字段
 
         /// <summary>
@@ -62,12 +121,6 @@ namespace LeonReader.Model
         public string ImageLink { get; set; }
 
         /// <summary>
-        /// 是否为新文章
-        /// </summary>
-        [DisplayName("是否为新文章")]
-        public bool IsNew { get; set; }
-
-        /// <summary>
         /// 文章链接
         /// </summary>
         [DisplayName("文章链接"), DataType(DataType.Url)]
@@ -112,6 +165,13 @@ namespace LeonReader.Model
         [Required]
         [DisplayName("下载目录名称（相对）")]
         public string DownloadDirectoryName { get; set; }
+
+        /// <summary>
+        /// 文章状态
+        /// </summary>
+        [Required]
+        [DisplayName("文章状态")]
+        public ArticleStates State { get; set; } = ArticleStates.New;
 
         #endregion
 

@@ -21,7 +21,6 @@ namespace LeonReader.Model.Tests
                     Title = "单元测试文章",
                     ArticleLink = "http://www.cuteleon.com",
                     Description = "单元测试文章",
-                    IsNew = true,
                     PublishTime = DateTime.Now.ToString(),
                     SADESource = "DataSeed",
                     Contents = new ContentItem[] {

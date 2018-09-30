@@ -30,7 +30,6 @@ namespace LeonReader.DataAccess
                     Title = "种子文章",
                     ArticleLink = "http://www.cuteleon.com",
                     Description = "种子文章",
-                    IsNew = true,
                     PublishTime = DateTime.Now.ToString(),
                     SADESource = "DataSeed",
                     ScanTime = DateTime.Now,

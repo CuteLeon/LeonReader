@@ -180,7 +180,7 @@ namespace GamerSkySADE
                     ArticleID = ArticleID,
                     SADESource = SADESource,
                     ScanTime = DateTime.Now,
-                    IsNew = true,
+                    State = Article.ArticleStates.New,
                     DownloadDirectoryName = IOUtils.GetSafeDirectoryName(ArticleID),
                     ArticleFileName = IOUtils.GetSafeFileName(Title),
                 };
