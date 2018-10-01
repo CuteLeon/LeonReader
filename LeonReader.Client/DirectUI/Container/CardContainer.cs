@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using LeonDirectUI.Container;
 using LeonDirectUI.DUIControl;
 
+using LeonReader.Client.Proxy;
+
 namespace LeonReader.Client.DirectUI.Container
 {
 
@@ -24,6 +26,7 @@ namespace LeonReader.Client.DirectUI.Container
         public void OnNewState()
         {
             this.DUIMainButton.Text = "分析";
+            this.Style = CardStyles.Large;
         }
 
         #region 分析
@@ -205,7 +208,7 @@ namespace LeonReader.Client.DirectUI.Container
         }
 
         #endregion
-        
+
         /// <summary>
         /// 开始取消
         /// </summary>
@@ -227,7 +230,8 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         public void OnReaded()
         {
-            this.DUIMainButton.Text = "重新阅读";
+            this.DUIMainButton.Text = "阅读";
+            this.Style = CardStyles.Small;
         }
 
         #endregion
@@ -267,6 +271,20 @@ namespace LeonReader.Client.DirectUI.Container
         #endregion
 
         #region 自定义属性
+
+        private ArticleProxy _targetArticleProxy;
+        /// <summary>
+        /// 关联的文章代理
+        /// </summary>
+        public ArticleProxy TargetArticleProxy
+        {
+            get => this._targetArticleProxy;
+            set
+            {
+                if (this._targetArticleProxy != null) throw new InvalidOperationException("已经设置关联的对象，禁止修改");
+                this._targetArticleProxy = value ?? throw new ArgumentNullException(nameof(value));
+            }
+        }
 
         /// <summary>
         /// 标题

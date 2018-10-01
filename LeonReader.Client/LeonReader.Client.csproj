@@ -90,9 +90,6 @@
     <Compile Include="Factory\AssemblyFactory.cs" />
     <Compile Include="Factory\CardContainerFactory.cs" />
     <Compile Include="Factory\ReaderFormFactory.cs" />
-    <Compile Include="Forms\CardContainerEventPartial.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

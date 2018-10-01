@@ -37,8 +37,6 @@ namespace LeonReader.Client.Factory
                 LogUtils.Error($"根据文章实体创建卡片时遇到错误：{ex.Message}");
             }
 
-            cardContainer.TargetArticle = article;
-
             return cardContainer;
         }
 

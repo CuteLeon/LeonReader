@@ -184,8 +184,6 @@ namespace LeonReader.AbstractSADE
                 {
                     this.Cancle();
                     this.ProcessWorker.Dispose();
-                    //不要释放管理器对象，仅置空，因为可能有其他引用
-                    this.TargetACManager = null;
                 }
 
                 this.disposedValue = true;

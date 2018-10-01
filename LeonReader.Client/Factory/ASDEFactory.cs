@@ -29,7 +29,5 @@ namespace LeonReader.Client.Factory
             }
         }
 
-
-
     }
 }

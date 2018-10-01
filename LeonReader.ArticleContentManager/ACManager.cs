@@ -4,6 +4,7 @@ using System.Linq;
 
 using LeonReader.DataAccess;
 using LeonReader.Model;
+
 using static LeonReader.Model.Article;
 
 namespace LeonReader.ArticleContentManager
@@ -142,6 +143,18 @@ namespace LeonReader.ArticleContentManager
                     article.SADESource == source &&
                     article.State >= ArticleStates.Readed
                 select article;
+        }
+
+        /// <summary>
+        /// 获取处理源的文章数量
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public int GetArticleCount(string source)
+        {
+            return this.TargetDBContext.Articles.Count(
+                article => article.SADESource == source
+                );
         }
 
         /// <summary>

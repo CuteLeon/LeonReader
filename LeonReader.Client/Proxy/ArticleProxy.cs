@@ -1,10 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 
 using LeonReader.AbstractSADE;
 using LeonReader.ArticleContentManager;
 using LeonReader.Client.DirectUI.Container;
+using LeonReader.Client.Factory;
+using LeonReader.Common;
 using LeonReader.Model;
+
+using MetroFramework.Forms;
 
 using static LeonReader.Model.Article;
 
@@ -27,7 +32,6 @@ namespace LeonReader.Client.Proxy
         /// <param name="downloader">下载器</param>
         /// <param name="exporter">导出器</param>
         public ArticleProxy(
-            ACManager manager,
             string articleID,
             string articleSource,
             CardContainer cardContainer,
@@ -37,10 +41,10 @@ namespace LeonReader.Client.Proxy
             )
         {
             //赋值顺序有要求
-            this.TargetACManager = manager ?? throw new ArgumentNullException(nameof(manager));
 
             this.TargetCardContainer = cardContainer ?? throw new ArgumentNullException(nameof(cardContainer));
-
+            this.TargetCardContainer.TargetArticleProxy = this;
+            
             if (string.IsNullOrEmpty(articleID) || string.IsNullOrEmpty(articleSource))
                 throw new ArgumentNullException($"{nameof(articleID)}, {nameof(articleSource)}");
             this.TargetArticle = this.TargetACManager.GetArticle(articleID, articleSource);
@@ -59,7 +63,7 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 文章对象
         /// </summary>
-        public ACManager TargetACManager { get; }
+        public ACManager TargetACManager { get; } = new ACManager();
 
         #endregion
 
@@ -173,29 +177,95 @@ namespace LeonReader.Client.Proxy
 
         #region 卡片事件
 
+        /// <summary>
+        /// 点击标题
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CardContainer_TitleClick(object sender, EventArgs e)
         {
+            System.Windows.Forms.MessageBox.Show($"Article State : {this.TargetArticle.State}");
+            string ArticleFilePath = IOUtils.PathCombine(
+                ConfigHelper.GetConfigHelper.DownloadDirectory,
+                this.TargetArticle.DownloadDirectoryName,
+                string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
+                );
+
+            MetroForm readerForm = ReaderFormFactory.CreateReaderForm(ArticleFilePath);
+            readerForm.FormClosed += (s, v) =>
+            {
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
+                this.TargetCardContainer.OnReaded();
+            };
+
+            readerForm.Show(this.TargetCardContainer.FindForm());
         }
 
+        /// <summary>
+        /// 点击定位按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CardContainer_LocationClick(object sender, EventArgs e)
         {
+            string ArticleFilePath = IOUtils.PathCombine(
+                ConfigHelper.GetConfigHelper.DownloadDirectory,
+                this.TargetArticle.DownloadDirectoryName,
+                string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
+                );
+
+            if (IOUtils.FileExists(ArticleFilePath))
+            {
+                IOUtils.SelectFile(ArticleFilePath);
+            }
+            else
+            {
+                string ArticleDirectory = IOUtils.PathCombine(
+                    ConfigHelper.GetConfigHelper.DownloadDirectory,
+                    this.TargetArticle.DownloadDirectoryName
+                    );
+                IOUtils.SelectDirectory(ArticleDirectory);
+            }
         }
 
+        /// <summary>
+        /// 点击已读按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CardContainer_ReadedClick(object sender, EventArgs e)
         {
+            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
+            this.TargetCardContainer.OnReaded();
         }
 
+        /// <summary>
+        /// 点击主按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CardContainer_MainButtonClick(object sender, EventArgs e)
         {
             //TODO: 根据文章状态跳过已经完成的步骤，将界面直接置为下一步操作的布局
         }
 
+        /// <summary>
+        /// 点击删除按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CardContainer_DeleteClick(object sender, EventArgs e)
         {
         }
 
+        /// <summary>
+        /// 点击浏览按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CardContainer_BrowserClick(object sender, EventArgs e)
         {
+            Process.Start(this.TargetArticle.ArticleLink);
         }
 
         #endregion
@@ -446,7 +516,7 @@ namespace LeonReader.Client.Proxy
             {
                 if (disposing)
                 {
-                    //TODO: [提醒] 对象要专用，因为会被释放的哦~
+                    //对象要专用，因为会被释放的哦~
                     this.TargetAnalyzer.Dispose();
                     this.TargetDownloader.Dispose();
                     this.TargetExporter.Dispose();
@@ -457,7 +527,7 @@ namespace LeonReader.Client.Proxy
                 this.disposedValue = true;
             }
         }
-        
+
         // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {

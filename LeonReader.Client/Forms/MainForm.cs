@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
-using LeonReader.AbstractSADE;
+using LeonReader.ArticleContentManager;
+using LeonReader.Client.DirectUI.Container;
 using LeonReader.Client.Factory;
 using LeonReader.Common;
 
@@ -11,33 +12,18 @@ namespace LeonReader.Client
     public partial class MainForm : MetroFramework.Forms.MetroForm
     {
 
-        #region 变量
+        #region 工厂
         
         /// <summary>
         /// 反射工厂
         /// </summary>
-        AssemblyFactory assemblyFactory = new AssemblyFactory();
+        AssemblyFactory TargetAssemblyFactory = new AssemblyFactory();
 
         /// <summary>
         /// SADE 工厂
         /// </summary>
-        SADEFactory sadeFactory = new SADEFactory();
-
-        /// <summary>
-        /// 卡片工厂
-        /// </summary>
-        CardContainerFactory cardFactory = new CardContainerFactory();
-
-        /// <summary>
-        /// 目录Tab容器与内流式布局容器对应关系
-        /// </summary>
-        Dictionary<TabPage, FlowLayoutPanel> TabPage_Panel_Rel = new Dictionary<TabPage, FlowLayoutPanel>();
-
-        /// <summary>
-        /// 扫描器和TabPage关联字典
-        /// </summary>
-        Dictionary<Scanner, TabPage> Scanner_TabPage_Rel = new Dictionary<Scanner, TabPage>();
-
+        SADEFactory TargetSADEFactory = new SADEFactory();
+        
         #endregion
 
         #region 初始化
@@ -100,6 +86,16 @@ namespace LeonReader.Client
         #endregion
 
         #region 工具按钮事件
+        
+        /// <summary>
+        /// 点击工具箱刷新按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UnityToolContainer_RefreshClick(object sender, EventArgs e)
+        {
+            this.RefreshCatalogList();
+        }
 
         /// <summary>
         /// 点击工具箱日志按钮
@@ -119,6 +115,111 @@ namespace LeonReader.Client
         private void UnityToolContainer_GoBackClick(object sender, EventArgs e)
         {
             //TODO: 点击后退按钮
+        }
+
+        #endregion
+
+        #region 扫描目录
+
+        /// <summary>
+        /// 刷新目录列表
+        /// </summary>
+        private void RefreshCatalogList()
+        {
+            LogUtils.Info("刷新目录列表...");
+
+            this.ClearCatalogControl();
+
+            this.ScanCatalog(Application.StartupPath);
+        }
+
+        /// <summary>
+        /// 清空目录控件
+        /// </summary>
+        private void ClearCatalogControl()
+        {
+            foreach (TabPage tabPage in this.CatalogTabControl.TabPages)
+            {
+                if (!(tabPage.Tag is FlowLayoutPanel flowPanel)) continue;
+                foreach (Control control in flowPanel.Controls)
+                {
+                    if (control is CardContainer container)
+                        container?.TargetArticleProxy?.Dispose();
+                    else
+                        control.Dispose();
+                }
+                flowPanel.Dispose();
+                tabPage.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 使用目录内所有扫描器扫描目录
+        /// </summary>
+        private void ScanCatalog(string directoryPath)
+        {
+            LogUtils.Info("使用所有扫描器扫描目录...");
+            ACManager acManager = new ACManager();
+
+            //遍历符合条件的链接库
+            foreach (var assembly in this.TargetAssemblyFactory.CreateAssemblys(
+                directoryPath,
+                path => path.ToUpper().EndsWith("SADE.DLL")))
+            {
+                if (assembly == null) continue;
+
+                //遍历程序集内的扫描器
+                foreach (var scanner in this.TargetSADEFactory.CreateScanners(assembly))
+                {
+                    if (scanner == null) continue;
+                    LogUtils.Info($"发现扫描器：{scanner.SADESource} in {assembly.FullName}");
+
+                    scanner.TargetACManager = acManager;
+                    TabPage tabPage = this.CreateCatalogContainer(scanner.SADESource);
+                    try
+                    {
+                        ArticleProxyFactory articleProxyFactory = new ArticleProxyFactory(
+                            tabPage,
+                            tabPage.Tag as FlowLayoutPanel,
+                            assembly,
+                            scanner
+                            );
+
+                        scanner.Process();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogUtils.Error($"调用扫描器失败：{ex.Message}");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 创建容器
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private TabPage CreateCatalogContainer(string source)
+        {
+            TabPage tabPage = new TabPage()
+            {
+                Text = $"{source} - 正在扫描...",
+            };
+            this.CatalogTabControl.TabPages.Add(tabPage);
+
+            FlowLayoutPanel flowPanel = new FlowLayoutPanel()
+            {
+                AutoScroll = true,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                BackColor = Color.White
+            };
+            tabPage.Controls.Add(flowPanel);
+            flowPanel.Dock = DockStyle.Fill;
+            //使用 TAG 关联 Page 和 Panel
+            tabPage.Tag = flowPanel;
+            return tabPage;
         }
 
         #endregion
