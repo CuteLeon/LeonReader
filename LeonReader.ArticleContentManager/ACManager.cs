@@ -209,6 +209,7 @@ namespace LeonReader.ArticleContentManager
             if (article == null) return;
 
             article.State = state;
+            //TODO: 取消分析时触发BUG "属性“Id”是对象的关键信息的一部分，不能修改"
             this.TargetDBContext.SaveChanges();
         }
 
@@ -298,6 +299,7 @@ namespace LeonReader.ArticleContentManager
             if (article == null) throw new ArgumentNullException(nameof(article));
             if (content == null) throw new ArgumentNullException(nameof(content));
 
+            //TODO: 这里不需要临时变量了，文章代理可能保证文章实体和DBContext同源
             Article temp = this.TargetDBContext.Articles.FirstOrDefault(art => art.ArticleID == article.ArticleID && art.SADESource == article.SADESource);
             if (temp == null) return 0;
 

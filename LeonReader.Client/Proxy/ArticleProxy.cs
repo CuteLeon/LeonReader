@@ -44,9 +44,10 @@ namespace LeonReader.Client.Proxy
 
             this.TargetCardContainer = cardContainer ?? throw new ArgumentNullException(nameof(cardContainer));
             this.TargetCardContainer.TargetArticleProxy = this;
-            
+
             if (string.IsNullOrEmpty(articleID) || string.IsNullOrEmpty(articleSource))
                 throw new ArgumentNullException($"{nameof(articleID)}, {nameof(articleSource)}");
+            //这里文章实体必须与ACManager内的DBContext同源，否则无法正常更新数据库
             this.TargetArticle = this.TargetACManager.GetArticle(articleID, articleSource);
             if (this.TargetArticle == null)
                 throw new ArgumentException($"{nameof(articleID)}, {nameof(articleSource)}");
@@ -80,8 +81,7 @@ namespace LeonReader.Client.Proxy
             {
                 //这里没有验证，只允许在构造函数调用
                 this._targetArticle = value;
-                //TODO: 注入文章对象后根据文章状态设置卡片控件布局并显示此状态进度
-                Console.WriteLine(this._targetArticle.State.ToString());
+                this.SwitchUI(this._targetArticle.State);
             }
         }
         #endregion
@@ -178,6 +178,87 @@ namespace LeonReader.Client.Proxy
         #region 卡片事件
 
         /// <summary>
+        /// 切换文章状态
+        /// </summary>
+        /// <param name="articleState"></param>
+        private void SwitchUI(ArticleStates articleState)
+        {
+            switch (articleState)
+            {
+                case ArticleStates.New:
+                    {
+                        this.TargetCardContainer.OnNew();
+                        break;
+                    }
+                case ArticleStates.Cancelling:
+                    {
+                        this.TargetCardContainer.OnCancle();
+                        break;
+                    }
+                case ArticleStates.Analyzing:
+                    {
+                        this.TargetCardContainer.OnAnalyze();
+                        break;
+                    }
+                case ArticleStates.Analyzed:
+                    {
+                        this.TargetCardContainer.OnAnalyzed(this.TargetArticle.Contents.Count);
+                        break;
+                    }
+                case ArticleStates.Downloading:
+                    {
+                        this.TargetCardContainer.OnDownload();
+                        break;
+                    }
+                case ArticleStates.Downloaded:
+                    {
+                        this.TargetCardContainer.OnDownloaded(new Tuple<int, int>(
+                            this.TargetArticle.Contents.FindAll(content => content.State == ContentItem.ContentStates.Downloaded).Count,
+                            this.TargetArticle.Contents.FindAll(content => content.State != ContentItem.ContentStates.Downloaded).Count
+                            ));
+                        break;
+                    }
+                case ArticleStates.Exporting:
+                    {
+                        this.TargetCardContainer.OnExport();
+                        break;
+                    }
+                case ArticleStates.Exported:
+                    {
+                        this.TargetCardContainer.OnExported(
+                            IOUtils.PathCombine(
+                                ConfigHelper.GetConfigHelper.DownloadDirectory,
+                                this.TargetArticle.DownloadDirectoryName,
+                                string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
+                                ));
+                        break;
+                    }
+                case ArticleStates.Reading:
+                    {
+                        this.TargetCardContainer.OnReading();
+                        break;
+                    }
+                case ArticleStates.Readed:
+                    {
+                        this.TargetCardContainer.OnReaded();
+                        break;
+                    }
+                case ArticleStates.Deleting:
+                    {
+                        this.TargetCardContainer.OnDeleting();
+                        break;
+                    }
+                case ArticleStates.Deleted:
+                    {
+                        this.TargetCardContainer.OnDeleted();
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
         /// 点击标题
         /// </summary>
         /// <param name="sender"></param>
@@ -185,20 +266,11 @@ namespace LeonReader.Client.Proxy
         private void CardContainer_TitleClick(object sender, EventArgs e)
         {
             System.Windows.Forms.MessageBox.Show($"Article State : {this.TargetArticle.State}");
-            string ArticleFilePath = IOUtils.PathCombine(
-                ConfigHelper.GetConfigHelper.DownloadDirectory,
-                this.TargetArticle.DownloadDirectoryName,
-                string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
-                );
 
-            MetroForm readerForm = ReaderFormFactory.CreateReaderForm(ArticleFilePath);
-            readerForm.FormClosed += (s, v) =>
-            {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
-                this.TargetCardContainer.OnReaded();
-            };
-
-            readerForm.Show(this.TargetCardContainer.FindForm());
+            if (this.TargetArticle.State == ArticleStates.Exported ||
+                this.TargetArticle.State == ArticleStates.Readed 
+                )
+            this.OnRead();
         }
 
         /// <summary>
@@ -246,7 +318,56 @@ namespace LeonReader.Client.Proxy
         /// <param name="e"></param>
         private void CardContainer_MainButtonClick(object sender, EventArgs e)
         {
-            //TODO: 根据文章状态跳过已经完成的步骤，将界面直接置为下一步操作的布局
+            switch (this.TargetArticle.State)
+            {
+                case ArticleStates.New:
+                    {
+                        this.OnAnalyze();
+                        break;
+                    }
+                case ArticleStates.Analyzing:
+                    {
+                        this.OnCancelAnalyze();
+                        break;
+                    }
+                case ArticleStates.Analyzed:
+                    {
+                        this.OnDownload();
+                        break;
+                    }
+                case ArticleStates.Downloading:
+                    {
+                        this.OnCancelDownload();
+                        break;
+                    }
+                case ArticleStates.Downloaded:
+                    {
+                        this.OnExport();
+                        break;
+                    }
+                case ArticleStates.Exporting:
+                    {
+                        this.OnCancelExport();
+                        break;
+                    }
+                case ArticleStates.Exported:
+                case ArticleStates.Readed:
+                    {
+                        this.OnRead();
+                        break;
+                    }
+                case ArticleStates.Deleted:
+                    {
+                        this.OnAnalyze();
+                        break;
+                    }
+                case ArticleStates.Cancelling:
+                case ArticleStates.Reading:
+                case ArticleStates.Deleting:
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -503,6 +624,31 @@ namespace LeonReader.Client.Proxy
                 this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exported);
                 this.TargetCardContainer.OnExported(e.Result as string);
             }
+        }
+
+        #endregion
+
+        #region 阅读
+
+        /// <summary>
+        /// 开始阅读
+        /// </summary>
+        private void OnRead()
+        {
+            string ArticleFilePath = IOUtils.PathCombine(
+                ConfigHelper.GetConfigHelper.DownloadDirectory,
+                this.TargetArticle.DownloadDirectoryName,
+                string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
+                );
+
+            MetroForm readerForm = ReaderFormFactory.CreateReaderForm(ArticleFilePath);
+            readerForm.FormClosed += (s, v) =>
+            {
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
+                this.TargetCardContainer.OnReaded();
+            };
+
+            readerForm.Show(this.TargetCardContainer.FindForm());
         }
 
         #endregion

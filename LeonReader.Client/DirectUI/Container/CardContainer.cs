@@ -23,7 +23,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 新建
         /// </summary>
-        public void OnNewState()
+        public void OnNew()
         {
             this.DUIMainButton.Text = "分析";
             this.Style = CardStyles.Large;
@@ -205,6 +205,7 @@ namespace LeonReader.Client.DirectUI.Container
         {
             this.DUIStateLabel.Text = $"导出完成: {path}";
             this.DUIMainButton.Text = "阅读";
+            this.Style = CardStyles.Normal;
         }
 
         #endregion
@@ -232,6 +233,24 @@ namespace LeonReader.Client.DirectUI.Container
         {
             this.DUIMainButton.Text = "阅读";
             this.Style = CardStyles.Small;
+        }
+
+        /// <summary>
+        /// 开始删除
+        /// </summary>
+        public void OnDeleting()
+        {
+            this.DUIStateLabel.Text = "正在清理此文章...";
+            this.DUIMainButton.Enabled = false;
+        }
+
+        /// <summary>
+        /// 清理完成
+        /// </summary>
+        public void OnDeleted()
+        {
+            this.DUIStateLabel.Text = "已经清理此文章";
+            this.DUIMainButton.Enabled = true;
         }
 
         #endregion

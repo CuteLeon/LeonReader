@@ -54,6 +54,7 @@ namespace GamerSkySADE
                 try
                 {
                     this.DownloadContent(content, this.DownloadDirectory);
+                    //TODO: 将内容对象的状态置为已下载
                     this.SuccessCount++;
                 }
                 catch (Exception ex)

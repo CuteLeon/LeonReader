@@ -38,7 +38,7 @@
             this.CatalogTabControl.ItemSize = new System.Drawing.Size(102, 32);
             this.CatalogTabControl.Location = new System.Drawing.Point(10, 60);
             this.CatalogTabControl.Name = "CatalogTabControl";
-            this.CatalogTabControl.Size = new System.Drawing.Size(808, 425);
+            this.CatalogTabControl.Size = new System.Drawing.Size(780, 530);
             this.CatalogTabControl.TabIndex = 0;
             this.CatalogTabControl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.CatalogTabControl.UseSelectable = true;
@@ -57,7 +57,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(828, 495);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.CatalogTabControl);
             this.Controls.Add(this.UnityToolContainer);
             this.MinimumSize = new System.Drawing.Size(500, 65);

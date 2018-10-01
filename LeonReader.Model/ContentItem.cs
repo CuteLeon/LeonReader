@@ -23,13 +23,9 @@ namespace LeonReader.Model
             /// </summary>
             New = 0,
             /// <summary>
-            /// 正在下载
-            /// </summary>
-            Downloading = 1,
-            /// <summary>
             /// 已下载
             /// </summary>
-            Downloaded = 2,
+            Downloaded = 1,
         }
 
         #endregion

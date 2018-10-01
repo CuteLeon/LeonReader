@@ -158,7 +158,7 @@ namespace GamerSkySADE
                         }
                         else
                         {
-                            contentItem.PageLink = PageAddress;
+                            contentItem.PageLink = PageLink;
                             this.ContentCount++;
                             yield return contentItem;
                         }
