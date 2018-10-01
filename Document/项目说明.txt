@@ -60,3 +60,4 @@
 12. CardContainer 内含 ArticleState 属性展示当前文章处理状态（对外部只读），用户可以通过 OnAnalyze()、OnDownload、OnExport、OnCancelXXX() 方法依次处理文章；
 13. 从 A_DBContext 查询的对象无法通过 B_DBContext.SaveChanges() 进行更新删除等操作；
 14. SADE 和 UI 无需直接访问 DataAccess 层，而只需要 Model 和 BIZ 层的 Manager 即可，但要注意只有创建实体对象的DBContext才可以保存实体对象的变化操作；
+15. DBContext 是非线程安全对象，并发时注意 lock(LockSeed)

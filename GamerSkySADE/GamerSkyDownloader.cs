@@ -5,6 +5,8 @@ using LeonReader.AbstractSADE;
 using LeonReader.Common;
 using LeonReader.Model;
 
+using static LeonReader.Model.ContentItem;
+
 namespace GamerSkySADE
 {
     public class GamerSkyDownloader : Downloader
@@ -44,7 +46,6 @@ namespace GamerSkySADE
             this.SuccessCount = 0;
             this.FailedCount = 0;
 
-            //TODO: 下载器根据内容记录的状态，从上次下载的记录续作
             //开始任务
             foreach (var content in article.Contents.FindAll(
                 content => content.State == ContentItem.ContentStates.New
@@ -54,7 +55,7 @@ namespace GamerSkySADE
                 try
                 {
                     this.DownloadContent(content, this.DownloadDirectory);
-                    //TODO: 将内容对象的状态置为已下载
+                    this.TargetACManager.SetContentState(content, ContentStates.Downloaded);
                     this.SuccessCount++;
                 }
                 catch (Exception ex)

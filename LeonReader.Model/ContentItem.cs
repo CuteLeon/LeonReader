@@ -36,7 +36,7 @@ namespace LeonReader.Model
         /// 文章内容ID
         /// </summary>
         [Key]
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DisplayName("文章内容ID")]
         public int ID { get; set; }
 

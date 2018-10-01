@@ -22,51 +22,59 @@ namespace LeonReader.Model
             /// <summary>
             /// 新文章
             /// </summary>
-            New = 0,
-            /// <summary>
-            /// 正在取消
-            /// </summary>
-            Cancelling = 1,
+            New,
             /// <summary>
             /// 正在分析
             /// </summary>
-            Analyzing = 2,
+            Analyzing,
+            /// <summary>
+            /// 正在取消分析
+            /// </summary>
+            CancelAnalyze,
             /// <summary>
             /// 分析完毕
             /// </summary>
-            Analyzed = 3,
+            Analyzed,
             /// <summary>
             /// 正在下载
             /// </summary>
-            Downloading = 4,
+            Downloading,
+            /// <summary>
+            /// 正在取消下载
+            /// </summary>
+            CancelDownload,
             /// <summary>
             /// 下载完成
             /// </summary>
-            Downloaded = 5,
+            Downloaded,
             /// <summary>
             /// 正在导出
             /// </summary>
-            Exporting = 6,
+            Exporting,
+            /// <summary>
+            /// 正在取消导出
+            /// </summary>
+            CancelExport,
             /// <summary>
             /// 导出完成
             /// </summary>
-            Exported = 7,
+            Exported,
             /// <summary>
             /// 正在阅读
             /// </summary>
-            Reading = 8,
+            Reading,
             /// <summary>
             /// 已读
             /// </summary>
-            Readed = 9,
+            Readed,
             /// <summary>
             /// 正在删除
             /// </summary>
-            Deleting = 10,
+            Deleting,
             /// <summary>
             /// 已经删除
             /// </summary>
-            Deleted = 11,
+            Deleted,
         }
 
         #endregion

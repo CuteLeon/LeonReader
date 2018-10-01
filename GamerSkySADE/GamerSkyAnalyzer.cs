@@ -38,13 +38,7 @@ namespace GamerSkySADE
             this.ContentCount = 0;
 
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
-
-            /*
-            if (article.Contents != null && article.Contents.Count > 0)
-                this.TargetContentManager.ClearContents(article);
-             */
-
-            //TODO: 尝试从上次分析进行到的页面链接开始分析
+            
             string ScanLink = this.TargetACManager.GetLastContentPageLink(article);
             if (string.IsNullOrEmpty(ScanLink))
             {
@@ -52,7 +46,8 @@ namespace GamerSkySADE
             }
             else
             {
-                //TODO: 从上次分析进行到页面进行续作，需要排除此页已经存入数据库的内容记录
+                //从上次分析进行到页面进行续作，需要排除此页已经存入数据库的内容记录
+                this.TargetACManager.RemoveContentFromPage(article, ScanLink);
             }
             
             //开始任务
@@ -74,7 +69,7 @@ namespace GamerSkySADE
             }
 
             //记录内容总数
-            e.Result = this.ContentCount;
+            e.Result = article.Contents.Count;
             LogUtils.Info($"文章分析完成：{article.ArticleLink} (From：{this.SADESource})");
         }
 

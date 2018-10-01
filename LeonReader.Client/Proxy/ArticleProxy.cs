@@ -81,7 +81,7 @@ namespace LeonReader.Client.Proxy
             {
                 //这里没有验证，只允许在构造函数调用
                 this._targetArticle = value;
-                this.SwitchUI(this._targetArticle.State);
+                this.InitUI(this._targetArticle.State);
             }
         }
         #endregion
@@ -178,53 +178,44 @@ namespace LeonReader.Client.Proxy
         #region 卡片事件
 
         /// <summary>
-        /// 切换文章状态
+        /// 初始化文章状态显示布局
         /// </summary>
         /// <param name="articleState"></param>
-        private void SwitchUI(ArticleStates articleState)
+        private void InitUI(ArticleStates articleState)
         {
             switch (articleState)
             {
+                case ArticleStates.Analyzing:
+                case ArticleStates.CancelAnalyze:
                 case ArticleStates.New:
                     {
+                        this.TargetArticle.State = ArticleStates.New;
                         this.TargetCardContainer.OnNew();
                         break;
                     }
-                case ArticleStates.Cancelling:
-                    {
-                        this.TargetCardContainer.OnCancle();
-                        break;
-                    }
-                case ArticleStates.Analyzing:
-                    {
-                        this.TargetCardContainer.OnAnalyze();
-                        break;
-                    }
+                case ArticleStates.Downloading:
+                case ArticleStates.CancelDownload:
                 case ArticleStates.Analyzed:
                     {
+                        this.TargetArticle.State = ArticleStates.Analyzed;
                         this.TargetCardContainer.OnAnalyzed(this.TargetArticle.Contents.Count);
                         break;
                     }
-                case ArticleStates.Downloading:
-                    {
-                        this.TargetCardContainer.OnDownload();
-                        break;
-                    }
+                case ArticleStates.Exporting:
+                case ArticleStates.CancelExport:
                 case ArticleStates.Downloaded:
                     {
+                        this.TargetArticle.State = ArticleStates.Downloaded;
                         this.TargetCardContainer.OnDownloaded(new Tuple<int, int>(
                             this.TargetArticle.Contents.FindAll(content => content.State == ContentItem.ContentStates.Downloaded).Count,
                             this.TargetArticle.Contents.FindAll(content => content.State != ContentItem.ContentStates.Downloaded).Count
                             ));
                         break;
                     }
-                case ArticleStates.Exporting:
-                    {
-                        this.TargetCardContainer.OnExport();
-                        break;
-                    }
+                case ArticleStates.Reading:
                 case ArticleStates.Exported:
                     {
+                        this.TargetArticle.State = ArticleStates.Exported;
                         this.TargetCardContainer.OnExported(
                             IOUtils.PathCombine(
                                 ConfigHelper.GetConfigHelper.DownloadDirectory,
@@ -233,23 +224,15 @@ namespace LeonReader.Client.Proxy
                                 ));
                         break;
                     }
-                case ArticleStates.Reading:
-                    {
-                        this.TargetCardContainer.OnReading();
-                        break;
-                    }
                 case ArticleStates.Readed:
                     {
                         this.TargetCardContainer.OnReaded();
                         break;
                     }
                 case ArticleStates.Deleting:
-                    {
-                        this.TargetCardContainer.OnDeleting();
-                        break;
-                    }
                 case ArticleStates.Deleted:
                     {
+                        this.TargetArticle.State = ArticleStates.Deleted;
                         this.TargetCardContainer.OnDeleted();
                         break;
                     }
@@ -265,12 +248,10 @@ namespace LeonReader.Client.Proxy
         /// <param name="e"></param>
         private void CardContainer_TitleClick(object sender, EventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show($"Article State : {this.TargetArticle.State}");
-
             if (this.TargetArticle.State == ArticleStates.Exported ||
-                this.TargetArticle.State == ArticleStates.Readed 
+                this.TargetArticle.State == ArticleStates.Readed
                 )
-            this.OnRead();
+                this.DoRead();
         }
 
         /// <summary>
@@ -320,48 +301,46 @@ namespace LeonReader.Client.Proxy
         {
             switch (this.TargetArticle.State)
             {
+                case ArticleStates.Deleted:
                 case ArticleStates.New:
                     {
-                        this.OnAnalyze();
+                        this.DoAnalyze();
                         break;
                     }
                 case ArticleStates.Analyzing:
                     {
-                        this.OnCancelAnalyze();
+                        this.DoCancelAnalyze();
                         break;
                     }
                 case ArticleStates.Analyzed:
                     {
-                        this.OnDownload();
+                        this.DoDownload();
                         break;
                     }
                 case ArticleStates.Downloading:
                     {
-                        this.OnCancelDownload();
+                        this.DoCancelDownload();
                         break;
                     }
                 case ArticleStates.Downloaded:
                     {
-                        this.OnExport();
+                        this.DoExport();
                         break;
                     }
                 case ArticleStates.Exporting:
                     {
-                        this.OnCancelExport();
+                        this.DoCancelExport();
                         break;
                     }
                 case ArticleStates.Exported:
                 case ArticleStates.Readed:
                     {
-                        this.OnRead();
+                        this.DoRead();
                         break;
                     }
-                case ArticleStates.Deleted:
-                    {
-                        this.OnAnalyze();
-                        break;
-                    }
-                case ArticleStates.Cancelling:
+                case ArticleStates.CancelAnalyze:
+                case ArticleStates.CancelDownload:
+                case ArticleStates.CancelExport:
                 case ArticleStates.Reading:
                 case ArticleStates.Deleting:
                     break;
@@ -377,6 +356,12 @@ namespace LeonReader.Client.Proxy
         /// <param name="e"></param>
         private void CardContainer_DeleteClick(object sender, EventArgs e)
         {
+            /* TODO: 卡片删除按钮
+             * 文章状态置为 Deleting；
+             * 如果存在目录及文件即删除目录及文件；
+             * 如果存在内容记录，删除内容记录，文章状态置为 Deleted；
+             * 如果不存在内容记录，删除文章记录；
+             */
         }
 
         /// <summary>
@@ -396,20 +381,23 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 开始分析文章
         /// </summary>
-        public void OnAnalyze()
+        public void DoAnalyze()
         {
-            if (this.TargetArticle.State < ArticleStates.New ||
-                this.TargetArticle.State == ArticleStates.Cancelling ||
-                this.TargetArticle.State == ArticleStates.Analyzing ||
-                this.TargetArticle.State == ArticleStates.Downloading ||
-                this.TargetArticle.State == ArticleStates.Exporting ||
-                this.TargetArticle.State == ArticleStates.Reading ||
-                this.TargetArticle.State == ArticleStates.Deleting
+            if (this.TargetArticle.State == ArticleStates.New ||
+                this.TargetArticle.State == ArticleStates.Analyzed ||
+                this.TargetArticle.State == ArticleStates.Downloaded ||
+                this.TargetArticle.State == ArticleStates.Exported ||
+                this.TargetArticle.State == ArticleStates.Readed ||
+                this.TargetArticle.State == ArticleStates.Deleted
                 )
+            {
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzing);
+                this.TargetAnalyzer.Process();
+            }
+            else
+            {
                 throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
-
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzing);
-            this.TargetAnalyzer.Process();
+            }
         }
 
         /// <summary>
@@ -435,12 +423,12 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 取消分析
         /// </summary>
-        public void OnCancelAnalyze()
+        public void DoCancelAnalyze()
         {
             if (this.TargetArticle.State != ArticleStates.Analyzing)
                 throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Cancelling);
+            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelAnalyze);
             this.TargetCardContainer.OnCancle();
             this.TargetAnalyzer.Cancle();
         }
@@ -476,19 +464,21 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 开始下载文章
         /// </summary>
-        public void OnDownload()
+        public void DoDownload()
         {
-            if (this.TargetArticle.State < ArticleStates.Analyzed ||
-                this.TargetArticle.State == ArticleStates.Cancelling ||
-                this.TargetArticle.State == ArticleStates.Downloading ||
-                this.TargetArticle.State == ArticleStates.Exporting ||
-                this.TargetArticle.State == ArticleStates.Reading ||
-                this.TargetArticle.State == ArticleStates.Deleting
+            if (this.TargetArticle.State == ArticleStates.Analyzed ||
+                this.TargetArticle.State == ArticleStates.Downloaded ||
+                this.TargetArticle.State == ArticleStates.Exported ||
+                this.TargetArticle.State == ArticleStates.Readed
                 )
+            {
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloading);
+                this.TargetDownloader.Process();
+            }
+            else
+            {
                 throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
-
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloading);
-            this.TargetDownloader.Process();
+            }
         }
 
         /// <summary>
@@ -514,12 +504,12 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 取消下载
         /// </summary>
-        public void OnCancelDownload()
+        public void DoCancelDownload()
         {
             if (this.TargetArticle.State != ArticleStates.Downloading)
                 throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Cancelling);
+            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelDownload);
             this.TargetCardContainer.OnCancle();
             this.TargetDownloader.Cancle();
         }
@@ -555,18 +545,20 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 开始导出文章
         /// </summary>
-        public void OnExport()
+        public void DoExport()
         {
-            if (this.TargetArticle.State < ArticleStates.Downloaded ||
-                this.TargetArticle.State == ArticleStates.Cancelling ||
-                this.TargetArticle.State == ArticleStates.Exporting ||
-                this.TargetArticle.State == ArticleStates.Reading ||
-                this.TargetArticle.State == ArticleStates.Deleting
+            if (this.TargetArticle.State == ArticleStates.Downloaded ||
+                this.TargetArticle.State == ArticleStates.Exported ||
+                this.TargetArticle.State == ArticleStates.Readed
                 )
+            {
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exporting);
+                this.TargetExporter.Process();
+            }
+            else
+            {
                 throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
-
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exporting);
-            this.TargetExporter.Process();
+            }
         }
 
         /// <summary>
@@ -592,12 +584,12 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 取消导出
         /// </summary>
-        public void OnCancelExport()
+        public void DoCancelExport()
         {
             if (this.TargetArticle.State != ArticleStates.Exporting)
                 throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Cancelling);
+            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelExport);
             this.TargetCardContainer.OnCancle();
             this.TargetExporter.Cancle();
         }
@@ -633,7 +625,7 @@ namespace LeonReader.Client.Proxy
         /// <summary>
         /// 开始阅读
         /// </summary>
-        private void OnRead()
+        private void DoRead()
         {
             string ArticleFilePath = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,

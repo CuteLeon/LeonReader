@@ -17,7 +17,7 @@ namespace LeonReader.Client.Factory
         /// 创建卡片控件
         /// </summary>
         /// <returns></returns>
-        private CardContainer CreateCardContainer(Article article)
+        public CardContainer CreateCardContainer(Article article)
         {
             CardContainer cardContainer = new CardContainer();
             try
@@ -39,63 +39,6 @@ namespace LeonReader.Client.Factory
 
             return cardContainer;
         }
-
-        #region 创建正常卡片
-
-        /// <summary>
-        /// 创建正常卡片
-        /// </summary>
-        /// <returns></returns>
-        public CardContainer CreateNormalCard(Article article)
-        {
-            if (article == null)
-                throw new ArgumentNullException(nameof(article));
-
-            CardContainer cardContainer = this.CreateCardContainer(article);
-            cardContainer.Size = new Size(675, 118);
-            cardContainer.Style = CardContainer.CardStyles.Normal;
-            return cardContainer;
-        }
-
-        #endregion
-
-        #region 创建精简卡片
-
-        /// <summary>
-        /// 创建精简卡片
-        /// </summary>
-        /// <returns></returns>
-        public CardContainer CreateSmallCard(Article article)
-        {
-            if (article == null)
-                throw new ArgumentNullException(nameof(article));
-
-            CardContainer cardContainer = this.CreateCardContainer(article);
-            cardContainer.Size = new Size(675, 32);
-            cardContainer.Style = CardContainer.CardStyles.Small;
-            return cardContainer;
-        }
-
-        #endregion
-
-        #region 创建巨幅卡片
-
-        /// <summary>
-        /// 创建巨幅卡片
-        /// </summary>
-        /// <returns></returns>
-        public CardContainer CreateLargeCard(Article article)
-        {
-            if (article == null)
-                throw new ArgumentNullException(nameof(article));
-
-            CardContainer cardContainer = this.CreateCardContainer(article);
-            cardContainer.Size = new Size(675, 180);
-            cardContainer.Style = CardContainer.CardStyles.Large;
-            return cardContainer;
-        }
-
-        #endregion
-
+        
     }
 }

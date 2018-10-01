@@ -110,34 +110,15 @@ namespace LeonReader.Client.Factory
             List<CardContainer> cardContainers = new List<CardContainer>();
 
             //创建卡片控件
-            foreach (var article in this.TargetACManager.GetNewArticles(this.TargetScanner.SADESource))
+            foreach (var article in this.TargetACManager.GetArticles(this.TargetScanner.SADESource))
             {
                 if (article == null) continue;
 
-                CardContainer cardContainer = this.TargetCardFactory.CreateLargeCard(article);
+                CardContainer cardContainer = this.TargetCardFactory.CreateCardContainer(article);
                 this.CreateArticleProxy(article, cardContainer);
                 cardContainers.Add(cardContainer);
-            }
-            foreach (var article in this.TargetACManager.GetCachedArticle(this.TargetScanner.SADESource))
-            {
-                if (article == null) continue;
 
-                CardContainer cardContainer = this.TargetCardFactory.CreateNormalCard(article);
-                this.CreateArticleProxy(article, cardContainer);
-                cardContainers.Add(cardContainer);
-            }
-            foreach (var article in this.TargetACManager.GetReadedArticles(this.TargetScanner.SADESource))
-            {
-                if (article == null) continue;
-
-                CardContainer cardContainer = this.TargetCardFactory.CreateSmallCard(article);
-                this.CreateArticleProxy(article, cardContainer);
-                cardContainers.Add(cardContainer);
-            }
-
-            //显示控件
-            foreach (var cardContainer in cardContainers)
-            {
+                //显示控件
                 this.TargetFlowPanel.Controls.Add(cardContainer);
                 Application.DoEvents();
             }

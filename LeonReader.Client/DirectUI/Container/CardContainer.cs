@@ -85,6 +85,7 @@ namespace LeonReader.Client.DirectUI.Container
         {
             this.DUIStateLabel.Text = $"分析完成：{contentCount} 个内容";
             this.DUIMainButton.Text = "下载";
+            this.Style = CardStyles.Large;
         }
 
         #endregion
@@ -145,6 +146,7 @@ namespace LeonReader.Client.DirectUI.Container
         {
             this.DUIStateLabel.Text = $"下载完成，成功: {result.Item1}, 失败: {result.Item2}";
             this.DUIMainButton.Text = "导出";
+            this.Style = CardStyles.Large;
         }
 
         #endregion
@@ -443,6 +445,7 @@ namespace LeonReader.Client.DirectUI.Container
                     this.ResetLayout(value);
                     //立即调整布局
                     this.Relayout?.Invoke(this.DisplayRectangle.Width, this.DisplayRectangle.Height);
+                    this.Invalidate();
                 }
             }
         }
@@ -679,9 +682,9 @@ namespace LeonReader.Client.DirectUI.Container
                         this.DUIStateLabel.Visible = true;
                         this.DUIPreviewImageBox.Text = string.Empty;
                         this.DUIPreviewImageBox.BackgroundImageLayout = ImageLayout.Zoom;
-
                         this.MaximumSize = new Size(0, 0);
                         this.MinimumSize = new Size(212, 62);
+                        this.Size = new Size(675, 118);
                         this.Relayout = this.NormalLayout;
                         break;
                     }
@@ -693,9 +696,9 @@ namespace LeonReader.Client.DirectUI.Container
                         this.DUIPublishTimeLabel.Visible = false;
                         this.DUIStateLabel.Visible = false;
                         this.DUIPreviewImageBox.Text = string.Empty;
-
                         this.MaximumSize = new Size(1000, 32);
                         this.MinimumSize = new Size(112, 32);
+                        this.Size = new Size(675, 32);
                         this.Relayout = this.SmallLayout;
                         break;
                     }
@@ -708,9 +711,9 @@ namespace LeonReader.Client.DirectUI.Container
                         this.DUIStateLabel.Visible = true;
                         this.DUIPreviewImageBox.Text = this.DUIDescriptionLabel.Text;
                         this.DUIPreviewImageBox.BackgroundImageLayout = ImageLayout.Tile;
-
                         this.MaximumSize = new Size(0, 0);
                         this.MinimumSize = new Size(112, 62);
+                        this.Size = new Size(675, 175);
                         this.Relayout = this.LargeLayout;
                         break;
                     }
@@ -724,6 +727,9 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         protected virtual void SmallLayout(int width, int height)
         {
+            //修改Style同时收到SizeChanged消息会导致一次性的布局混乱
+            if (this.Style != CardStyles.Small) return;
+
             this.SuspendPaint();
 
             this.DUISpliteLine.SetBounds(0, 0, width, 3);
@@ -752,6 +758,9 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         protected virtual void NormalLayout(int width, int height)
         {
+            //修改Style同时收到SizeChanged消息会导致一次性的布局混乱
+            if (this.Style != CardStyles.Normal) return;
+
             this.SuspendPaint();
 
             this.DUISpliteLine.SetBounds(0, 0, width, 6);
@@ -799,6 +808,9 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         protected virtual void LargeLayout(int width, int height)
         {
+            //修改Style同时收到SizeChanged消息会导致一次性的布局混乱
+            if (this.Style != CardStyles.Large) return;
+
             this.SuspendPaint();
 
             this.DUISpliteLine.SetBounds(0, 0, width, 6);

@@ -6,6 +6,7 @@ using LeonReader.DataAccess;
 using LeonReader.Model;
 
 using static LeonReader.Model.Article;
+using static LeonReader.Model.ContentItem;
 
 namespace LeonReader.ArticleContentManager
 {
@@ -14,6 +15,11 @@ namespace LeonReader.ArticleContentManager
     /// </summary>
     public class ACManager : IDisposable
     {
+
+        /// <summary>
+        /// 异步锁芯
+        /// </summary>
+        readonly object LockSeed = new object();
 
         /// <summary>
         /// 数据库交互对象
@@ -31,7 +37,8 @@ namespace LeonReader.ArticleContentManager
             if (article == null) throw new ArgumentNullException(nameof(article));
 
             this.TargetDBContext.Articles.Add(article);
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         /// <summary>
@@ -44,7 +51,8 @@ namespace LeonReader.ArticleContentManager
             if (articles.Count() == 0) return;
 
             this.TargetDBContext.Articles.AddRange(articles);
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         #endregion
@@ -60,7 +68,8 @@ namespace LeonReader.ArticleContentManager
             if (article == null) throw new ArgumentNullException(nameof(article));
 
             this.TargetDBContext.Articles.Remove(article);
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         /// <summary>
@@ -73,7 +82,8 @@ namespace LeonReader.ArticleContentManager
             if (articles.Count() == 0) return;
 
             this.TargetDBContext.Articles.RemoveRange(articles);
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         #endregion
@@ -88,61 +98,12 @@ namespace LeonReader.ArticleContentManager
         public IQueryable<Article> GetArticles(string source)
         {
             return
-                from article
-                in this.TargetDBContext.Articles
+                from
+                    article in this.TargetDBContext.Articles
                 where
                     article.SADESource == source
-                select article;
-        }
-
-        /// <summary>
-        /// 获取指定处理源的新文章
-        /// </summary>
-        /// <param name="source">处理源</param>
-        /// <returns></returns>
-        public IQueryable<Article> GetNewArticles(string source)
-        {
-            return
-                from article
-                in this.TargetDBContext.Articles
-                where
-                    article.SADESource == source &&
-                    article.State < ArticleStates.Exported
-                select article;
-        }
-
-        /// <summary>
-        /// 获取指定处理源缓存但未读的文章
-        /// </summary>
-        /// <param name="source">处理源</param>
-        /// <returns></returns>
-        public IQueryable<Article> GetCachedArticle(string source)
-        {
-            return
-                from article
-                in this.TargetDBContext.Articles
-                where
-                    article.SADESource == source &&
-                    article.State >= ArticleStates.Exported &&
-                    article.State < ArticleStates.Readed &&
-                    article.ExportTime != null
-                select article;
-        }
-
-        /// <summary>
-        /// 获取指定处理源已读的文章
-        /// </summary>
-        /// <param name="source">处理源</param>
-        /// <returns></returns>
-        public IQueryable<Article> GetReadedArticles(string source)
-        {
-            return
-                from article
-                in this.TargetDBContext.Articles
-                where
-                    article.SADESource == source &&
-                    article.State >= ArticleStates.Readed
-                select article;
+                select
+                    article;
         }
 
         /// <summary>
@@ -209,8 +170,35 @@ namespace LeonReader.ArticleContentManager
             if (article == null) return;
 
             article.State = state;
-            //TODO: 取消分析时触发BUG "属性“Id”是对象的关键信息的一部分，不能修改"
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// 移除文章指定页面的内容
+        /// </summary>
+        /// <param name="article"></param>
+        /// <param name="pageLink"></param>
+        public int RemoveContentFromPage(Article article, string pageLink)
+        {
+            int result = article.Contents.RemoveAll(content => content.PageLink == pageLink);
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
+            return result;
+        }
+
+        /// <summary>
+        /// 设置内容状态
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="state"></param>
+        public void SetContentState(ContentItem content, ContentStates state)
+        {
+            if (content == null) return;
+
+            content.State = state;
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         /// <summary>
@@ -223,7 +211,8 @@ namespace LeonReader.ArticleContentManager
             if (article == null) return;
 
             article.AnalyzeTime = dateTime;
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         /// <summary>
@@ -236,7 +225,8 @@ namespace LeonReader.ArticleContentManager
             if (article == null) return;
 
             article.DownloadTime = dateTime;
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         /// <summary>
@@ -249,7 +239,8 @@ namespace LeonReader.ArticleContentManager
             if (article == null) return;
 
             article.ExportTime = dateTime;
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
         }
 
         #endregion
@@ -285,7 +276,8 @@ namespace LeonReader.ArticleContentManager
             if (article == null) return 0;
 
             int count = article.Contents.RemoveAll((x) => true);
-            this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                this.TargetDBContext.SaveChanges();
             return count;
         }
 
@@ -299,12 +291,9 @@ namespace LeonReader.ArticleContentManager
             if (article == null) throw new ArgumentNullException(nameof(article));
             if (content == null) throw new ArgumentNullException(nameof(content));
 
-            //TODO: 这里不需要临时变量了，文章代理可能保证文章实体和DBContext同源
-            Article temp = this.TargetDBContext.Articles.FirstOrDefault(art => art.ArticleID == article.ArticleID && art.SADESource == article.SADESource);
-            if (temp == null) return 0;
-
-            temp.Contents.Add(content);
-            return this.TargetDBContext.SaveChanges();
+            article.Contents.Add(content);
+            lock (this.LockSeed)
+                return this.TargetDBContext.SaveChanges();
         }
 
         /// <summary>
@@ -319,7 +308,8 @@ namespace LeonReader.ArticleContentManager
             if (contents.Count() == 0) return 0;
 
             article.Contents.AddRange(contents);
-            return this.TargetDBContext.SaveChanges();
+            lock (this.LockSeed)
+                return this.TargetDBContext.SaveChanges();
         }
 
         #endregion
