@@ -171,7 +171,7 @@ namespace LeonReader.ArticleContentManager
 
             article.State = state;
             lock (this.LockSeed)
-                this.TargetDBContext.SaveChanges();
+                this.TargetDBContext.SaveChangesAsync();
         }
 
         /// <summary>
