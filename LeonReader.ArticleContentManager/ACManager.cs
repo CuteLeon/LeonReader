@@ -198,7 +198,7 @@ namespace LeonReader.ArticleContentManager
 
             content.State = state;
             lock (this.LockSeed)
-                this.TargetDBContext.SaveChanges();
+                this.TargetDBContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace LeonReader.ArticleContentManager
         /// </summary>
         /// <param name="article">文章</param>
         /// <param name="dateTime">分析时间</param>
-        public void SetAnalyzeTime(Article article, DateTime dateTime)
+        public void SetAnalyzeTime(Article article, DateTime? dateTime)
         {
             if (article == null) return;
 
@@ -220,7 +220,7 @@ namespace LeonReader.ArticleContentManager
         /// </summary>
         /// <param name="article">文章</param>
         /// <param name="dateTime">下载时间</param>
-        public void SetDownloadTime(Article article, DateTime dateTime)
+        public void SetDownloadTime(Article article, DateTime? dateTime)
         {
             if (article == null) return;
 
@@ -234,7 +234,7 @@ namespace LeonReader.ArticleContentManager
         /// </summary>
         /// <param name="article">文章</param>
         /// <param name="dateTime">导出时间</param>
-        public void SetExportTime(Article article, DateTime dateTime)
+        public void SetExportTime(Article article, DateTime? dateTime)
         {
             if (article == null) return;
 
@@ -246,6 +246,36 @@ namespace LeonReader.ArticleContentManager
         #endregion
 
         #region 查询内容
+
+        /// <summary>
+        /// 查询文章已下载内容数
+        /// </summary>
+        /// <param name="article"></param>
+        /// <returns></returns>
+        public int GetContentCountDownloaded(Article article)
+        {
+            if (article == null) throw new ArgumentNullException("article");
+
+            if (article.Contents == null || article.Contents.Count == 0) return 0;
+            return article.Contents
+                .Count(content => content.State == ContentStates.Downloaded);
+        }
+
+        /// <summary>
+        /// 查询文章已分析页面数
+        /// </summary>
+        /// <param name="article"></param>
+        /// <returns></returns>
+        public int GetPageCountAnalyzed(Article article)
+        {
+            if (article == null) throw new ArgumentNullException("article");
+
+            if (article.Contents == null || article.Contents.Count == 0) return 0;
+            return article.Contents
+                .Select(content => content.PageLink)
+                .Distinct()
+                .Count();
+        }
 
         /// <summary>
         /// 获取文章内容列表里最后一个不为空的页面链接，不存在时返回空字符串

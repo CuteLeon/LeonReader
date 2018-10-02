@@ -198,5 +198,20 @@ namespace LeonReader.Common
         /// <returns></returns>
         public static string[] GetChildrenFiles(string directoryPath, Predicate<string> predicate)
             => Array.FindAll(Directory.GetFiles(directoryPath), predicate);
+
+        /// <summary>
+        /// 清理目录
+        /// </summary>
+        /// <param name="dirPath"></param>
+        public static void ClearDirectory(string dirPath)
+        {
+            if (!Directory.Exists(dirPath)) return;
+            LogUtils.Debug($"清理目录：{dirPath}");
+
+            foreach (string FilePath in Directory.GetFiles(dirPath))
+                try { File.Delete(FilePath); } catch { }
+            try { Directory.Delete(dirPath); } catch { }
+        }
+
     }
 }

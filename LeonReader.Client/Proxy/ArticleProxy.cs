@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
 
 using LeonReader.AbstractSADE;
 using LeonReader.ArticleContentManager;
@@ -248,10 +249,7 @@ namespace LeonReader.Client.Proxy
         /// <param name="e"></param>
         private void CardContainer_TitleClick(object sender, EventArgs e)
         {
-            if (this.TargetArticle.State == ArticleStates.Exported ||
-                this.TargetArticle.State == ArticleStates.Readed
-                )
-                this.DoRead();
+            this.DoRead();
         }
 
         /// <summary>
@@ -288,8 +286,27 @@ namespace LeonReader.Client.Proxy
         /// <param name="e"></param>
         private void CardContainer_ReadedClick(object sender, EventArgs e)
         {
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
-            this.TargetCardContainer.OnReaded();
+            if (this.TargetArticle.State == ArticleStates.New ||
+                this.TargetArticle.State == ArticleStates.Analyzed ||
+                this.TargetArticle.State == ArticleStates.Downloaded ||
+                this.TargetArticle.State == ArticleStates.Exported
+                )
+            {
+                //置为已读
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
+                this.TargetCardContainer.OnReaded();
+            }
+            else if (this.TargetArticle.State == ArticleStates.Readed ||
+                this.TargetArticle.State == ArticleStates.Deleted
+                )
+            {
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
+                this.TargetCardContainer.OnNew();
+            }
+            else
+            {
+                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+            }
         }
 
         /// <summary>
@@ -356,12 +373,55 @@ namespace LeonReader.Client.Proxy
         /// <param name="e"></param>
         private void CardContainer_DeleteClick(object sender, EventArgs e)
         {
-            /* TODO: 卡片删除按钮
-             * 文章状态置为 Deleting；
-             * 如果存在目录及文件即删除目录及文件；
-             * 如果存在内容记录，删除内容记录，文章状态置为 Deleted；
-             * 如果不存在内容记录，删除文章记录；
-             */
+            if (this.TargetArticle.State == ArticleStates.New ||
+                this.TargetArticle.State == ArticleStates.Analyzed ||
+                this.TargetArticle.State == ArticleStates.Downloaded ||
+                this.TargetArticle.State == ArticleStates.Exported ||
+                this.TargetArticle.State == ArticleStates.Readed ||
+                this.TargetArticle.State == ArticleStates.Deleted
+                )
+            {
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Deleting);
+                this.TargetCardContainer.OnDeleting();
+
+                string ArticleDirectory = IOUtils.PathCombine(
+                    ConfigHelper.GetConfigHelper.DownloadDirectory,
+                    this.TargetArticle.DownloadDirectoryName
+                    );
+
+                //异步清理文章目录
+                ThreadPool.QueueUserWorkItem(
+                    new WaitCallback(
+                        dirpath =>
+                        {
+                            if (this.TargetArticle.Contents.Count > 0)
+                            {
+                                //清理文章
+                                this.TargetACManager.SetAnalyzeTime(this.TargetArticle, null);
+                                this.TargetACManager.SetDownloadTime(this.TargetArticle, null);
+                                this.TargetACManager.SetExportTime(this.TargetArticle, null);
+                                this.TargetACManager.ClearContents(this.TargetArticle);
+
+                                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Deleted);
+                                this.TargetCardContainer.OnDeleted();
+                            }
+                            else
+                            {
+                                //不存在内容的文章删除文章，释放卡片代理
+                                this.TargetACManager.RemoveArticle(this.TargetArticle);
+                                this.Dispose();
+                                return;
+                            }
+
+                            IOUtils.ClearDirectory(dirpath as string);
+                        }),
+                    ArticleDirectory
+                    );
+            }
+            else
+            {
+                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+            }
         }
 
         /// <summary>
@@ -391,6 +451,9 @@ namespace LeonReader.Client.Proxy
                 this.TargetArticle.State == ArticleStates.Deleted
                 )
             {
+                if (this.TargetArticle.State == ArticleStates.Deleted)
+                    this.TargetCardContainer.OnNew();
+
                 this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzing);
                 this.TargetAnalyzer.Process();
             }
@@ -633,14 +696,22 @@ namespace LeonReader.Client.Proxy
                 string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
                 );
 
-            MetroForm readerForm = ReaderFormFactory.CreateReaderForm(ArticleFilePath);
-            readerForm.FormClosed += (s, v) =>
+            if (IOUtils.FileExists(ArticleFilePath) &&
+                (this.TargetArticle.State == ArticleStates.Exported ||
+                this.TargetArticle.State == ArticleStates.Readed)
+                )
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
-                this.TargetCardContainer.OnReaded();
-            };
+                MetroForm readerForm = ReaderFormFactory.CreateReaderForm(ArticleFilePath);
+                readerForm.FormClosed += (s, v) =>
+                {
+                    this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
+                    this.TargetCardContainer.OnReaded();
+                };
 
-            readerForm.Show(this.TargetCardContainer.FindForm());
+                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Reading);
+                this.TargetCardContainer.OnReading();
+                readerForm.Show(this.TargetCardContainer.FindForm());
+            }
         }
 
         #endregion
@@ -659,7 +730,15 @@ namespace LeonReader.Client.Proxy
                     this.TargetDownloader.Dispose();
                     this.TargetExporter.Dispose();
                     this.TargetACManager.Dispose();
-                    this.TargetCardContainer.Dispose();
+
+                    if (this.TargetCardContainer.InvokeRequired)
+                    {
+                        this.TargetCardContainer.Invoke(new Action(() => { this.TargetCardContainer.Dispose(); }));
+                    }
+                    else
+                    {
+                        this.TargetCardContainer.Dispose();
+                    }
                 }
 
                 this.disposedValue = true;

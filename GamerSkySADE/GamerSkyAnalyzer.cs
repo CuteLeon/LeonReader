@@ -34,11 +34,11 @@ namespace GamerSkySADE
             if (string.IsNullOrEmpty(article.ArticleLink)) throw new ArgumentNullException($"GS分析器文章链接为空");
 
             //初始化
-            this.PageCount = 0;
-            this.ContentCount = 0;
+            this.PageCount = this.TargetACManager.GetPageCountAnalyzed(article);
+            this.ContentCount = article.Contents.Count;
 
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
-            
+
             string ScanLink = this.TargetACManager.GetLastContentPageLink(article);
             if (string.IsNullOrEmpty(ScanLink))
             {
@@ -47,9 +47,9 @@ namespace GamerSkySADE
             else
             {
                 //从上次分析进行到页面进行续作，需要排除此页已经存入数据库的内容记录
-                this.TargetACManager.RemoveContentFromPage(article, ScanLink);
+                ContentCount -= this.TargetACManager.RemoveContentFromPage(article, ScanLink);
             }
-            
+
             //开始任务
             foreach (var content in this.AnalyseArticle(ScanLink))
             {

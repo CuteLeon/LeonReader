@@ -43,12 +43,12 @@ namespace GamerSkySADE
             }
 
             //初始化
-            this.SuccessCount = 0;
+            this.SuccessCount = this.TargetACManager.GetContentCountDownloaded(article);
             this.FailedCount = 0;
 
             //开始任务
             foreach (var content in article.Contents.FindAll(
-                content => content.State == ContentItem.ContentStates.New
+                content => content.State == ContentStates.New
                 ))
             {
                 //下载文章内容
