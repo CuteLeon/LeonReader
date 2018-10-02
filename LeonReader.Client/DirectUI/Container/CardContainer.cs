@@ -242,6 +242,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         public void OnDeleting()
         {
+            this.DUIMainButton.Text = "正在清理";
             this.DUIStateLabel.Text = "正在清理此文章...";
             this.DUIMainButton.Enabled = false;
         }
@@ -251,6 +252,7 @@ namespace LeonReader.Client.DirectUI.Container
         /// </summary>
         public void OnDeleted()
         {
+            this.DUIMainButton.Text = "已清理";
             this.DUIStateLabel.Text = "已经清理此文章";
             this.DUIMainButton.Enabled = true;
         }
