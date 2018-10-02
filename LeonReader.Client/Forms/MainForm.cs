@@ -15,7 +15,7 @@ namespace LeonReader.Client
     {
 
         #region 工厂
-        
+
         /// <summary>
         /// 反射工厂
         /// </summary>
@@ -25,7 +25,7 @@ namespace LeonReader.Client
         /// SADE 工厂
         /// </summary>
         SADEFactory TargetSADEFactory = new SADEFactory();
-        
+
         #endregion
 
         #region 初始化
@@ -88,7 +88,7 @@ namespace LeonReader.Client
         #endregion
 
         #region 工具按钮事件
-        
+
         /// <summary>
         /// 点击工具箱刷新按钮
         /// </summary>
@@ -178,6 +178,7 @@ namespace LeonReader.Client
 
                     scanner.TargetACManager = acManager;
                     TabPage tabPage = this.CreateCatalogContainer(scanner.SADESource);
+
                     try
                     {
                         ArticleProxyFactory articleProxyFactory = new ArticleProxyFactory(
@@ -186,12 +187,23 @@ namespace LeonReader.Client
                             assembly,
                             scanner
                             );
+                    }
+                    catch (Exception ex)
+                    {
+                        LogUtils.Error($"创建 ArticleProxyFactory 遇到异常：{ex.Message}");
+                        using (MessageBoxForm messageBox = new MessageBoxForm("Scanner.Process() 遇到异常：", ex.Message, MessageBoxForm.MessageType.Error))
+                            messageBox.ShowDialog();
+                    }
 
+                    try
+                    {
                         scanner.Process();
                     }
                     catch (Exception ex)
                     {
                         LogUtils.Error($"调用扫描器失败：{ex.Message}");
+                        using (MessageBoxForm messageBox = new MessageBoxForm("Scanner.Process() 遇到异常：", ex.Message, MessageBoxForm.MessageType.Error))
+                            messageBox.ShowDialog();
                     }
                 }
             }

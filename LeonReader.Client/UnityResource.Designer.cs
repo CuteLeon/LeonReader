@@ -163,6 +163,16 @@ namespace LeonReader.Client {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap ErrorIcon {
+            get {
+                object obj = ResourceManager.GetObject("ErrorIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Flag_0 {
             get {
                 object obj = ResourceManager.GetObject("Flag_0", resourceCulture);
@@ -196,6 +206,16 @@ namespace LeonReader.Client {
         internal static System.Drawing.Bitmap GoBack_1 {
             get {
                 object obj = ResourceManager.GetObject("GoBack_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap InfoIcon {
+            get {
+                object obj = ResourceManager.GetObject("InfoIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -253,6 +273,16 @@ namespace LeonReader.Client {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap QuestionIcon {
+            get {
+                object obj = ResourceManager.GetObject("QuestionIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Refresh_0 {
             get {
                 object obj = ResourceManager.GetObject("Refresh_0", resourceCulture);
@@ -266,6 +296,16 @@ namespace LeonReader.Client {
         internal static System.Drawing.Bitmap Refresh_1 {
             get {
                 object obj = ResourceManager.GetObject("Refresh_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap WarningIcon {
+            get {
+                object obj = ResourceManager.GetObject("WarningIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

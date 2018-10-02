@@ -12,7 +12,6 @@ namespace LeonReader.Client
         //TODO: 实验使用当前架构制作GS其他版块爬虫，出现问题及时修复或调整
         //TODO: 优化Log输出，去除频繁且无效的、增加新方法的Log
         //TODO: 基于新架构更新单元测试
-        //TODO: 使用 Metro 框架制作同风格弹窗显示错误信息 ( InvalidOperationException 使用 MessageBox 直接提示、未捕获异常)
 
         /// <summary>
         /// 应用程序的主入口点。
@@ -58,8 +57,8 @@ namespace LeonReader.Client
                 "   调用堆栈 : \r\n{5}\r\n" +
                 "   即将终止 : {6}\r\n" +
                 "   ——————————\r\n" +
-                "   日志文件：{7}\r\n" +
-                "   出错方法MSIL : {8}",
+                "   日志文件：{7}\r\n",
+                //"   出错方法MSIL : {8}",
                 UnhandledException.GetType().ToString(),
                 UnhandledException.Source,
                 UnhandledException.TargetSite.Name,
@@ -67,14 +66,17 @@ namespace LeonReader.Client
                 UnhandledException.Message,
                 UnhandledException.StackTrace,
                 e.IsTerminating,
-                LogUtils.LogFilePath,
-                string.Join("", UnhandledException.TargetSite.GetMethodBody().GetILAsByteArray())
+                LogUtils.LogFilePath
+                //string.Join("", UnhandledException.TargetSite.GetMethodBody().GetILAsByteArray())
             );
 
             LogUtils.Fatal(ExceptionDescription);
 
-            if (MessageBox.Show(ExceptionDescription, "点击<确定>打开日志文件", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                Process.Start(LogUtils.LogFilePath);
+            using (MessageBoxForm messageBox = new MessageBoxForm("发生未捕获异常，点击确定打开日志", ExceptionDescription, MessageBoxForm.MessageType.Error))
+            {
+                if(messageBox.ShowDialog()== DialogResult.OK)
+                    Process.Start(LogUtils.LogFilePath);
+            }
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -102,9 +104,11 @@ namespace LeonReader.Client
             );
 
             LogUtils.Fatal(ExceptionDescription);
-
-            if (MessageBox.Show(ExceptionDescription, "点击<确定>打开日志文件", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                Process.Start(LogUtils.LogFilePath);
+            using (MessageBoxForm messageBox = new MessageBoxForm("发生未捕获异常，点击确定打开日志", ExceptionDescription, MessageBoxForm.MessageType.Error))
+            {
+                if (messageBox.ShowDialog() == DialogResult.OK)
+                    Process.Start(LogUtils.LogFilePath);
+            }
         }
 
         /// <summary>

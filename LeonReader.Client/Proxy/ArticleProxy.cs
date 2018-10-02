@@ -44,7 +44,14 @@ namespace LeonReader.Client.Proxy
             //赋值顺序有要求
 
             this.TargetCardContainer = cardContainer ?? throw new ArgumentNullException(nameof(cardContainer));
-            this.TargetCardContainer.TargetArticleProxy = this;
+            try
+            {
+                this.TargetCardContainer.TargetArticleProxy = this;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             if (string.IsNullOrEmpty(articleID) || string.IsNullOrEmpty(articleSource))
                 throw new ArgumentNullException($"{nameof(articleID)}, {nameof(articleSource)}");
@@ -308,7 +315,8 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
             }
         }
 
@@ -423,7 +431,8 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
             }
         }
 
@@ -462,7 +471,8 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
             }
         }
 
@@ -492,7 +502,8 @@ namespace LeonReader.Client.Proxy
         public void DoCancelAnalyze()
         {
             if (this.TargetArticle.State != ArticleStates.Analyzing)
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
 
             this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelAnalyze);
             this.TargetCardContainer.OnCancle();
@@ -543,7 +554,8 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
             }
         }
 
@@ -573,7 +585,8 @@ namespace LeonReader.Client.Proxy
         public void DoCancelDownload()
         {
             if (this.TargetArticle.State != ArticleStates.Downloading)
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
 
             this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelDownload);
             this.TargetCardContainer.OnCancle();
@@ -623,7 +636,8 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
             }
         }
 
@@ -653,7 +667,8 @@ namespace LeonReader.Client.Proxy
         public void DoCancelExport()
         {
             if (this.TargetArticle.State != ArticleStates.Exporting)
-                throw new InvalidOperationException($"无法在 {this.TargetArticle.State} 状态下进行此操作");
+                using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
+                    messageBox.ShowDialog();
 
             this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelExport);
             this.TargetCardContainer.OnCancle();

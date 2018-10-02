@@ -130,14 +130,22 @@ namespace LeonReader.Client.Factory
         /// <returns></returns>
         private void CreateArticleProxy(Article article, CardContainer cardContainer)
         {
-            ArticleProxy articleProxy = new ArticleProxy(
-                article.ArticleID,
-                article.SADESource,
-                cardContainer,
-                this.TargetAssembly.CreateInstance(this.TargetScanner.AnalyzerType) as Analyzer,
-                this.TargetAssembly.CreateInstance(this.TargetScanner.DownloaderType) as Downloader,
-                this.TargetAssembly.CreateInstance(this.TargetScanner.ExportedType) as Exporter
-                );
+            try
+            {
+                ArticleProxy articleProxy = new ArticleProxy(
+                    article.ArticleID,
+                    article.SADESource,
+                    cardContainer,
+                    this.TargetAssembly.CreateInstance(this.TargetScanner.AnalyzerType) as Analyzer,
+                    this.TargetAssembly.CreateInstance(this.TargetScanner.DownloaderType) as Downloader,
+                    this.TargetAssembly.CreateInstance(this.TargetScanner.ExportedType) as Exporter
+                    );
+            }
+            catch (Exception ex)
+            {
+                using (MessageBoxForm messageBox = new MessageBoxForm("CreateArticleProxy 遇到异常：", ex.Message, MessageBoxForm.MessageType.Error))
+                    messageBox.ShowDialog();
+            }
         }
 
         #region IDisposable Support
@@ -158,7 +166,7 @@ namespace LeonReader.Client.Factory
                 this.disposedValue = true;
             }
         }
-        
+
         // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {

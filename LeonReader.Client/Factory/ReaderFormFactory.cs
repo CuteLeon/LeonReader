@@ -1,5 +1,7 @@
 ﻿using System.Windows.Forms;
 
+using LeonReader.Common;
+
 using MetroFramework.Forms;
 
 namespace LeonReader.Client.Factory
@@ -17,7 +19,9 @@ namespace LeonReader.Client.Factory
         {
             MetroForm readerForm = new MetroForm()
             {
+                Text = IOUtils.GetFileNameWithoutExtension(articlePath),
                 Icon = UnityResource.LeonReader,
+                Padding = new Padding(6, 60, 6, 6),
                 Width = 800,
                 Height = 600
             };
