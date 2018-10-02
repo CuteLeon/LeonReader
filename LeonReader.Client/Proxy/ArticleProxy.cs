@@ -228,11 +228,8 @@ namespace LeonReader.Client.Proxy
                     {
                         this.TargetArticle.State = ArticleStates.Exported;
                         this.TargetCardContainer.OnExported(
-                            IOUtils.PathCombine(
-                                ConfigHelper.GetConfigHelper.DownloadDirectory,
-                                this.TargetArticle.DownloadDirectoryName,
                                 string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
-                                ));
+                                );
                         break;
                     }
                 case ArticleStates.Readed:
@@ -695,7 +692,7 @@ namespace LeonReader.Client.Proxy
             else
             {
                 this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exported);
-                this.TargetCardContainer.OnExported(e.Result as string);
+                this.TargetCardContainer.OnExported(IOUtils.GetFileName(e.Result as string));
             }
         }
 

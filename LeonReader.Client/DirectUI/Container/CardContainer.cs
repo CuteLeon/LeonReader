@@ -11,8 +11,6 @@ using LeonReader.Client.Proxy;
 namespace LeonReader.Client.DirectUI.Container
 {
 
-    //TODO: 检查各状态下 StateText 能否显示全，调整状态文本或控件大小
-
     /// <summary>
     /// 卡片控件基础容器
     /// </summary>
@@ -202,10 +200,10 @@ namespace LeonReader.Client.DirectUI.Container
         /// <summary>
         /// 导出完成
         /// </summary>
-        /// <param name="path">导出路径</param>
-        public void OnExported(string path)
+        /// <param name="file">导出文件名称</param>
+        public void OnExported(string file)
         {
-            this.DUIStateLabel.Text = $"导出完成: {path}";
+            this.DUIStateLabel.Text = $"导出完成: {file}";
             this.DUIMainButton.Text = "阅读";
             this.Style = CardStyles.Normal;
         }
@@ -847,7 +845,7 @@ namespace LeonReader.Client.DirectUI.Container
             this.DUIMainButton.Left = width - this.DUIMainButton.Width;
             this.DUIMainButton.Top = height - 28;
 
-            this.DUIStateLabel.Width = Math.Min(this.DUIMainButton.Left, 200);
+            this.DUIStateLabel.Width = Math.Min(this.DUIMainButton.Left, 280);
             this.DUIStateLabel.SetLocation(this.DUIMainButton.Left - this.DUIStateLabel.Width, this.DUIMainButton.Top);
 
             this.DUIPublishTimeLabel.SetLocation(0, this.DUIMainButton.Top);
