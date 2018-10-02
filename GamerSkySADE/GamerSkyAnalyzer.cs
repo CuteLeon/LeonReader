@@ -47,7 +47,7 @@ namespace GamerSkySADE
             else
             {
                 //从上次分析进行到页面进行续作，需要排除此页已经存入数据库的内容记录
-                ContentCount -= this.TargetACManager.RemoveContentFromPage(article, ScanLink);
+                this.ContentCount -= this.TargetACManager.RemoveContentFromPage(article, ScanLink);
             }
 
             //开始任务
@@ -68,9 +68,8 @@ namespace GamerSkySADE
                 }
             }
 
-            //记录内容总数
-            e.Result = article.Contents.Count;
-            LogUtils.Info($"文章分析完成：{article.ArticleLink} (From：{this.SADESource})");
+            e.Result = new Tuple<int, int>(this.PageCount, this.ContentCount);
+            LogUtils.Info($"文章分析完成：{this.PageCount}页, {this.ContentCount}图 (From：{this.SADESource})");
         }
 
         /// <summary>

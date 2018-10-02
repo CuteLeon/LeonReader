@@ -102,6 +102,9 @@ namespace LeonReader.ArticleContentManager
                     article in this.TargetDBContext.Articles
                 where
                     article.SADESource == source
+                orderby
+                    article.ScanTime
+                descending
                 select
                     article;
         }

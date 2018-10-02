@@ -7,9 +7,11 @@ using LeonReader.Client.DirectUI.Container;
 using LeonReader.Client.Factory;
 using LeonReader.Common;
 
+using MetroFramework.Forms;
+
 namespace LeonReader.Client
 {
-    public partial class MainForm : MetroFramework.Forms.MetroForm
+    public partial class MainForm : MetroForm
     {
 
         #region 工厂

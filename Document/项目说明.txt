@@ -44,7 +44,7 @@
 		子类可以覆写 SingleArticleProcesser.PreConfigProcess(Article) 方法以在处理正式开始前有权利根据文章实体配置处理相关参数，例如设置文章处理时间、设置工作目录等；
 	10. 处理器回传数据：
 		分析器报告进度：this.OnProcessReport(页总数, 内容总数);
-		分析器处理完成：e.Result = 内容总数;
+		分析器处理完成：e.Result = new Tuple<int, int>(this.PageCount, this.ContentCount);;
 		下载器报告进度：this.OnProcessReport(成功个数, 失败个数);
 		下载器处理完成：e.Result = new Tuple<int, int>(this.SuccessCount, this.FailedCount);
 		导出器报告进度：null（一般很快）

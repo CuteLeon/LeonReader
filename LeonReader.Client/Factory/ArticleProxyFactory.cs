@@ -97,7 +97,7 @@ namespace LeonReader.Client.Factory
             LogUtils.Info($"扫描器处理完成：{this.TargetScanner.SADESource} {(e.Cancelled ? "(手动取消)" : "")}");
 
             this.LoadArticleCatalog();
-            this.TargetTabPage.Text = $"{this.TargetScanner.SADESource} ({this.TargetACManager.GetArticleCount(this.TargetScanner.SADESource)})";
+            this.TargetTabPage.Text = $"{this.TargetScanner.SADESource} ({this.TargetACManager.GetArticleCount(this.TargetScanner.SADESource)} 篇)";
 
             this.Dispose(true);
         }

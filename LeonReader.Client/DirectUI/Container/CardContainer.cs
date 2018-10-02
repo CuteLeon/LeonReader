@@ -81,9 +81,9 @@ namespace LeonReader.Client.DirectUI.Container
         /// 分析完成
         /// </summary>
         /// <param name="contentCount">内容总数</param>
-        public void OnAnalyzed(int contentCount)
+        public void OnAnalyzed(Tuple<int, int> result)
         {
-            this.DUIStateLabel.Text = $"分析完成：{contentCount} 个内容";
+            this.DUIStateLabel.Text = $"分析完成：{result.Item1} 页, {result.Item2} 图";
             this.DUIMainButton.Text = "下载";
             this.Style = CardStyles.Large;
         }

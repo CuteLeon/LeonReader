@@ -199,7 +199,10 @@ namespace LeonReader.Client.Proxy
                 case ArticleStates.Analyzed:
                     {
                         this.TargetArticle.State = ArticleStates.Analyzed;
-                        this.TargetCardContainer.OnAnalyzed(this.TargetArticle.Contents.Count);
+                        this.TargetCardContainer.OnAnalyzed(new Tuple<int, int>(
+                            this.TargetACManager.GetPageCountAnalyzed(this.TargetArticle),
+                            this.TargetArticle.Contents.Count
+                            ));
                         break;
                     }
                 case ArticleStates.Exporting:
@@ -516,7 +519,7 @@ namespace LeonReader.Client.Proxy
             else
             {
                 this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
-                this.TargetCardContainer.OnAnalyzed(Convert.ToInt32(e.Result));
+                this.TargetCardContainer.OnAnalyzed(e.Result as Tuple<int, int>);
             }
         }
 

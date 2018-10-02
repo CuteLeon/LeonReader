@@ -9,6 +9,8 @@ namespace LeonReader.Client
 {
     static class Program
     {
+        //TODO: 实验使用当前架构制作GS其他版块爬虫，出现问题及时修复或调整
+        //TODO: 优化Log输出，去除频繁且无效的、增加新方法的Log
         //TODO: 基于新架构更新单元测试
         //TODO: 使用 Metro 框架制作同风格弹窗显示错误信息 ( InvalidOperationException 使用 MessageBox 直接提示、未捕获异常)
 
