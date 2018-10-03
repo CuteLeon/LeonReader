@@ -9,6 +9,7 @@ namespace LeonReader.Client
 {
     static class Program
     {
+        //TODO: SQLite error (5): database is locked
         //TODO: 优化Log输出，去除频繁且无效的、增加新方法的Log
         //TODO: 基于新架构更新单元测试
 
