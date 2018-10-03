@@ -158,8 +158,8 @@ namespace LeonReader.Client.Factory
                 if (disposing)
                 {
                     this.TargetACManager.Dispose();
-                    this.TargetAssembly = null;
-                    this.TargetScanner = null;
+                    this.TargetScanner.TargetACManager.Dispose();
+                    this.TargetScanner.Dispose();
                     this.TargetAssembly = null;
                 }
 

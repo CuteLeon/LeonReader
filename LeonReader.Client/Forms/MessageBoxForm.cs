@@ -40,7 +40,8 @@ namespace LeonReader.Client
             this.Text = caption;
             this.MessageLabel.Text = message;
 
-            ImageList ButtonImageList = new ImageList() {
+            ImageList ButtonImageList = new ImageList()
+            {
                 ColorDepth = ColorDepth.Depth24Bit,
                 ImageSize = new Size(112, 28),
             };
@@ -94,6 +95,18 @@ namespace LeonReader.Client
                         break;
                     }
             }
+        }
+
+        /// <summary>
+        /// 弹出消息框
+        /// </summary>
+        /// <param name="caption">标题</param>
+        /// <param name="message">消息</param>
+        /// <param name="type">类型</param>
+        public static DialogResult ShowDialog(string caption, string message, MessageType type, Form owner = null)
+        {
+            using (MessageBoxForm messageBox = new MessageBoxForm(caption, message, type))
+                return messageBox.ShowDialog(owner);
         }
 
     }

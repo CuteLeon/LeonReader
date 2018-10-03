@@ -130,13 +130,14 @@ namespace LeonReader.ArticleContentManager
         {
             if (article == null) throw new ArgumentNullException(nameof(article));
 
-            Article tempArticle = this.TargetDBContext.Articles
-                .FirstOrDefault(
+            lock (this.LockSeed)
+            {
+                return this.TargetDBContext.Articles.Count(
                     art =>
                     art.ArticleID == article.ArticleID &&
                     art.SADESource == article.SADESource
-                );
-            return (tempArticle != null);
+                ) > 0;
+            }
         }
 
         /// <summary>
@@ -149,13 +150,16 @@ namespace LeonReader.ArticleContentManager
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(source)) return default(Article);
 
-            Article article = this.TargetDBContext.Articles
-                .FirstOrDefault(
-                    art =>
-                    art.ArticleID == id &&
-                    art.SADESource == source
-                );
-            return article;
+            lock (this.LockSeed)
+            {
+                Article article = this.TargetDBContext.Articles
+                    .FirstOrDefault(
+                        art =>
+                        art.ArticleID == id &&
+                        art.SADESource == source
+                    );
+                return article;
+            }
         }
 
         #endregion

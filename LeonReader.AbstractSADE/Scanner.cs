@@ -32,7 +32,7 @@ namespace LeonReader.AbstractSADE
         /// <summary>
         /// 目录地址链接
         /// </summary>
-        public virtual Uri TargetCatalogURI { get; protected set; }
+        public abstract Uri TargetCatalogURI { get; protected set; }
 
         /// <summary>
         /// 扫描目录

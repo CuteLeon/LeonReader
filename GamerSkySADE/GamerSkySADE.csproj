@@ -52,6 +52,12 @@
       <DependentUpon>GSResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scanner\GS-YMFL.cs" />
+    <Compile Include="Scanner\GS-YMPD.cs" />
+    <Compile Include="Scanner\GS-BZTK.cs" />
+    <Compile Include="Scanner\GS-YGTX.cs" />
+    <Compile Include="Scanner\GS-QJSJ.cs" />
+    <Compile Include="Scanner\GS-YMYY.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LeonReader.AbstractSADE\LeonReader.AbstractSADE.csproj">

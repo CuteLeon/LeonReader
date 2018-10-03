@@ -161,7 +161,6 @@ namespace LeonReader.Client
         private void ScanCatalog(string directoryPath)
         {
             LogUtils.Info("使用所有扫描器扫描目录...");
-            ACManager acManager = new ACManager();
 
             //遍历符合条件的链接库
             foreach (var assembly in this.TargetAssemblyFactory.CreateAssemblys(
@@ -176,11 +175,13 @@ namespace LeonReader.Client
                     if (scanner == null) continue;
                     LogUtils.Info($"发现扫描器：{scanner.SADESource} in {assembly.FullName}");
 
-                    scanner.TargetACManager = acManager;
+                    //每个扫描器对应一个 ACManager（UnityDBContext）
+                    scanner.TargetACManager = new ACManager();
                     TabPage tabPage = this.CreateCatalogContainer(scanner.SADESource);
 
                     try
                     {
+                        //Scanner 将在代理工厂内扫描完毕后释放
                         ArticleProxyFactory articleProxyFactory = new ArticleProxyFactory(
                             tabPage,
                             tabPage.Tag as FlowLayoutPanel,

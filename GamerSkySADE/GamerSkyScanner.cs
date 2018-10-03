@@ -10,17 +10,8 @@ using LeonReader.Model;
 
 namespace GamerSkySADE
 {
-    public class GamerSkyScanner : Scanner
+    public abstract class GamerSkyScanner : Scanner
     {
-        /// <summary>
-        /// 文章处理源
-        /// </summary>
-        public override string SADESource { get; protected set; } = "GamerSky-趣闻";
-
-        /// <summary>
-        /// 目标地址
-        /// </summary>
-        public override Uri TargetCatalogURI { get; protected set; } = new Uri(@"https://www.gamersky.com/ent/qw/");
 
         #region 关联的ADE类型
 

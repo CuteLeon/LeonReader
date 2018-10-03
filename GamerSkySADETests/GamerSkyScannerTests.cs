@@ -17,7 +17,7 @@ namespace GamerSkySADE.Tests
         [TestMethod()]
         public void ProcessTest()
         {
-            Scanner scanner = new GamerSkyScanner();
+            Scanner scanner = new GS_QJSJ();
 
             //用于仅测试进度报告功能
             LogUtils.LogLevel = LogUtils.LogTypes.FATAL;
@@ -32,7 +32,7 @@ namespace GamerSkySADE.Tests
         [TestMethod()]
         public void ScanArticlesTest()
         {
-            GamerSkyScanner scanner = new GamerSkyScanner();
+            GamerSkyScanner scanner = new GS_QJSJ();
             MethodInfo methodInfo = typeof(GamerSkyScanner).GetMethod(
                 "ScanArticles",
                 BindingFlags.NonPublic | BindingFlags.Instance
@@ -69,7 +69,7 @@ namespace GamerSkySADE.Tests
         [TestMethod()]
         public void ConvertToArticleTest()
         {
-            GamerSkyScanner scanner = new GamerSkyScanner();
+            GamerSkyScanner scanner = new GS_QJSJ();
             MethodInfo methodInfo = typeof(GamerSkyScanner).GetMethod(
                 "ConvertToArticle",
                 BindingFlags.NonPublic | BindingFlags.Instance
@@ -93,7 +93,7 @@ namespace GamerSkySADE.Tests
         [TestMethod()]
         public void GetCatalogListTest()
         {
-            GamerSkyScanner scanner = new GamerSkyScanner();
+            GamerSkyScanner scanner = new GS_QJSJ();
             MethodInfo methodInfo = typeof(GamerSkyScanner).GetMethod(
                 "GetCatalogList",
                 BindingFlags.NonPublic | BindingFlags.Instance
@@ -111,7 +111,7 @@ namespace GamerSkySADE.Tests
         [TestMethod()]
         public void GetCatalogContentTest()
         {
-            GamerSkyScanner scanner = new GamerSkyScanner();
+            GamerSkyScanner scanner = new GS_QJSJ();
             MethodInfo methodInfo = typeof(GamerSkyScanner).GetMethod(
                 "GetCatalogContent",
                 BindingFlags.NonPublic | BindingFlags.Instance
