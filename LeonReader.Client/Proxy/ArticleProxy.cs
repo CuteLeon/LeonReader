@@ -524,7 +524,7 @@ namespace LeonReader.Client.Proxy
                 this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
                 this.TargetCardContainer.OnAnalyzeError(e.Error);
 
-                using (MessageBoxForm messageBox = new MessageBoxForm("Export Process Completed Error :", e.Error.Message, MessageBoxForm.MessageType.Error))
+                using (MessageBoxForm messageBox = new MessageBoxForm("Analyze Process Completed Error :", e.Error.Message, MessageBoxForm.MessageType.Error))
                     messageBox.ShowDialog();
             }
             else
@@ -610,7 +610,7 @@ namespace LeonReader.Client.Proxy
                 this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
                 this.TargetCardContainer.OnDownloadError(e.Error);
 
-                using (MessageBoxForm messageBox = new MessageBoxForm("Export Process Completed Error :", e.Error.Message, MessageBoxForm.MessageType.Error))
+                using (MessageBoxForm messageBox = new MessageBoxForm("Download Process Completed Error :", e.Error.Message, MessageBoxForm.MessageType.Error))
                     messageBox.ShowDialog();
             }
             else
