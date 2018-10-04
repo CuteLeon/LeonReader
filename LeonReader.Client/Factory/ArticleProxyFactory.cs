@@ -25,11 +25,6 @@ namespace LeonReader.Client.Factory
         private readonly CardContainerFactory TargetCardFactory = new CardContainerFactory();
 
         /// <summary>
-        /// AC管理器
-        /// </summary>
-        private readonly ACManager TargetACManager = new ACManager();
-
-        /// <summary>
         /// 选项卡页面
         /// </summary>
         private TabPage TargetTabPage { get; set; }
@@ -97,7 +92,7 @@ namespace LeonReader.Client.Factory
             LogUtils.Info($"扫描器处理完成：{this.TargetScanner.SADESource} {(e.Cancelled ? "(手动取消)" : "")}");
 
             this.LoadArticleCatalog();
-            this.TargetTabPage.Text = $"{this.TargetScanner.SADESource} ({this.TargetACManager.GetArticleCount(this.TargetScanner.SADESource)} 篇)";
+            this.TargetTabPage.Text = $"{this.TargetScanner.SADESource} ({ACManager.GetACManager.GetArticleCount(this.TargetScanner.SADESource)} 篇)";
 
             this.Dispose(true);
         }
@@ -110,7 +105,7 @@ namespace LeonReader.Client.Factory
             List<CardContainer> cardContainers = new List<CardContainer>();
 
             //创建卡片控件
-            foreach (var article in this.TargetACManager.GetArticles(this.TargetScanner.SADESource))
+            foreach (var article in ACManager.GetACManager.GetArticles(this.TargetScanner.SADESource))
             {
                 if (article == null) continue;
 
@@ -157,8 +152,6 @@ namespace LeonReader.Client.Factory
             {
                 if (disposing)
                 {
-                    this.TargetACManager.Dispose();
-                    this.TargetScanner.TargetACManager.Dispose();
                     this.TargetScanner.Dispose();
                     this.TargetAssembly = null;
                 }

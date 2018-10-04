@@ -27,7 +27,7 @@ namespace LeonReader.Client.Factory
             //遍历扫描器条件：继承自 Scanner、不是抽象类、是公共类
             foreach (var type in assembly.GetSubTypes(typeof(Scanner))
                 .Where(type => !type.IsAbstract && type.IsPublic)
-                .Take(2)
+                //.Take(1)
                 )
             {
                 //MessageBoxForm.ShowDialog("", type.FullName, MessageBoxForm.MessageType.Info);

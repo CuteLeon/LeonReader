@@ -25,7 +25,6 @@ namespace LeonReader.AbstractSADE
         {
             if (this.ProcessWorker.IsBusy) return;
             if (this.TargetArticle == null) throw new ArgumentNullException("文章处理器关联的文章对象为空");
-            if (this.TargetACManager == null) throw new ArgumentNullException("文章处理器关联的AC管理器对象为空");
 
             LogUtils.Info($"开始分析文章链接：{this.TargetArticle.ArticleLink}，From：{this.SADESource}");
 

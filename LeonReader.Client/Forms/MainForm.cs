@@ -175,8 +175,6 @@ namespace LeonReader.Client
                     if (scanner == null) continue;
                     LogUtils.Info($"发现扫描器：{scanner.SADESource} in {assembly.FullName}");
 
-                    //每个扫描器对应一个 ACManager（UnityDBContext）
-                    scanner.TargetACManager = new ACManager();
                     TabPage tabPage = this.CreateCatalogContainer(scanner.SADESource);
 
                     try

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-
+using LeonReader.ArticleContentManager;
 using LeonReader.Model;
 
 namespace LeonReader.AbstractSADE
@@ -15,13 +15,13 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcesser()
         {
-            this.TargetACManager.SetAnalyzeTime(this.TargetArticle, DateTime.Now);
-            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzing);
+            ACManager.GetACManager.SetAnalyzeTime(this.TargetArticle, DateTime.Now);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzing);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzed);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Analyzed);
         }
 
     }

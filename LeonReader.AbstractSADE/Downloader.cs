@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -20,19 +20,19 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcesser()
         {
-            this.TargetACManager.SetDownloadTime(this.TargetArticle, DateTime.Now);
+            ACManager.GetACManager.SetDownloadTime(this.TargetArticle, DateTime.Now);
 
             this.DownloadDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
                 this.TargetArticle.DownloadDirectoryName
                 );
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloading);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloading);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloaded);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Downloaded);
         }
 
     }

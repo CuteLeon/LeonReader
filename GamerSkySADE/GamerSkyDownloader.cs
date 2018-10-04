@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 using LeonReader.AbstractSADE;
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -43,7 +44,7 @@ namespace GamerSkySADE
             }
 
             //初始化
-            this.SuccessCount = this.TargetACManager.GetContentCountDownloaded(article);
+            this.SuccessCount = ACManager.GetACManager.GetContentCountDownloaded(article);
             this.FailedCount = 0;
 
             //开始任务
@@ -55,7 +56,7 @@ namespace GamerSkySADE
                 try
                 {
                     this.DownloadContent(content, this.DownloadDirectory);
-                    this.TargetACManager.SetContentState(content, ContentStates.Downloaded);
+                    ACManager.GetACManager.SetContentState(content, ContentStates.Downloaded);
                     this.SuccessCount++;
                 }
                 catch (Exception ex)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using LeonReader.AbstractSADE;
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -34,12 +35,12 @@ namespace GamerSkySADE
             if (string.IsNullOrEmpty(article.ArticleLink)) throw new ArgumentNullException($"GS分析器文章链接为空");
 
             //初始化
-            this.PageCount = this.TargetACManager.GetPageCountAnalyzed(article);
-            this.ContentCount = article.Contents.Count;
+            this.PageCount = ACManager.GetACManager.GetPageCountAnalyzed(article);
+            this.ContentCount = article.Contents?.Count ?? 0;
 
             LogUtils.Debug($"初始化文章内容数据库：{article.Title} ({article.ArticleID})");
 
-            string ScanLink = this.TargetACManager.GetLastContentPageLink(article);
+            string ScanLink = ACManager.GetACManager.GetLastContentPageLink(article);
             if (string.IsNullOrEmpty(ScanLink))
             {
                 ScanLink = article.ArticleLink;
@@ -47,7 +48,7 @@ namespace GamerSkySADE
             else
             {
                 //从上次分析进行到页面进行续作，需要排除此页已经存入数据库的内容记录
-                this.ContentCount -= this.TargetACManager.RemoveContentFromPage(article, ScanLink);
+                this.ContentCount -= ACManager.GetACManager.RemoveContentFromPage(article, ScanLink);
             }
 
             //开始任务
@@ -55,7 +56,7 @@ namespace GamerSkySADE
             {
                 LogUtils.Info($"接收到文章 ({article.ArticleID}) 内容：{content.ID}, {content.ImageLink}, {content.ImageDescription}");
 
-                this.TargetACManager.AddContent(article, content);
+                ACManager.GetACManager.AddContent(article, content);
 
                 //触发事件更新已分析的页面数和图像数 
                 this.OnProcessReport(this.PageCount, this.ContentCount);

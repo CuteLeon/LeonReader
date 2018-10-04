@@ -56,7 +56,7 @@ namespace LeonReader.Client.Proxy
             if (string.IsNullOrEmpty(articleID) || string.IsNullOrEmpty(articleSource))
                 throw new ArgumentNullException($"{nameof(articleID)}, {nameof(articleSource)}");
             //这里文章实体必须与ACManager内的DBContext同源，否则无法正常更新数据库
-            this.TargetArticle = this.TargetACManager.GetArticle(articleID, articleSource);
+            this.TargetArticle = ACManager.GetACManager.GetArticle(articleID, articleSource);
             if (this.TargetArticle == null)
                 throw new ArgumentException($"{nameof(articleID)}, {nameof(articleSource)}");
 
@@ -66,16 +66,7 @@ namespace LeonReader.Client.Proxy
 
             this.TargetExporter = exporter ?? throw new ArgumentNullException(nameof(exporter));
         }
-
-        #region 代理AC管理器
-
-        /// <summary>
-        /// 文章对象
-        /// </summary>
-        public ACManager TargetACManager { get; } = new ACManager();
-
-        #endregion
-
+        
         #region 代理文章
 
         private Article _targetArticle;
@@ -132,7 +123,6 @@ namespace LeonReader.Client.Proxy
             {
                 //这里没有验证，只允许在构造函数调用
                 this._targetAnalyzer = value;
-                this._targetAnalyzer.TargetACManager = this.TargetACManager;
                 this._targetAnalyzer.TargetArticle = this.TargetArticle;
 
                 this._targetAnalyzer.ProcessCompleted += this.Analyzer_ProcessCompleted;
@@ -152,7 +142,6 @@ namespace LeonReader.Client.Proxy
             {
                 //这里没有验证，只允许在构造函数调用
                 this._targetDownloader = value;
-                this._targetDownloader.TargetACManager = this.TargetACManager;
                 this._targetDownloader.TargetArticle = this.TargetArticle;
 
                 this._targetDownloader.ProcessCompleted += this.Downloader_ProcessCompleted;
@@ -172,7 +161,6 @@ namespace LeonReader.Client.Proxy
             {
                 //这里没有验证，只允许在构造函数调用
                 this._targetExporter = value;
-                this._targetExporter.TargetACManager = this.TargetACManager;
                 this._targetExporter.TargetArticle = this.TargetArticle;
 
                 this._targetExporter.ProcessCompleted += this.Exporter_ProcessCompleted;
@@ -207,7 +195,7 @@ namespace LeonReader.Client.Proxy
                     {
                         this.TargetArticle.State = ArticleStates.Analyzed;
                         this.TargetCardContainer.OnAnalyzed(new Tuple<int, int>(
-                            this.TargetACManager.GetPageCountAnalyzed(this.TargetArticle),
+                            ACManager.GetACManager.GetPageCountAnalyzed(this.TargetArticle),
                             this.TargetArticle.Contents.Count
                             ));
                         break;
@@ -300,14 +288,14 @@ namespace LeonReader.Client.Proxy
                 )
             {
                 //置为已读
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
                 this.TargetCardContainer.OnReaded();
             }
             else if (this.TargetArticle.State == ArticleStates.Readed ||
                 this.TargetArticle.State == ArticleStates.Deleted
                 )
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
                 this.TargetCardContainer.OnNew();
             }
             else
@@ -389,7 +377,7 @@ namespace LeonReader.Client.Proxy
                 this.TargetArticle.State == ArticleStates.Deleted
                 )
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Deleting);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Deleting);
                 this.TargetCardContainer.OnDeleting();
 
                 string ArticleDirectory = IOUtils.PathCombine(
@@ -405,18 +393,18 @@ namespace LeonReader.Client.Proxy
                             if (this.TargetArticle.Contents.Count > 0)
                             {
                                 //清理文章
-                                this.TargetACManager.SetAnalyzeTime(this.TargetArticle, null);
-                                this.TargetACManager.SetDownloadTime(this.TargetArticle, null);
-                                this.TargetACManager.SetExportTime(this.TargetArticle, null);
-                                this.TargetACManager.ClearContents(this.TargetArticle);
+                                ACManager.GetACManager.SetAnalyzeTime(this.TargetArticle, null);
+                                ACManager.GetACManager.SetDownloadTime(this.TargetArticle, null);
+                                ACManager.GetACManager.SetExportTime(this.TargetArticle, null);
+                                ACManager.GetACManager.ClearContents(this.TargetArticle);
 
-                                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Deleted);
+                                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Deleted);
                                 this.TargetCardContainer.OnDeleted();
                             }
                             else
                             {
                                 //不存在内容的文章删除文章，释放卡片代理
-                                this.TargetACManager.RemoveArticle(this.TargetArticle);
+                                ACManager.GetACManager.RemoveArticle(this.TargetArticle);
                                 this.Dispose();
                                 return;
                             }
@@ -463,7 +451,7 @@ namespace LeonReader.Client.Proxy
                 if (this.TargetArticle.State == ArticleStates.Deleted)
                     this.TargetCardContainer.OnNew();
 
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzing);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzing);
                 this.TargetAnalyzer.Process();
             }
             else
@@ -502,7 +490,7 @@ namespace LeonReader.Client.Proxy
                 using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
                     messageBox.ShowDialog();
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelAnalyze);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelAnalyze);
             this.TargetCardContainer.OnCancle();
             this.TargetAnalyzer.Cancle();
         }
@@ -516,12 +504,12 @@ namespace LeonReader.Client.Proxy
         {
             if (e.Cancelled)
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
                 this.TargetCardContainer.OnAnalyzeCanceled();
             }
             else if (e.Error != null)
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.New);
                 this.TargetCardContainer.OnAnalyzeError(e.Error);
 
                 using (MessageBoxForm messageBox = new MessageBoxForm("Analyze Process Completed Error :", e.Error.Message, MessageBoxForm.MessageType.Error))
@@ -529,7 +517,7 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
                 this.TargetCardContainer.OnAnalyzed(e.Result as Tuple<int, int>);
             }
         }
@@ -549,7 +537,7 @@ namespace LeonReader.Client.Proxy
                 this.TargetArticle.State == ArticleStates.Readed
                 )
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloading);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloading);
                 this.TargetDownloader.Process();
             }
             else
@@ -588,7 +576,7 @@ namespace LeonReader.Client.Proxy
                 using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
                     messageBox.ShowDialog();
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelDownload);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelDownload);
             this.TargetCardContainer.OnCancle();
             this.TargetDownloader.Cancle();
         }
@@ -602,12 +590,12 @@ namespace LeonReader.Client.Proxy
         {
             if (e.Cancelled)
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
                 this.TargetCardContainer.OnDownloadCanceled();
             }
             else if (e.Error != null)
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Analyzed);
                 this.TargetCardContainer.OnDownloadError(e.Error);
 
                 using (MessageBoxForm messageBox = new MessageBoxForm("Download Process Completed Error :", e.Error.Message, MessageBoxForm.MessageType.Error))
@@ -615,7 +603,7 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloaded);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloaded);
                 this.TargetCardContainer.OnDownloaded(e.Result as Tuple<int, int>);
             }
         }
@@ -634,7 +622,7 @@ namespace LeonReader.Client.Proxy
                 this.TargetArticle.State == ArticleStates.Readed
                 )
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exporting);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exporting);
                 this.TargetExporter.Process();
             }
             else
@@ -673,7 +661,7 @@ namespace LeonReader.Client.Proxy
                 using (MessageBoxForm messageBox = new MessageBoxForm("警告：", $"无法在 {this.TargetArticle.State} 状态下进行此操作", MessageBoxForm.MessageType.Warning))
                     messageBox.ShowDialog();
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelExport);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.CancelExport);
             this.TargetCardContainer.OnCancle();
             this.TargetExporter.Cancle();
         }
@@ -687,12 +675,12 @@ namespace LeonReader.Client.Proxy
         {
             if (e.Cancelled)
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloaded);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloaded);
                 this.TargetCardContainer.OnExportCanceled();
             }
             else if (e.Error != null)
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloaded);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Downloaded);
                 this.TargetCardContainer.OnExportError(e.Error);
 
                 using (MessageBoxForm messageBox = new MessageBoxForm("Export Process Completed Error :", e.Error.Message, MessageBoxForm.MessageType.Error))
@@ -700,7 +688,7 @@ namespace LeonReader.Client.Proxy
             }
             else
             {
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exported);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Exported);
                 this.TargetCardContainer.OnExported(IOUtils.GetFileName(e.Result as string));
             }
         }
@@ -728,11 +716,11 @@ namespace LeonReader.Client.Proxy
                 MetroForm readerForm = ReaderFormFactory.CreateReaderForm(ArticleFilePath);
                 readerForm.FormClosed += (s, v) =>
                 {
-                    this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
+                    ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Readed);
                     this.TargetCardContainer.OnReaded();
                 };
 
-                this.TargetACManager.SetArticleState(this.TargetArticle, ArticleStates.Reading);
+                ACManager.GetACManager.SetArticleState(this.TargetArticle, ArticleStates.Reading);
                 this.TargetCardContainer.OnReading();
                 readerForm.Show(this.TargetCardContainer.FindForm());
             }
@@ -753,7 +741,6 @@ namespace LeonReader.Client.Proxy
                     this.TargetAnalyzer.Dispose();
                     this.TargetDownloader.Dispose();
                     this.TargetExporter.Dispose();
-                    this.TargetACManager.Dispose();
 
                     if (this.TargetCardContainer.InvokeRequired)
                     {

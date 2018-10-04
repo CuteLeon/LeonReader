@@ -56,22 +56,6 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public abstract string SADESource { get; protected set; }
 
-        private ACManager _targetACManager = null;
-        /// <summary>
-        /// 目标文章&内容管理对象
-        /// </summary>
-        public ACManager TargetACManager
-        {
-            get => this._targetACManager;
-            set
-            {
-                if (this._targetACManager == null)
-                    this._targetACManager = value;
-                else
-                    throw new InvalidOperationException("已经注入AC管理器，不允许修改此对象");
-            }
-        }
-
         public Processer()
         {
             this.ProcessWorker.DoWork += this.PreProcessStarted;
@@ -84,8 +68,6 @@ namespace LeonReader.AbstractSADE
         /// </summary>
         public virtual void Process()
         {
-            if (this.TargetACManager == null) throw new ArgumentNullException("文章处理器关联的AC管理器对象为空");
-
             if (this.ProcessWorker.IsBusy) return;
             this.ProcessWorker.RunWorkerAsync();
         }

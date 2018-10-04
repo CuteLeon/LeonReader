@@ -13,8 +13,18 @@ namespace LeonReader.ArticleContentManager
     /// <summary>
     /// 文章管理器
     /// </summary>
-    public class ACManager : IDisposable
+    public sealed class ACManager
     {
+
+        /// <summary>
+        /// 单实例AC管理器
+        /// </summary>
+        public static ACManager GetACManager { get; } = new ACManager();
+
+        /// <summary>
+        /// 私有构造函数
+        /// </summary>
+        private ACManager() { }
 
         /// <summary>
         /// 异步锁芯
@@ -327,6 +337,7 @@ namespace LeonReader.ArticleContentManager
         {
             if (article == null) throw new ArgumentNullException(nameof(article));
             if (content == null) throw new ArgumentNullException(nameof(content));
+            if (article.Contents == null) article.Contents = new List<ContentItem>();
 
             article.Contents.Add(content);
             lock (this.LockSeed)
@@ -350,29 +361,6 @@ namespace LeonReader.ArticleContentManager
         }
 
         #endregion
-
-        #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-                    this.TargetDBContext?.Dispose();
-                }
-
-                this.disposedValue = true;
-            }
-        }
-
-        // 添加此代码以正确实现可处置模式。
-        public void Dispose()
-        {
-            this.Dispose(true);
-        }
-        #endregion
-
+        
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -25,7 +25,7 @@ namespace LeonReader.AbstractSADE
 
         protected override void PreConfigProcesser()
         {
-            this.TargetACManager.SetExportTime(this.TargetArticle, DateTime.Now);
+            ACManager.GetACManager.SetExportTime(this.TargetArticle, DateTime.Now);
 
             this.ExportDirectory = IOUtils.PathCombine(
                 ConfigHelper.GetConfigHelper.DownloadDirectory,
@@ -37,12 +37,12 @@ namespace LeonReader.AbstractSADE
                 string.Format("{0}.{1}", this.TargetArticle.ArticleFileName, ConfigHelper.GetConfigHelper.Extension)
                 );
 
-            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Exporting);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Exporting);
         }
 
         protected override void OnProcessCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.TargetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Exported);
+            ACManager.GetACManager.SetArticleState(this.TargetArticle, Article.ArticleStates.Exported);
         }
     }
 }

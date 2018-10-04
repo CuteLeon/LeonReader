@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 
 using LeonReader.AbstractSADE;
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -40,7 +41,7 @@ namespace GamerSkySADE.Tests
                 DownloadDirectoryName = "单元测试下载目录",
                 ArticleFileName = "单元测试文章名称",
             };
-            analyzer.TargetACManager.RemoveArticles(analyzer.TargetACManager.GetArticles(analyzer.SADESource).ToArray());
+            ACManager.GetACManager.RemoveArticles(ACManager.GetACManager.GetArticles(analyzer.SADESource).ToArray());
             analyzer.TargetArticle = article;
             analyzer.Process();
             

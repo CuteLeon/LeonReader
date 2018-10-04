@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 using LeonReader.AbstractSADE;
+using LeonReader.ArticleContentManager;
 using LeonReader.Common;
 using LeonReader.Model;
 
@@ -67,14 +68,14 @@ namespace GamerSkySADE
             foreach (var article in this.ScanArticles(CatalogContent))
             {
                 ArticleCount++;
-                if (this.TargetACManager.CheckArticleExist(article))
+                if (ACManager.GetACManager.CheckArticleExist(article))
                 {
                     LogUtils.Info($"已经存在的文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.SADESource}");
                 }
                 else
                 {
                     LogUtils.Info($"发现新文章：{article.Title} ({article.ArticleID}) ：{article.ArticleLink}，From：{this.SADESource}");
-                    this.TargetACManager.AddArticle(article);
+                    ACManager.GetACManager.AddArticle(article);
                 }
 
                 //下载文章预览图像
