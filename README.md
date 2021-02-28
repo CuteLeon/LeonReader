@@ -4,7 +4,7 @@
 
 > ## **项目结构图：**
 
-![image](./Document/LeonReader%20项目结构图.jpg)
+![](https://raw.github.com/CuteLeon/LeonReader/master/Document/LeonReader%20项目结构图.jpg)
 
 > ## **项目结构说明：**
 
